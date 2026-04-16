@@ -21,6 +21,8 @@ export default function WalletDebitHeroStack() {
             {
               "--index": index,
               "--delay": `${index * 0.15}s`,
+              "--float-range": `${10 + index * 1.8}px`,
+              "--drift-range": `${3 + index * 0.8}px`,
               zIndex: debitCards.length - index,
             } as CSSProperties
           }

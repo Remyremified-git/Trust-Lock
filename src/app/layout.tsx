@@ -1,22 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
-  title: "Hybrid Vault Platform",
+  title: "Trust Lock",
   description:
-    "Secure crypto key storage starter with user controls and admin recovery vault",
+    "Trust Lock secure wallet vault and control panels",
 };
 
 export default function RootLayout({
@@ -25,12 +14,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="en">
       <body>
         <header className="top-nav">
           <div className="top-nav-inner">
             <Link className="brand" href="/">
-              Hybrid Vault
+              Trust Lock
             </Link>
             <nav className="nav-links">
               <Link href="/auth">Auth</Link>

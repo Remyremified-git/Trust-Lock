@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": "prisma generate && next build --webpack",
     "start": "next start",
     "lint": "eslint",
     "prisma:generate": "prisma generate",
@@ -17,6 +17,7 @@
     "@simplewebauthn/server": "^13.3.0",
     "@upstash/redis": "^1.37.0",
     "bip39": "^3.1.0",
+    "lottie-react": "^2.4.1",
     "next": "16.2.3",
     "nodemailer": "^8.0.5",
     "otplib": "^13.4.0",

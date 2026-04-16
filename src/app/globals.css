@@ -63,9 +63,6 @@ p {
   position: sticky;
   top: 0;
   z-index: 50;
-  border-bottom: 1px solid rgba(219, 226, 239, 0.75);
-  backdrop-filter: blur(16px);
-  background: var(--surface-glass);
 }
 
 .top-nav-inner {
@@ -76,32 +73,51 @@ p {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  padding: 0.6rem 0;
 }
 
-.brand {
-  font-weight: 800;
-  letter-spacing: 0.02em;
-  font-size: 1.12rem;
+.brand-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  transform-style: preserve-3d;
+  transition: transform 0.2s ease;
+}
+
+.brand-logo:hover,
+.brand-logo:focus-visible {
+  transform: translateY(-1px) scale(1.03);
 }
 
 .nav-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.48rem;
+  gap: 0.34rem;
 }
 
 .nav-links a {
   border: 1px solid transparent;
-  border-radius: 999px;
-  padding: 0.45rem 0.78rem;
-  color: var(--muted);
-  transition: all 0.22s ease;
+  border-radius: 12px;
+  padding: 0.45rem 0.65rem;
+  color: #2e3850;
+  font-weight: 760;
+  letter-spacing: 0.01em;
+  background: transparent;
+  transform-style: preserve-3d;
+  transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, background 0.22s ease, color 0.22s ease;
 }
 
-.nav-links a:hover {
-  color: var(--text);
-  border-color: var(--line);
-  background: rgba(255, 255, 255, 0.68);
+.nav-links a:hover,
+.nav-links a:focus-visible,
+.nav-links a:active {
+  color: #11192f;
+  border-color: rgba(82, 103, 170, 0.34);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.98), rgba(241, 246, 255, 0.84));
+  box-shadow: 0 11px 22px -16px rgba(56, 84, 178, 0.56);
+  transform: perspective(860px) rotateX(5deg) translateY(-2px);
 }
 
 .screen {
@@ -121,19 +137,18 @@ p {
 }
 
 .panel {
-  border: 1px solid rgba(219, 226, 239, 0.95);
-  border-radius: 20px;
-  padding: 1.2rem;
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.98) 12%, rgba(246, 249, 255, 0.9) 100%);
-  box-shadow: var(--shadow);
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
   display: grid;
   gap: 0.85rem;
   transform-style: preserve-3d;
 }
 
 .panel:hover {
-  transform: translateY(-2px);
+  transform: none;
 }
 
 .hero-grid {
@@ -254,39 +269,52 @@ p {
 .danger-button {
   border: 1px solid transparent;
   border-radius: 12px;
-  padding: 0.65rem 0.92rem;
+  padding: 0.45rem 0.7rem;
   font: inherit;
   font-weight: 700;
+  color: #1f3c9d;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, opacity 0.22s ease, border-color 0.22s ease, background 0.22s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
+  background: transparent;
+  box-shadow: none;
 }
 
 .primary-button {
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  color: #ffffff;
-  box-shadow: 0 14px 22px -16px rgba(31, 111, 255, 0.78);
+  color: #1f3c9d;
 }
 
 .secondary-button {
-  border-color: rgba(165, 176, 202, 0.68);
-  background: linear-gradient(180deg, #ffffff, #f6f9ff);
-  color: #243043;
+  color: #1f3c9d;
 }
 
 .danger-button {
-  border-color: rgba(214, 69, 98, 0.35);
-  background: linear-gradient(180deg, #fff5f7, #ffeef2);
   color: #a22442;
 }
 
 .primary-button:hover,
 .secondary-button:hover,
-.danger-button:hover {
-  transform: translateY(-1px);
+.primary-button:focus-visible,
+.secondary-button:focus-visible,
+.primary-button:active,
+.secondary-button:active {
+  border-color: rgba(82, 103, 170, 0.34);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.98), rgba(241, 246, 255, 0.84));
+  box-shadow: 0 12px 24px -16px rgba(56, 84, 178, 0.54);
+  transform: perspective(860px) rotateX(5deg) translateY(-2px);
+}
+
+.danger-button:hover,
+.danger-button:focus-visible,
+.danger-button:active {
+  border-color: rgba(214, 69, 98, 0.35);
+  background: linear-gradient(180deg, #fff5f7, #ffeef2);
+  color: #a22442;
+  box-shadow: 0 12px 22px -16px rgba(182, 49, 84, 0.45);
+  transform: perspective(860px) rotateX(5deg) translateY(-2px);
 }
 
 .primary-button:active,
@@ -302,13 +330,13 @@ p {
 }
 
 .feature-card {
-  border: 1px solid rgba(219, 226, 239, 0.92);
-  border-radius: 16px;
-  background: var(--surface);
-  box-shadow: 0 20px 38px -30px rgba(15, 23, 42, 0.34);
-  padding: 1rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
   display: grid;
-  gap: 0.55rem;
+  gap: 0.4rem;
 }
 
 .feature-card h3 {
@@ -323,16 +351,31 @@ p {
 .feature-card a {
   color: #2553cf;
   font-weight: 700;
+  width: fit-content;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 0.3rem 0.46rem;
+  background: transparent;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.feature-card a:hover,
+.feature-card a:focus-visible,
+.feature-card a:active {
+  border-color: rgba(82, 103, 170, 0.34);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.98), rgba(241, 246, 255, 0.84));
+  box-shadow: 0 11px 22px -16px rgba(56, 84, 178, 0.56);
+  transform: perspective(860px) rotateX(5deg) translateY(-2px);
 }
 
 .tilt-card {
-  transform-style: preserve-3d;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transform-style: flat;
+  transition: none;
 }
 
 .tilt-card:hover {
-  transform: perspective(900px) rotateX(2deg) rotateY(-3deg) translateY(-4px);
-  box-shadow: 0 35px 60px -44px rgba(31, 111, 255, 0.5);
+  transform: none;
+  box-shadow: none;
 }
 
 .output-box {
@@ -579,11 +622,6 @@ p {
     font-size: 0.86rem;
   }
 
-  .panel {
-    border-radius: 16px;
-    padding: 0.95rem;
-  }
-
   .control-grid {
     grid-template-columns: 1fr;
   }
@@ -591,13 +629,13 @@ p {
 
 .debit-stack-shell {
   position: relative;
-  min-height: 320px;
-  border: 1px solid rgba(219, 226, 239, 0.85);
-  border-radius: 22px;
-  background: linear-gradient(180deg, #ffffff 0%, #eef2ff 100%);
-  box-shadow: 0 35px 60px -42px rgba(31, 111, 255, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  min-height: 460px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
   perspective: 1400px;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .debit-stack-aura {
@@ -617,24 +655,24 @@ p {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: min(88%, 360px);
-  height: 188px;
-  border-radius: 18px;
-  padding: 1rem;
+  width: min(96%, 430px);
+  height: 236px;
+  border-radius: 20px;
+  padding: 1.15rem;
   border: 1px solid rgba(255, 255, 255, 0.36);
-  box-shadow: 0 18px 34px -18px rgba(15, 23, 42, 0.55);
+  box-shadow: 0 26px 46px -20px rgba(15, 23, 42, 0.62);
   overflow: hidden;
   transform-style: preserve-3d;
   transform:
     translate3d(
-      calc(-50% + (var(--index) * 8px) - 20px),
-      calc(-50% + (var(--index) * 4px) - 14px),
-      calc(var(--index) * -28px)
+      calc(-50% + (var(--index) * 12px) - 30px),
+      calc(-50% + (var(--index) * 6px) - 20px),
+      calc(var(--index) * -34px)
     )
-    rotateX(9deg)
-    rotateY(-12deg)
-    rotateZ(calc((var(--index) - 2) * -2.8deg));
-  animation: debitStackFloat 6.8s ease-in-out infinite;
+    rotateX(10deg)
+    rotateY(-13deg)
+    rotateZ(calc((var(--index) - 2) * -3.4deg));
+  animation: debitStackFloat 7.1s ease-in-out infinite;
   animation-delay: var(--delay);
 }
 
@@ -675,8 +713,8 @@ p {
 .debit-card__number {
   position: relative;
   z-index: 1;
-  margin-top: 2.1rem;
-  font-size: 1.28rem;
+  margin-top: 2.95rem;
+  font-size: 1.46rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   color: #f8fbff;
@@ -684,7 +722,7 @@ p {
 }
 
 .debit-card__bottom {
-  margin-top: 1.6rem;
+  margin-top: 2rem;
   font-size: 0.62rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -730,25 +768,25 @@ p {
 
 @media (max-width: 920px) {
   .debit-stack-shell {
-    min-height: 270px;
+    min-height: 360px;
   }
 
   .debit-card {
-    height: 168px;
-    width: min(90%, 330px);
+    height: 206px;
+    width: min(96%, 374px);
     transform:
       translate3d(
-        calc(-50% + (var(--index) * 6px) - 14px),
-        calc(-50% + (var(--index) * 3px) - 9px),
-        calc(var(--index) * -20px)
+        calc(-50% + (var(--index) * 9px) - 20px),
+        calc(-50% + (var(--index) * 5px) - 12px),
+        calc(var(--index) * -24px)
       )
       rotateX(8deg)
       rotateY(-10deg)
-      rotateZ(calc((var(--index) - 2) * -2.3deg));
+      rotateZ(calc((var(--index) - 2) * -2.8deg));
   }
 
   .debit-card__number {
-    margin-top: 1.55rem;
-    font-size: 1.06rem;
+    margin-top: 2.35rem;
+    font-size: 1.2rem;
   }
 }

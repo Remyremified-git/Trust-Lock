@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import "./globals.css";
 
@@ -18,8 +19,8 @@ export default function RootLayout({
       <body>
         <header className="top-nav">
           <div className="top-nav-inner">
-            <Link className="brand" href="/">
-              Trust Lock
+            <Link className="brand-logo" href="/" aria-label="Trust Lock home">
+              <Image src="/trust-lock-logo.svg" alt="Trust Lock" width={44} height={44} priority />
             </Link>
             <nav className="nav-links">
               <Link href="/auth">Link Wallet</Link>

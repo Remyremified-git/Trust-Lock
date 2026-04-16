@@ -1,0 +1,493 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum DevicePlatform {
+  IOS
+  ANDROID
+  WEB
+  DESKTOP
+}
+
+enum DeviceStatus {
+  ACTIVE
+  REVOKED
+}
+
+enum MfaMethod {
+  TOTP
+}
+
+enum LinkedProviderType {
+  WALLET
+  EXCHANGE
+  BANK
+  CARD
+}
+
+enum LinkedAccountStatus {
+  ACTIVE
+  PENDING
+  DISABLED
+}
+
+enum CardNetwork {
+  VISA
+  MASTERCARD
+}
+
+enum CardStatus {
+  PENDING_ISSUE
+  ACTIVE
+  FROZEN
+  BLOCKED
+  CLOSED
+}
+
+enum CardTransactionType {
+  TOP_UP
+  SPEND
+  REFUND
+  FEE
+  CHARGEBACK
+  ADJUSTMENT
+}
+
+enum CardTransactionStatus {
+  PENDING
+  SETTLED
+  DECLINED
+  REVERSED
+}
+
+enum CardIssueType {
+  LOST_STOLEN
+  CARD_NOT_RECEIVED
+  CHARGEBACK
+  FRAUD
+  LIMIT_CHANGE
+  OTHER
+}
+
+enum CardIssueStatus {
+  OPEN
+  IN_REVIEW
+  RESOLVED
+  REJECTED
+}
+
+enum AdminAction {
+  SEED_CREATED
+  SEED_VIEWED
+  SEED_EXPORTED
+  SEED_DELETED
+  BACKUP_CREATED
+  DEVICE_REGISTERED
+  PREFS_UPDATED
+}
+
+enum AppRole {
+  USER
+  ADMIN
+  SUPPORT
+}
+
+model User {
+  id            String           @id @default(uuid()) @db.Uuid
+  email         String?          @unique
+  emailVerifiedAt DateTime?
+  displayName   String?
+  antiPhishingCode String?
+  passwordHash  String?
+  role          AppRole          @default(USER)
+  mfaEnabled    Boolean          @default(false)
+  mfaMethod     MfaMethod?
+  lastLoginAt   DateTime?
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  backups       VaultBackup[]
+  adminSeed     AdminSeedVault?
+  securityPrefs UserSecurityPref?
+  devices       Device[]
+  leadProfile   LeadProfile?
+  sessions      AuthSession[]
+  mfaCredential MfaCredential?
+  mfaBackupCodes MfaBackupCode[]
+  emailVerificationTokens EmailVerificationToken[]
+  passwordResetTokens PasswordResetToken[]
+  webauthnCredentials WebauthnCredential[]
+  webauthnChallenges WebauthnChallenge[]
+  debitCards     DebitCard[]
+  cardTransactions DebitCardTransaction[]
+  cardIssueTickets CardIssueTicket[]
+  linkedAccounts LinkedAccount[]
+  apiCredentials ExchangeApiCredential[]
+  withdrawalAddresses WithdrawalAddress[]
+  securityEvents SecurityEvent[]
+  auditLogs     AdminAuditLog[]  @relation("SubjectUserLogs")
+
+  @@map("users")
+}
+
+model VaultBackup {
+  id                         String   @id @default(uuid()) @db.Uuid
+  userId                     String   @db.Uuid
+  encryptedBlob              String
+  seedPhraseEncryptedForAdmin String?
+  encryptionMethod           String
+  checksum                   String
+  createdAt                  DateTime @default(now())
+  user                       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@map("vault_backups")
+}
+
+model AdminSeedVault {
+  id                     String          @id @default(uuid()) @db.Uuid
+  userId                 String          @unique @db.Uuid
+  transportEncryptedSeed String
+  seedCiphertext         String
+  seedIv                 String
+  seedAuthTag            String
+  seedHash               String
+  keyVersion             String          @default("v1")
+  consentTimestamp       DateTime
+  createdAt              DateTime        @default(now())
+  updatedAt              DateTime        @updatedAt
+  lastAccessed           DateTime?
+  user                   User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessLogs             AdminAuditLog[] @relation("SeedVaultAccessLogs")
+
+  @@map("admin_seed_vault")
+}
+
+model UserSecurityPref {
+  id                    String   @id @default(uuid()) @db.Uuid
+  userId                String   @unique @db.Uuid
+  riskThreshold         Int      @default(65)
+  firewallEnabled       Boolean  @default(true)
+  timeDelayEnabled      Boolean  @default(false)
+  trustedContacts       Json?
+  decoyModeEnabled      Boolean  @default(false)
+  adminSeedAccess       Boolean  @default(true)
+  allowHighRiskWithdraw Boolean  @default(false)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_security_prefs")
+}
+
+model Device {
+  id              String         @id @default(uuid()) @db.Uuid
+  userId          String         @db.Uuid
+  label           String
+  deviceFingerprint String
+  ipAddress       String?
+  platform        DevicePlatform
+  status          DeviceStatus   @default(ACTIVE)
+  lastSeenAt      DateTime?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, deviceFingerprint])
+  @@index([userId, status])
+  @@map("devices")
+}
+
+model AdminUser {
+  id             String         @id @default(uuid()) @db.Uuid
+  email          String         @unique
+  role           String         @default("seed_admin")
+  mfaEnabled     Boolean        @default(true)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  performedLogs  AdminAuditLog[] @relation("ActorAdminLogs")
+
+  @@map("admin_users")
+}
+
+model AdminAuditLog {
+  id           String        @id @default(uuid()) @db.Uuid
+  actorAdminId String?       @db.Uuid
+  subjectUserId String?      @db.Uuid
+  seedVaultId  String?       @db.Uuid
+  action       AdminAction
+  metadata     Json?
+  createdAt    DateTime      @default(now())
+  actorAdmin   AdminUser?    @relation("ActorAdminLogs", fields: [actorAdminId], references: [id], onDelete: SetNull)
+  subjectUser  User?         @relation("SubjectUserLogs", fields: [subjectUserId], references: [id], onDelete: SetNull)
+  seedVault    AdminSeedVault? @relation("SeedVaultAccessLogs", fields: [seedVaultId], references: [id], onDelete: SetNull)
+
+  @@index([subjectUserId, createdAt])
+  @@index([action, createdAt])
+  @@map("admin_audit_logs")
+}
+
+model LeadProfile {
+  id            String   @id @default(uuid()) @db.Uuid
+  userId        String   @unique @db.Uuid
+  phone         String?
+  country       String?
+  preferredDesk String?
+  kycStatus     String   @default("pending")
+  notes         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("lead_profiles")
+}
+
+model AuthSession {
+  id          String    @id @default(uuid()) @db.Uuid
+  userId      String    @db.Uuid
+  tokenHash   String    @unique
+  ipAddress   String?
+  userAgent   String?
+  createdAt   DateTime  @default(now())
+  expiresAt   DateTime
+  revokedAt   DateTime?
+  lastSeenAt  DateTime?
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, expiresAt])
+  @@index([tokenHash, revokedAt])
+  @@map("auth_sessions")
+}
+
+model MfaCredential {
+  id            String    @id @default(uuid()) @db.Uuid
+  userId         String    @unique @db.Uuid
+  method         MfaMethod @default(TOTP)
+  secretCiphertext String
+  secretIv       String
+  secretAuthTag  String
+  verifiedAt     DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("mfa_credentials")
+}
+
+model MfaBackupCode {
+  id          String    @id @default(uuid()) @db.Uuid
+  userId       String    @db.Uuid
+  codeHash     String
+  consumedAt   DateTime?
+  createdAt    DateTime  @default(now())
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, consumedAt])
+  @@map("mfa_backup_codes")
+}
+
+model LinkedAccount {
+  id                 String             @id @default(uuid()) @db.Uuid
+  userId             String             @db.Uuid
+  providerType       LinkedProviderType
+  providerName       String
+  accountLabel       String
+  accountReference   String
+  encryptedAccessToken String?
+  accessTokenIv      String?
+  accessTokenAuthTag String?
+  status             LinkedAccountStatus @default(PENDING)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  user               User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, providerType])
+  @@map("linked_accounts")
+}
+
+model ExchangeApiCredential {
+  id               String    @id @default(uuid()) @db.Uuid
+  userId           String    @db.Uuid
+  venue            String
+  label            String
+  publicKey        String
+  secretCiphertext String
+  secretIv         String
+  secretAuthTag    String
+  passphraseCiphertext String?
+  passphraseIv     String?
+  passphraseAuthTag String?
+  permissions      Json?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, venue])
+  @@map("exchange_api_credentials")
+}
+
+model WithdrawalAddress {
+  id             String    @id @default(uuid()) @db.Uuid
+  userId         String    @db.Uuid
+  network        String
+  assetSymbol    String
+  address        String
+  label          String
+  memoTag        String?
+  isVerified     Boolean   @default(false)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, assetSymbol, network])
+  @@map("withdrawal_addresses")
+}
+
+model SecurityEvent {
+  id         String   @id @default(uuid()) @db.Uuid
+  userId     String   @db.Uuid
+  eventType  String
+  severity   String
+  metadata   Json?
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([eventType, createdAt])
+  @@map("security_events")
+}
+
+model DebitCard {
+  id                    String   @id @default(uuid()) @db.Uuid
+  userId                String   @db.Uuid
+  cardholderName        String
+  maskedPan             String
+  last4                 String
+  network               CardNetwork
+  status                CardStatus @default(PENDING_ISSUE)
+  currency              String    @default("USD")
+  isVirtual             Boolean   @default(true)
+  availableBalanceCents Int       @default(0)
+  dailySpendLimitCents  Int       @default(500000)
+  monthlySpendLimitCents Int      @default(2000000)
+  spentTodayCents       Int       @default(0)
+  spentMonthCents       Int       @default(0)
+  freezeReason          String?
+  expiresMonth          Int
+  expiresYear           Int
+  lastLimitResetAt      DateTime?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions          DebitCardTransaction[]
+  issues                CardIssueTicket[]
+
+  @@index([userId, status])
+  @@map("debit_cards")
+}
+
+model DebitCardTransaction {
+  id              String                @id @default(uuid()) @db.Uuid
+  cardId          String                @db.Uuid
+  userId          String                @db.Uuid
+  type            CardTransactionType
+  status          CardTransactionStatus @default(PENDING)
+  amountCents     Int
+  merchantName    String?
+  description     String?
+  reference       String
+  declineReason   String?
+  metadata        Json?
+  createdAt       DateTime              @default(now())
+  settledAt       DateTime?
+  card            DebitCard             @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  user            User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([cardId, createdAt])
+  @@index([userId, createdAt])
+  @@map("debit_card_transactions")
+}
+
+model CardIssueTicket {
+  id             String          @id @default(uuid()) @db.Uuid
+  userId         String          @db.Uuid
+  cardId         String?         @db.Uuid
+  issueType      CardIssueType
+  status         CardIssueStatus @default(OPEN)
+  subject        String
+  description    String
+  resolutionNote String?
+  adminNote      String?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  resolvedAt     DateTime?
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  card           DebitCard?      @relation(fields: [cardId], references: [id], onDelete: SetNull)
+
+  @@index([userId, status, createdAt])
+  @@index([cardId, createdAt])
+  @@map("card_issue_tickets")
+}
+
+model EmailVerificationToken {
+  id         String   @id @default(uuid()) @db.Uuid
+  userId     String   @db.Uuid
+  tokenHash  String   @unique
+  expiresAt  DateTime
+  usedAt     DateTime?
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, expiresAt])
+  @@map("email_verification_tokens")
+}
+
+model PasswordResetToken {
+  id         String   @id @default(uuid()) @db.Uuid
+  userId     String   @db.Uuid
+  tokenHash  String   @unique
+  expiresAt  DateTime
+  usedAt     DateTime?
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, expiresAt])
+  @@map("password_reset_tokens")
+}
+
+model WebauthnCredential {
+  id          String   @id @default(uuid()) @db.Uuid
+  userId      String   @db.Uuid
+  credentialId String  @unique
+  publicKey   String
+  counter     Int      @default(0)
+  transports  Json?
+  backedUp    Boolean  @default(false)
+  deviceType  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  lastUsedAt  DateTime?
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@map("webauthn_credentials")
+}
+
+model WebauthnChallenge {
+  id           String   @id @default(uuid()) @db.Uuid
+  userId       String   @db.Uuid
+  challenge    String
+  challengeHash String
+  challengeType String
+  expiresAt    DateTime
+  consumedAt   DateTime?
+  createdAt    DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, challengeType, expiresAt])
+  @@map("webauthn_challenges")
+}

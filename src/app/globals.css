@@ -1,7 +1,7 @@
 :root {
-  --bg: #f7f9fc;
+  --bg: #f8f8fc;
   --surface: #ffffff;
-  --surface-soft: #f4f7ff;
+  --surface-soft: #f6f7ff;
   --surface-glass: rgba(255, 255, 255, 0.72);
   --text: #101828;
   --muted: #5b6475;
@@ -35,9 +35,10 @@ body {
   font-size: 16px;
   line-height: 1.5;
   background:
-    radial-gradient(circle at 12% 8%, rgba(31, 111, 255, 0.13), transparent 32%),
-    radial-gradient(circle at 92% 2%, rgba(108, 76, 255, 0.12), transparent 28%),
-    linear-gradient(180deg, #fbfcff 0%, var(--bg) 55%, #f2f6ff 100%);
+    radial-gradient(circle at 8% 6%, rgba(56, 130, 246, 0.16), transparent 34%),
+    radial-gradient(circle at 92% 4%, rgba(99, 102, 241, 0.14), transparent 30%),
+    radial-gradient(circle at 54% 100%, rgba(167, 139, 250, 0.1), transparent 42%),
+    linear-gradient(180deg, #fdfdff 0%, var(--bg) 55%, #f4f6ff 100%);
   background-attachment: fixed;
 }
 
@@ -587,4 +588,3 @@ p {
     grid-template-columns: 1fr;
   }
 }
-

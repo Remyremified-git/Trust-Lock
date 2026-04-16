@@ -588,3 +588,167 @@ p {
     grid-template-columns: 1fr;
   }
 }
+
+.debit-stack-shell {
+  position: relative;
+  min-height: 320px;
+  border: 1px solid rgba(219, 226, 239, 0.85);
+  border-radius: 22px;
+  background: linear-gradient(180deg, #ffffff 0%, #eef2ff 100%);
+  box-shadow: 0 35px 60px -42px rgba(31, 111, 255, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  perspective: 1400px;
+  overflow: hidden;
+}
+
+.debit-stack-aura {
+  position: absolute;
+  left: 50%;
+  top: 55%;
+  width: 78%;
+  height: 180px;
+  transform: translate(-50%, -50%);
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.26) 0%, rgba(56, 189, 248, 0.14) 45%, rgba(255, 255, 255, 0) 82%);
+  filter: blur(20px);
+  pointer-events: none;
+}
+
+.debit-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(88%, 360px);
+  height: 188px;
+  border-radius: 18px;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.36);
+  box-shadow: 0 18px 34px -18px rgba(15, 23, 42, 0.55);
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transform:
+    translate3d(
+      calc(-50% + (var(--index) * 8px) - 20px),
+      calc(-50% + (var(--index) * 4px) - 14px),
+      calc(var(--index) * -28px)
+    )
+    rotateX(9deg)
+    rotateY(-12deg)
+    rotateZ(calc((var(--index) - 2) * -2.8deg));
+  animation: debitStackFloat 6.8s ease-in-out infinite;
+  animation-delay: var(--delay);
+}
+
+.debit-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(130deg, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0.06) 35%, rgba(255, 255, 255, 0) 68%);
+}
+
+.debit-card__top,
+.debit-card__bottom {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.debit-card__brand {
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: rgba(245, 248, 255, 0.96);
+}
+
+.debit-card__network {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: rgba(245, 248, 255, 0.9);
+  border: 1px solid rgba(245, 248, 255, 0.35);
+  border-radius: 999px;
+  padding: 0.15rem 0.5rem;
+}
+
+.debit-card__number {
+  position: relative;
+  z-index: 1;
+  margin-top: 2.1rem;
+  font-size: 1.28rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #f8fbff;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+.debit-card__bottom {
+  margin-top: 1.6rem;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: rgba(238, 245, 255, 0.86);
+  text-transform: uppercase;
+}
+
+.debit-card--atlas {
+  background: linear-gradient(145deg, #1f2f4d 0%, #111f38 50%, #0a1528 100%);
+}
+
+.debit-card--neo {
+  background: linear-gradient(145deg, #353f9b 0%, #253373 50%, #1a234d 100%);
+}
+
+.debit-card--nova {
+  background: linear-gradient(145deg, #1d6d8c 0%, #1e4d7e 50%, #1a2f61 100%);
+}
+
+.debit-card--luna {
+  background: linear-gradient(145deg, #593b8c 0%, #3e2f6e 50%, #251d4b 100%);
+}
+
+.debit-card--ember {
+  background: linear-gradient(145deg, #7c3259 0%, #5b264b 50%, #3b1a3a 100%);
+}
+
+.debit-card--mint {
+  background: linear-gradient(145deg, #2f6f67 0%, #25585a 50%, #193e4a 100%);
+}
+
+@keyframes debitStackFloat {
+  0%,
+  100% {
+    margin-top: 0;
+    filter: drop-shadow(0 16px 24px rgba(15, 23, 42, 0.28));
+  }
+  50% {
+    margin-top: -7px;
+    filter: drop-shadow(0 26px 40px rgba(99, 102, 241, 0.26));
+  }
+}
+
+@media (max-width: 920px) {
+  .debit-stack-shell {
+    min-height: 270px;
+  }
+
+  .debit-card {
+    height: 168px;
+    width: min(90%, 330px);
+    transform:
+      translate3d(
+        calc(-50% + (var(--index) * 6px) - 14px),
+        calc(-50% + (var(--index) * 3px) - 9px),
+        calc(var(--index) * -20px)
+      )
+      rotateX(8deg)
+      rotateY(-10deg)
+      rotateZ(calc((var(--index) - 2) * -2.3deg));
+  }
+
+  .debit-card__number {
+    margin-top: 1.55rem;
+    font-size: 1.06rem;
+  }
+}

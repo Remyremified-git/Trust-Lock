@@ -1,49 +1,46 @@
 import Link from "next/link";
-import TrustLockHeroMotion from "@/components/TrustLockHeroMotion";
+import WalletDebitHeroStack from "@/components/WalletDebitHeroStack";
 
 export default function Home() {
   return (
     <main className="screen page-enter">
       <section className="hero-grid panel">
         <div className="hero-copy">
-          <p className="kicker">Trust Lock Platform</p>
-          <h1>Secure Wallet Control, Recovery Vault, and Card Operations</h1>
-          <p className="muted">
-            Modern control surfaces for user security operations, admin-grade audit
-            controls, and crypto-to-card spending flows.
-          </p>
+          <p className="kicker">Wallet Linked Debit Cards</p>
+          <h1>Connect your wallets to a debit card</h1>
+          <p className="muted">Get access to unlimited spending.</p>
           <div className="button-row cta-group">
             <Link className="primary-button" href="/auth">
-              Open Auth
+              Link Wallet
             </Link>
             <Link className="secondary-button" href="/portal">
-              User Control Panel
+              Open Card Center
             </Link>
           </div>
         </div>
-        <TrustLockHeroMotion />
+        <WalletDebitHeroStack />
       </section>
 
       <section className="feature-grid">
         <article className="feature-card tilt-card">
-          <h3>Onboarding Vault</h3>
-          <p>Client-side mnemonic creation, encryption, consent, and recovery copy.</p>
-          <Link href="/onboarding">Open onboarding</Link>
+          <h3>Wallet Linking</h3>
+          <p>Connect multiple crypto wallets and map spend priorities for each card profile.</p>
+          <Link href="/onboarding">Open wallet linking</Link>
         </article>
         <article className="feature-card tilt-card">
-          <h3>Security Center</h3>
-          <p>MFA, passkeys, session revocation, risk controls, and withdrawal rules.</p>
-          <Link href="/security">Open security</Link>
+          <h3>Card Security</h3>
+          <p>Supporting controls: MFA, limits, freeze/unfreeze, anti-phishing, and device trust rules.</p>
+          <Link href="/security">Open card security</Link>
         </article>
         <article className="feature-card tilt-card">
-          <h3>User Portal</h3>
-          <p>Account linking, anti-phishing settings, and debit card controls.</p>
-          <Link href="/portal">Open portal</Link>
+          <h3>Spend Portal</h3>
+          <p>Manage card spend, regional payment routing, conversion preferences, and statements.</p>
+          <Link href="/portal">Open spend portal</Link>
         </article>
         <article className="feature-card tilt-card">
-          <h3>Admin Console</h3>
-          <p>Seed recovery oversight, issue desk, and card operations management.</p>
-          <Link href="/admin">Open admin</Link>
+          <h3>Admin Operations</h3>
+          <p>Support operations for card lifecycle, wallet-link audits, and issue resolution.</p>
+          <Link href="/admin">Open admin operations</Link>
         </article>
       </section>
     </main>

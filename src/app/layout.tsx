@@ -22,11 +22,11 @@ export default function RootLayout({
               Trust Lock
             </Link>
             <nav className="nav-links">
-              <Link href="/auth">Auth</Link>
-              <Link href="/portal">Portal</Link>
-              <Link href="/onboarding">Onboarding</Link>
-              <Link href="/security">Security</Link>
-              <Link href="/admin">Admin</Link>
+              <Link href="/auth">Link Wallet</Link>
+              <Link href="/portal">Card Center</Link>
+              <Link href="/onboarding">Wallet Setup</Link>
+              <Link href="/security">Card Security</Link>
+              <Link href="/admin">Admin Ops</Link>
             </nav>
           </div>
         </header>

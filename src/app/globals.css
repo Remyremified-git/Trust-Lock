@@ -183,6 +183,25 @@ p {
   height: 100vh;
 }
 
+.moving-stack-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 6;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.motion-linked-stack {
+  transform:
+    translate(-50%, -50%)
+    rotateZ(calc((var(--stack-progress, 0) - 0.5) * -1.6deg));
+}
+
+.stack-slot {
+  min-height: clamp(520px, 70vh, 680px);
+}
+
 .card-transition-section {
   margin-top: clamp(18vh, 24vh, 30vh);
   display: grid;
@@ -728,28 +747,6 @@ p {
     rotateZ(calc((var(--index) - 2) * -3.8deg));
   animation:
     debitStackFloat 7.3s ease-in-out infinite,
-    debitCardDrift 8.8s ease-in-out infinite;
-  animation-delay: var(--delay), var(--delay);
-}
-
-.hero-stack {
-  justify-self: end;
-}
-
-.shuffle-stack {
-  transform: translateX(36vw) rotateZ(2deg) scale(0.93);
-  opacity: 0.84;
-  transition: transform 1.15s cubic-bezier(0.24, 0.66, 0.14, 1), opacity 0.85s ease;
-}
-
-.card-transition-section.is-active .shuffle-stack {
-  transform: translateX(0) rotateZ(0deg) scale(1);
-  opacity: 1;
-}
-
-.card-transition-section .shuffle-stack .debit-card {
-  animation:
-    debitStackFloat 7.3s ease-in-out infinite,
     debitCardDrift 8.8s ease-in-out infinite,
     debitCardReshuffle 10.2s cubic-bezier(0.34, 0.13, 0.18, 0.99) infinite;
   animation-delay: var(--delay), var(--delay), var(--reshuffle-delay, 0s);
@@ -931,8 +928,8 @@ p {
     max-width: 720px;
   }
 
-  .hero-stack {
-    justify-self: center;
+  .stack-slot {
+    min-height: clamp(430px, 58vh, 560px);
   }
 
   .button-row {
@@ -957,8 +954,10 @@ p {
     max-width: 58ch;
   }
 
-  .shuffle-stack {
-    transform: translateX(20vw) rotateZ(1.2deg) scale(0.95);
+  .motion-linked-stack {
+    transform:
+      translate(-50%, -50%)
+      rotateZ(calc((var(--stack-progress, 0) - 0.5) * -1deg));
   }
 
   .debit-card {
@@ -1042,7 +1041,7 @@ p {
     font-size: 0.62rem;
   }
 
-  .shuffle-stack {
-    transform: translateX(12vw) rotateZ(1deg) scale(0.96);
+  .stack-slot {
+    min-height: clamp(370px, 48vh, 460px);
   }
 }

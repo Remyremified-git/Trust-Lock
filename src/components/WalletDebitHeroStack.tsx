@@ -9,9 +9,13 @@ const debitCards = [
   { id: "mint", theme: "mint", tone: "Mint Green", holder: "Business Wallet", network: "Mastercard", last4: "8142" },
 ] as const;
 
-export default function WalletDebitHeroStack() {
+type WalletDebitHeroStackProps = {
+  className?: string;
+};
+
+export default function WalletDebitHeroStack({ className = "" }: WalletDebitHeroStackProps) {
   return (
-    <div className="debit-stack-shell" aria-label="Floating stack of linked debit cards">
+    <div className={`debit-stack-shell ${className}`.trim()} aria-label="Floating stack of linked debit cards">
       <div className="debit-stack-aura" aria-hidden="true" />
       {debitCards.map((card, index) => (
         <article

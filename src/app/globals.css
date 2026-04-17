@@ -153,7 +153,7 @@ p {
 
 .hero-grid {
   display: grid;
-  grid-template-columns: minmax(420px, 1fr) minmax(360px, 1.04fr);
+  grid-template-columns: minmax(360px, 1.04fr) minmax(420px, 1fr);
   gap: 1.6rem;
   align-items: center;
 }
@@ -179,17 +179,38 @@ p {
   gap: 0.8rem;
 }
 
-.hero-copy-right {
-  justify-items: end;
-  text-align: right;
-}
-
-.hero-copy-right .muted {
-  max-width: 46ch;
-}
-
 .page-bottom-space {
   height: 100vh;
+}
+
+.card-transition-section {
+  margin-top: clamp(18vh, 24vh, 30vh);
+  display: grid;
+  grid-template-columns: minmax(420px, 1fr) minmax(360px, 1fr);
+  gap: 1.8rem;
+  align-items: center;
+  min-height: clamp(560px, 80vh, 760px);
+}
+
+.card-transition-cards {
+  position: relative;
+}
+
+.card-transition-copy {
+  display: grid;
+  gap: 0.86rem;
+  text-align: right;
+  justify-items: end;
+}
+
+.card-transition-copy h2 {
+  font-size: clamp(1.65rem, 2.7vw, 2.7rem);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.card-transition-copy .muted {
+  max-width: 44ch;
 }
 
 .kicker {
@@ -664,7 +685,6 @@ p {
   perspective: 1800px;
   overflow: visible;
   isolation: isolate;
-  animation: debitStackTraverse 14s cubic-bezier(0.42, 0, 0.2, 1) infinite;
 }
 
 .debit-stack-aura {
@@ -708,8 +728,30 @@ p {
     rotateZ(calc((var(--index) - 2) * -3.8deg));
   animation:
     debitStackFloat 7.3s ease-in-out infinite,
+    debitCardDrift 8.8s ease-in-out infinite;
+  animation-delay: var(--delay), var(--delay);
+}
+
+.hero-stack {
+  justify-self: end;
+}
+
+.shuffle-stack {
+  transform: translateX(36vw) rotateZ(2deg) scale(0.93);
+  opacity: 0.84;
+  transition: transform 1.15s cubic-bezier(0.24, 0.66, 0.14, 1), opacity 0.85s ease;
+}
+
+.card-transition-section.is-active .shuffle-stack {
+  transform: translateX(0) rotateZ(0deg) scale(1);
+  opacity: 1;
+}
+
+.card-transition-section .shuffle-stack .debit-card {
+  animation:
+    debitStackFloat 7.3s ease-in-out infinite,
     debitCardDrift 8.8s ease-in-out infinite,
-    debitCardReshuffle 11.5s cubic-bezier(0.34, 0.13, 0.18, 0.99) infinite;
+    debitCardReshuffle 10.2s cubic-bezier(0.34, 0.13, 0.18, 0.99) infinite;
   animation-delay: var(--delay), var(--delay), var(--reshuffle-delay, 0s);
 }
 
@@ -875,7 +917,6 @@ p {
 @media (max-width: 920px) {
   .debit-stack-shell {
     min-height: 520px;
-    animation: debitStackTraverseMobile 12s cubic-bezier(0.42, 0, 0.2, 1) infinite;
   }
 
   .hero-grid {
@@ -890,17 +931,34 @@ p {
     max-width: 720px;
   }
 
-  .hero-copy-right {
-    text-align: center;
-    justify-items: center;
-  }
-
-  .hero-copy-right .muted {
-    max-width: 58ch;
+  .hero-stack {
+    justify-self: center;
   }
 
   .button-row {
     justify-content: center;
+  }
+
+  .card-transition-section {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 0.9rem;
+    min-height: auto;
+    margin-top: 14vh;
+  }
+
+  .card-transition-copy {
+    text-align: center;
+    justify-items: center;
+    max-width: 720px;
+  }
+
+  .card-transition-copy .muted {
+    max-width: 58ch;
+  }
+
+  .shuffle-stack {
+    transform: translateX(20vw) rotateZ(1.2deg) scale(0.95);
   }
 
   .debit-card {
@@ -951,6 +1009,14 @@ p {
     min-height: 440px;
   }
 
+  .card-transition-section {
+    margin-top: 10vh;
+  }
+
+  .card-transition-copy h2 {
+    font-size: clamp(1.35rem, 7vw, 1.9rem);
+  }
+
   .debit-card {
     width: min(100%, 380px);
     height: 220px;
@@ -974,5 +1040,9 @@ p {
   .debit-card__bottom {
     margin-top: 2.25rem;
     font-size: 0.62rem;
+  }
+
+  .shuffle-stack {
+    transform: translateX(12vw) rotateZ(1deg) scale(0.96);
   }
 }

@@ -22,13 +22,6 @@ export default function RootLayout({
             <Link className="brand-logo" href="/" aria-label="Trust Lock home">
               <Image src="/trust-lock-logo.svg" alt="Trust Lock" width={44} height={44} priority />
             </Link>
-            <nav className="nav-links">
-              <Link href="/auth">Link Wallet</Link>
-              <Link href="/portal">Card Center</Link>
-              <Link href="/onboarding">Wallet Setup</Link>
-              <Link href="/security">Card Security</Link>
-              <Link href="/admin">Admin Ops</Link>
-            </nav>
           </div>
         </header>
         {children}

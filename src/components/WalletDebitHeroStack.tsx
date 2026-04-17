@@ -23,6 +23,7 @@ export default function WalletDebitHeroStack() {
               "--delay": `${index * 0.15}s`,
               "--float-range": `${10 + index * 1.8}px`,
               "--drift-range": `${3 + index * 0.8}px`,
+              "--reshuffle-delay": `${index * 0.32}s`,
               zIndex: debitCards.length - index,
             } as CSSProperties
           }

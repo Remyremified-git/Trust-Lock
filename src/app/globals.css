@@ -737,15 +737,17 @@ p {
     inset 0 -38px 66px rgba(4, 10, 25, 0.32);
   overflow: hidden;
   transform-style: preserve-3d;
+  transform-origin: center center;
+  backface-visibility: hidden;
   transform:
     translate3d(
-      calc(-50% + (var(--index) * 34px) - 108px),
+      calc(-50% + (var(--index) * 92px) - 236px),
       calc(-50% + (var(--index) * -3px) - 16px),
       calc(var(--index) * -20px)
     )
-    rotateX(8deg)
-    rotateY(-6deg)
-    rotateZ(calc((var(--index) - 2) * -1.55deg));
+    rotateX(7deg)
+    rotateY(-2deg)
+    rotateZ(calc((var(--index) - 2) * -1.15deg));
   animation:
     debitStackFloat 7.3s ease-in-out infinite,
     debitCardDrift 8.8s ease-in-out infinite,
@@ -880,35 +882,35 @@ p {
   100% {
     transform:
       translate3d(
-        calc(-50% + (var(--index) * 34px) - 108px),
+        calc(-50% + (var(--index) * 92px) - 236px),
         calc(-50% + (var(--index) * -3px) - 16px),
         calc(var(--index) * -20px)
       )
-      rotateX(8deg)
-      rotateY(-6deg)
-      rotateZ(calc((var(--index) - 2) * -1.55deg));
+      rotateX(7deg)
+      rotateY(-2deg)
+      rotateZ(calc((var(--index) - 2) * -1.15deg));
   }
   66% {
     transform:
       translate3d(
-        calc(-50% + (var(--index) * 38px) - 84px),
+        calc(-50% + (var(--index) * 94px) - 210px),
         calc(-50% + (var(--index) * -2px) - 34px),
         calc(var(--index) * -8px)
       )
-      rotateX(9deg)
-      rotateY(-3deg)
-      rotateZ(calc((var(--index) - 2) * -1.1deg + 2.2deg));
+      rotateX(8deg)
+      rotateY(1deg)
+      rotateZ(calc((var(--index) - 2) * -0.9deg + 1.6deg));
   }
   80% {
     transform:
       translate3d(
-        calc(-50% + (var(--index) * 26px) - 124px),
+        calc(-50% + (var(--index) * 86px) - 274px),
         calc(-50% + (var(--index) * -2px) - 10px),
         calc(var(--index) * -26px)
       )
-      rotateX(7deg)
-      rotateY(-10deg)
-      rotateZ(calc((var(--index) - 2) * -2.2deg - 1.5deg));
+      rotateX(6deg)
+      rotateY(-4deg)
+      rotateZ(calc((var(--index) - 2) * -1.4deg - 1deg));
   }
 }
 
@@ -966,13 +968,13 @@ p {
     width: min(100%, 440px);
     transform:
       translate3d(
-        calc(-50% + (var(--index) * 26px) - 78px),
+        calc(-50% + (var(--index) * 72px) - 184px),
         calc(-50% + (var(--index) * -2px) - 12px),
         calc(var(--index) * -14px)
       )
-      rotateX(7deg)
-      rotateY(-5deg)
-      rotateZ(calc((var(--index) - 2) * -1.25deg));
+      rotateX(6deg)
+      rotateY(-1.5deg)
+      rotateZ(calc((var(--index) - 2) * -0.95deg));
   }
 
   .debit-card__number {
@@ -1023,13 +1025,13 @@ p {
     padding: 1rem;
     transform:
       translate3d(
-        calc(-50% + (var(--index) * 20px) - 58px),
+        calc(-50% + (var(--index) * 56px) - 146px),
         calc(-50% + (var(--index) * -2px) - 8px),
         calc(var(--index) * -12px)
       )
-      rotateX(6deg)
-      rotateY(-4deg)
-      rotateZ(calc((var(--index) - 2) * -1.05deg));
+      rotateX(5deg)
+      rotateY(-1deg)
+      rotateZ(calc((var(--index) - 2) * -0.8deg));
   }
 
   .debit-card__number {

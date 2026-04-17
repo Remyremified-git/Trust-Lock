@@ -695,8 +695,8 @@ p {
 
 .debit-stack-shell {
   position: relative;
-  min-height: 620px;
-  width: min(100%, 620px);
+  min-height: 560px;
+  width: min(100%, 560px);
   margin-inline: auto;
   border: 0;
   border-radius: 0;
@@ -725,10 +725,10 @@ p {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: min(98%, 520px);
-  height: 298px;
-  border-radius: 24px;
-  padding: 1.4rem;
+  width: min(98%, 500px);
+  height: 282px;
+  border-radius: 22px;
+  padding: 1.28rem;
   border: 1.2px solid rgba(255, 255, 255, 0.38);
   box-shadow:
     0 38px 62px -32px rgba(15, 23, 42, 0.76),
@@ -739,13 +739,13 @@ p {
   transform-style: preserve-3d;
   transform:
     translate3d(
-      calc(-50% + (var(--index) * 15px) - 38px),
-      calc(-50% + (var(--index) * 8px) - 28px),
-      calc(var(--index) * -46px)
+      calc(-50% + (var(--index) * 34px) - 108px),
+      calc(-50% + (var(--index) * -3px) - 16px),
+      calc(var(--index) * -20px)
     )
-    rotateX(13deg)
-    rotateY(-15deg)
-    rotateZ(calc((var(--index) - 2) * -3.8deg));
+    rotateX(8deg)
+    rotateY(-6deg)
+    rotateZ(calc((var(--index) - 2) * -1.55deg));
   animation:
     debitStackFloat 7.3s ease-in-out infinite,
     debitCardDrift 8.8s ease-in-out infinite,
@@ -801,8 +801,8 @@ p {
 .debit-card__number {
   position: relative;
   z-index: 1;
-  margin-top: 3.9rem;
-  font-size: 1.74rem;
+  margin-top: 3.35rem;
+  font-size: 1.64rem;
   font-weight: 700;
   letter-spacing: 0.16em;
   color: #f8fbff;
@@ -810,7 +810,7 @@ p {
 }
 
 .debit-card__bottom {
-  margin-top: 3rem;
+  margin-top: 2.56rem;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -880,41 +880,41 @@ p {
   100% {
     transform:
       translate3d(
-        calc(-50% + (var(--index) * 15px) - 38px),
-        calc(-50% + (var(--index) * 8px) - 28px),
-        calc(var(--index) * -46px)
+        calc(-50% + (var(--index) * 34px) - 108px),
+        calc(-50% + (var(--index) * -3px) - 16px),
+        calc(var(--index) * -20px)
       )
-      rotateX(13deg)
-      rotateY(-15deg)
-      rotateZ(calc((var(--index) - 2) * -3.8deg));
+      rotateX(8deg)
+      rotateY(-6deg)
+      rotateZ(calc((var(--index) - 2) * -1.55deg));
   }
-  68% {
+  66% {
     transform:
       translate3d(
-        calc(-50% + (var(--index) * 6px) + 54px),
-        calc(-50% + (var(--index) * 6px) - 46px),
-        calc(var(--index) * -18px)
+        calc(-50% + (var(--index) * 38px) - 84px),
+        calc(-50% + (var(--index) * -2px) - 34px),
+        calc(var(--index) * -8px)
       )
-      rotateX(14deg)
-      rotateY(-8deg)
-      rotateZ(calc((var(--index) - 2) * -2.1deg + 6deg));
+      rotateX(9deg)
+      rotateY(-3deg)
+      rotateZ(calc((var(--index) - 2) * -1.1deg + 2.2deg));
   }
   80% {
     transform:
       translate3d(
-        calc(-50% + (var(--index) * 20px) - 70px),
-        calc(-50% + (var(--index) * 10px) - 18px),
-        calc(var(--index) * -56px)
+        calc(-50% + (var(--index) * 26px) - 124px),
+        calc(-50% + (var(--index) * -2px) - 10px),
+        calc(var(--index) * -26px)
       )
-      rotateX(12deg)
-      rotateY(-19deg)
-      rotateZ(calc((var(--index) - 2) * -4.8deg - 4deg));
+      rotateX(7deg)
+      rotateY(-10deg)
+      rotateZ(calc((var(--index) - 2) * -2.2deg - 1.5deg));
   }
 }
 
 @media (max-width: 920px) {
   .debit-stack-shell {
-    min-height: 520px;
+    min-height: 500px;
   }
 
   .hero-grid {
@@ -962,22 +962,22 @@ p {
   }
 
   .debit-card {
-    height: 258px;
-    width: min(100%, 470px);
+    height: 248px;
+    width: min(100%, 440px);
     transform:
       translate3d(
-        calc(-50% + (var(--index) * 12px) - 28px),
-        calc(-50% + (var(--index) * 7px) - 16px),
-        calc(var(--index) * -34px)
+        calc(-50% + (var(--index) * 26px) - 78px),
+        calc(-50% + (var(--index) * -2px) - 12px),
+        calc(var(--index) * -14px)
       )
-      rotateX(12deg)
-      rotateY(-12deg)
-      rotateZ(calc((var(--index) - 2) * -3.2deg));
+      rotateX(7deg)
+      rotateY(-5deg)
+      rotateZ(calc((var(--index) - 2) * -1.25deg));
   }
 
   .debit-card__number {
-    margin-top: 3.4rem;
-    font-size: 1.52rem;
+    margin-top: 3rem;
+    font-size: 1.38rem;
   }
 }
 
@@ -1006,7 +1006,7 @@ p {
   }
 
   .debit-stack-shell {
-    min-height: 440px;
+    min-height: 410px;
   }
 
   .card-transition-section {
@@ -1018,23 +1018,23 @@ p {
   }
 
   .debit-card {
-    width: min(100%, 380px);
-    height: 220px;
+    width: min(100%, 360px);
+    height: 210px;
     padding: 1rem;
     transform:
       translate3d(
-        calc(-50% + (var(--index) * 8px) - 18px),
-        calc(-50% + (var(--index) * 5px) - 10px),
-        calc(var(--index) * -24px)
+        calc(-50% + (var(--index) * 20px) - 58px),
+        calc(-50% + (var(--index) * -2px) - 8px),
+        calc(var(--index) * -12px)
       )
-      rotateX(11deg)
-      rotateY(-11deg)
-      rotateZ(calc((var(--index) - 2) * -2.7deg));
+      rotateX(6deg)
+      rotateY(-4deg)
+      rotateZ(calc((var(--index) - 2) * -1.05deg));
   }
 
   .debit-card__number {
-    margin-top: 2.7rem;
-    font-size: 1.26rem;
+    margin-top: 2.52rem;
+    font-size: 1.18rem;
   }
 
   .debit-card__bottom {

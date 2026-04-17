@@ -43,7 +43,9 @@ export default function Home() {
       if (transitionRef.current) {
         const sectionRect = transitionRef.current.getBoundingClientRect();
         const viewportHeight = window.innerHeight;
-        progress = clamp((viewportHeight - sectionRect.top) / (viewportHeight + sectionRect.height * 0.35));
+        const startY = viewportHeight * 0.82;
+        const endY = viewportHeight * 0.2;
+        progress = clamp((startY - sectionRect.top) / (startY - endY));
       }
 
       setStackMotion({
@@ -62,6 +64,8 @@ export default function Home() {
     };
 
     requestUpdate();
+    const settleTimer = window.setTimeout(requestUpdate, 180);
+    window.addEventListener("load", requestUpdate);
     window.addEventListener("scroll", requestUpdate, { passive: true });
     window.addEventListener("resize", requestUpdate);
 
@@ -69,6 +73,8 @@ export default function Home() {
       if (raf) {
         window.cancelAnimationFrame(raf);
       }
+      window.clearTimeout(settleTimer);
+      window.removeEventListener("load", requestUpdate);
       window.removeEventListener("scroll", requestUpdate);
       window.removeEventListener("resize", requestUpdate);
     };

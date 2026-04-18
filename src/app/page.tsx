@@ -89,7 +89,7 @@ export default function Home() {
   return (
     <main ref={mainRef} className="screen page-enter">
       <div className="moving-stack-layer" style={movingStackStyle}>
-        <WalletDebitHeroStack className="motion-linked-stack" />
+        <WalletDebitHeroStack className="motion-linked-stack" progress={stackMotion.progress} />
       </div>
 
       <section className="hero-grid hero-focus panel">

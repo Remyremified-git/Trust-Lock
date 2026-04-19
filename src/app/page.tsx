@@ -46,9 +46,11 @@ export default function Home() {
   const mainRef = useRef<HTMLElement | null>(null);
   const transitionRef = useRef<HTMLElement | null>(null);
   const spotlightRef = useRef<HTMLElement | null>(null);
+  const howSectionRef = useRef<HTMLElement | null>(null);
   const heroSlotRef = useRef<HTMLDivElement | null>(null);
   const transitionSlotRef = useRef<HTMLDivElement | null>(null);
   const spotlightSlotRef = useRef<HTMLDivElement | null>(null);
+  const [isHowInView, setIsHowInView] = useState(false);
   const [stackMotion, setStackMotion] = useState({
     x: 0,
     y: 0,
@@ -210,6 +212,25 @@ export default function Home() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!howSectionRef.current) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        setIsHowInView(entry?.isIntersecting ?? false);
+      },
+      {
+        threshold: 0.35,
+      },
+    );
+
+    observer.observe(howSectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   const movingStackStyle = {
     transform: `translate3d(${stackMotion.x}px, ${stackMotion.y}px, 0)`,
     opacity: stackMotion.ready ? 1 : 0,
@@ -283,7 +304,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="how-section panel">
+      <section ref={howSectionRef} className={`how-section panel ${isHowInView ? "in-view" : ""}`}>
         <div className="how-layout">
           <div className="how-visual-column">
             <p className="kicker">How It Works</p>
@@ -309,16 +330,31 @@ export default function Home() {
 
               <div className="spend-chart-card" aria-hidden="true">
                 <p className="spend-chart-title">Daily Card Spend</p>
-                <div className="spend-bars">
-                  <span style={{ "--bar-height": "26%" } as CSSProperties} />
-                  <span style={{ "--bar-height": "43%" } as CSSProperties} />
-                  <span style={{ "--bar-height": "34%" } as CSSProperties} />
-                  <span style={{ "--bar-height": "62%" } as CSSProperties} />
-                  <span style={{ "--bar-height": "51%" } as CSSProperties} />
-                  <span style={{ "--bar-height": "78%" } as CSSProperties} />
+                <div className="spend-candle-strip">
+                  <span style={{ "--bar-height": "32%" } as CSSProperties} />
+                  <span style={{ "--bar-height": "48%" } as CSSProperties} />
+                  <span style={{ "--bar-height": "42%" } as CSSProperties} />
+                  <span style={{ "--bar-height": "60%" } as CSSProperties} />
+                  <span style={{ "--bar-height": "54%" } as CSSProperties} />
+                  <span style={{ "--bar-height": "72%" } as CSSProperties} />
+                  <span style={{ "--bar-height": "68%" } as CSSProperties} />
+                  <span style={{ "--bar-height": "79%" } as CSSProperties} />
+                  <span style={{ "--bar-height": "64%" } as CSSProperties} />
+                  <span style={{ "--bar-height": "83%" } as CSSProperties} />
                 </div>
-                <svg className="spend-line" viewBox="0 0 180 70" preserveAspectRatio="none">
-                  <path d="M4 61 L32 49 L54 54 L80 34 L106 42 L132 22 L176 14" />
+                <svg className="spend-line" viewBox="0 0 220 74" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="spendArea" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#4f8cff" stopOpacity="0.36" />
+                      <stop offset="100%" stopColor="#4f8cff" stopOpacity="0" />
+                    </linearGradient>
+                  </defs>
+                  <path className="spend-grid-line" d="M0 16 H220" />
+                  <path className="spend-grid-line" d="M0 36 H220" />
+                  <path className="spend-grid-line" d="M0 56 H220" />
+                  <path className="spend-area" d="M6 63 L24 58 L42 60 L60 52 L82 54 L104 44 L126 46 L148 36 L170 38 L214 30 L214 70 L6 70 Z" />
+                  <path className="spend-main-line" d="M6 63 L24 58 L42 60 L60 52 L82 54 L104 44 L126 46 L148 36 L170 38 L214 30" />
+                  <path className="spend-alt-line" d="M6 66 L24 63 L42 64 L60 58 L82 59 L104 52 L126 54 L148 45 L170 47 L214 40" />
                 </svg>
                 <div className="spend-chart-foot">
                   <strong>$10,293.67</strong>

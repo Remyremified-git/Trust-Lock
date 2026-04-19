@@ -331,16 +331,20 @@ export default function Home() {
               <div className="spend-chart-card" aria-hidden="true">
                 <p className="spend-chart-title">Daily Card Spend</p>
                 <div className="spend-candle-strip">
-                  <span style={{ "--bar-height": "32%" } as CSSProperties} />
-                  <span style={{ "--bar-height": "48%" } as CSSProperties} />
+                  <span style={{ "--bar-height": "30%" } as CSSProperties} />
+                  <span style={{ "--bar-height": "38%" } as CSSProperties} />
+                  <span style={{ "--bar-height": "34%" } as CSSProperties} />
+                  <span style={{ "--bar-height": "47%" } as CSSProperties} />
                   <span style={{ "--bar-height": "42%" } as CSSProperties} />
-                  <span style={{ "--bar-height": "60%" } as CSSProperties} />
-                  <span style={{ "--bar-height": "54%" } as CSSProperties} />
-                  <span style={{ "--bar-height": "72%" } as CSSProperties} />
-                  <span style={{ "--bar-height": "68%" } as CSSProperties} />
-                  <span style={{ "--bar-height": "79%" } as CSSProperties} />
+                  <span style={{ "--bar-height": "58%" } as CSSProperties} />
+                  <span style={{ "--bar-height": "53%" } as CSSProperties} />
+                  <span style={{ "--bar-height": "66%" } as CSSProperties} />
+                  <span style={{ "--bar-height": "62%" } as CSSProperties} />
+                  <span style={{ "--bar-height": "70%" } as CSSProperties} />
                   <span style={{ "--bar-height": "64%" } as CSSProperties} />
-                  <span style={{ "--bar-height": "83%" } as CSSProperties} />
+                  <span style={{ "--bar-height": "76%" } as CSSProperties} />
+                  <span style={{ "--bar-height": "69%" } as CSSProperties} />
+                  <span style={{ "--bar-height": "81%" } as CSSProperties} />
                 </div>
                 <svg className="spend-line" viewBox="0 0 220 74" preserveAspectRatio="none">
                   <defs>

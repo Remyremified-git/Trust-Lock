@@ -343,7 +343,7 @@ p {
 .how-section {
   margin-top: clamp(7vh, 10vh, 14vh);
   gap: 1rem;
-  min-height: clamp(940px, 130vh, 1400px);
+  min-height: auto;
 }
 
 .how-layout {
@@ -520,20 +520,21 @@ p {
 
 .spend-candle-strip {
   margin-top: 0.52rem;
-  height: 58px;
+  height: 44px;
   display: grid;
-  grid-template-columns: repeat(10, minmax(0, 1fr));
-  gap: 0.22rem;
+  grid-template-columns: repeat(14, minmax(0, 1fr));
+  gap: 0.14rem;
   align-items: end;
 }
 
 .spend-candle-strip span {
-  --pulse-offset: 0%;
+  width: 46%;
+  justify-self: center;
   height: var(--bar-height);
-  min-height: 24%;
-  border-radius: 5px;
-  background: linear-gradient(180deg, #5de8b4 0%, #239971 100%);
-  box-shadow: 0 5px 10px -8px rgba(26, 136, 99, 0.74);
+  min-height: 20%;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #73a3ff 0%, #5f7dff 54%, #5b59e4 100%);
+  box-shadow: 0 5px 10px -9px rgba(92, 106, 223, 0.82);
   animation: candlePulse 2.7s ease-in-out infinite;
   animation-play-state: paused;
 }
@@ -558,7 +559,7 @@ p {
 
 .spend-grid-line {
   fill: none;
-  stroke: rgba(92, 112, 160, 0.26);
+  stroke: rgba(102, 122, 170, 0.22);
   stroke-width: 1;
 }
 
@@ -576,15 +577,15 @@ p {
 }
 
 .spend-main-line {
-  stroke: #2f6cff;
-  stroke-width: 2.4;
+  stroke: #597bff;
+  stroke-width: 1.7;
   stroke-dasharray: 340;
   stroke-dashoffset: 340;
 }
 
 .spend-alt-line {
-  stroke: rgba(64, 150, 255, 0.65);
-  stroke-width: 1.7;
+  stroke: rgba(120, 96, 255, 0.62);
+  stroke-width: 1.2;
   stroke-dasharray: 280;
   stroke-dashoffset: 280;
   animation-delay: 0.35s;
@@ -617,10 +618,9 @@ p {
   display: grid;
   gap: 1rem;
   align-content: start;
-  max-height: clamp(620px, 80vh, 860px);
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-right: 0.5rem;
+  max-height: none;
+  overflow: visible;
+  padding-right: 0;
   perspective: 1300px;
   animation: howRightFloat 9.2s ease-in-out infinite;
   animation-play-state: paused;
@@ -630,26 +630,12 @@ p {
   animation-play-state: running;
 }
 
-.how-cards-column::-webkit-scrollbar {
-  width: 8px;
-}
-
-.how-cards-column::-webkit-scrollbar-track {
-  background: rgba(24, 44, 98, 0.36);
-  border-radius: 999px;
-}
-
-.how-cards-column::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, rgba(112, 152, 244, 0.75), rgba(84, 118, 233, 0.6));
-  border-radius: 999px;
-}
-
 .how-step-card {
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 0.95rem;
   padding: 1.42rem 1.28rem;
-  min-height: 240px;
+  min-height: clamp(320px, 38vh, 420px);
   border-radius: 28px;
   border: 1px solid rgba(132, 158, 232, 0.34);
   box-shadow:
@@ -1563,15 +1549,15 @@ p {
 
   .how-visual-column {
     position: static;
-    justify-items: center;
-    text-align: center;
+    justify-items: start;
+    text-align: left;
     max-width: 720px;
     margin-inline: auto;
     animation: none;
   }
 
   .how-hero-title {
-    max-width: 18ch;
+    max-width: 16ch;
   }
 
   .how-cards-column {
@@ -1714,19 +1700,28 @@ p {
     gap: 1rem;
   }
 
+  .how-visual-column {
+    justify-items: start;
+    text-align: left;
+  }
+
   .how-hero-title {
     font-size: clamp(1.38rem, 8.2vw, 2rem);
     max-width: none;
   }
 
   .how-visual-stage {
-    min-height: 340px;
-    padding-bottom: 0.9rem;
+    min-height: 0;
+    padding-bottom: 0.2rem;
     animation: none;
+    display: grid;
+    gap: 0.72rem;
+    place-items: stretch;
   }
 
   .spend-image-card {
-    min-height: 250px;
+    width: 100%;
+    min-height: 278px;
     border-radius: 22px;
     padding: 0.86rem;
   }
@@ -1744,16 +1739,18 @@ p {
   }
 
   .spend-chart-card {
-    left: 8px;
-    right: 8px;
-    width: auto;
-    bottom: -8px;
+    position: relative;
+    left: auto;
+    right: auto;
+    width: 100%;
+    bottom: auto;
     padding: 0.74rem;
+    min-height: 154px;
   }
 
   .spend-candle-strip {
-    height: 46px;
-    gap: 0.18rem;
+    height: 42px;
+    gap: 0.14rem;
   }
 
   .spend-line {

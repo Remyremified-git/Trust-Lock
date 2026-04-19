@@ -242,8 +242,8 @@ export default function Home() {
             minutes, route payments securely, and manage your entire spend layer from one control plane.
           </p>
           <div className="button-row cta-group">
-            <Link className="primary-button" href="/auth">
-              Connect Wallet
+            <Link className="primary-button spotlight-cta" href="/auth">
+              Link Wallet
             </Link>
           </div>
         </div>

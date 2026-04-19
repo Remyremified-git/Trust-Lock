@@ -40,6 +40,7 @@ body {
     radial-gradient(circle at 54% 100%, rgba(167, 139, 250, 0.1), transparent 42%),
     linear-gradient(180deg, #fdfdff 0%, var(--bg) 55%, #f4f6ff 100%);
   background-attachment: fixed;
+  overflow-x: clip;
 }
 
 a {
@@ -123,9 +124,9 @@ p {
 .screen {
   --theme-dark-pct: 0%;
   --theme-light-pct: 100%;
-  width: min(1240px, calc(100% - 2rem));
+  width: min(1240px, calc(100% - 1rem));
   margin: 0 auto;
-  padding: 1.2rem 0 calc(2.4rem + 100vh);
+  padding: 1rem 0 1.4rem;
   display: grid;
   gap: 0.6rem;
   position: relative;
@@ -185,7 +186,7 @@ p {
 }
 
 .page-bottom-space {
-  height: 100vh;
+  height: 0;
 }
 
 .moving-stack-layer {
@@ -221,7 +222,7 @@ p {
 }
 
 .card-transition-section {
-  margin-top: clamp(18vh, 24vh, 30vh);
+  margin-top: clamp(10vh, 14vh, 18vh);
   display: grid;
   grid-template-columns: minmax(420px, 1fr) minmax(360px, 1fr);
   gap: 1.8rem;
@@ -237,7 +238,7 @@ p {
 }
 
 .spotlight-section {
-  margin-top: clamp(14vh, 20vh, 26vh);
+  margin-top: clamp(8vh, 12vh, 16vh);
   display: grid;
   grid-template-columns: minmax(360px, 1fr) minmax(420px, 1fr);
   gap: 1.8rem;
@@ -304,6 +305,7 @@ p {
   gap: 0.86rem;
   text-align: right;
   justify-items: end;
+  width: 100%;
 }
 
 .card-transition-copy h2 {
@@ -311,10 +313,12 @@ p {
   letter-spacing: -0.02em;
   line-height: 1.1;
   color: color-mix(in oklab, #0f172a var(--theme-light-pct), #eaf2ff var(--theme-dark-pct));
+  width: 100%;
 }
 
 .card-transition-copy .muted {
-  max-width: 44ch;
+  width: 100%;
+  max-width: none;
   color: color-mix(in oklab, #5f6880 var(--theme-light-pct), #b3c4df var(--theme-dark-pct));
 }
 
@@ -323,6 +327,7 @@ p {
   gap: 0.86rem;
   text-align: left;
   justify-items: start;
+  width: 100%;
 }
 
 .spotlight-copy h2 {
@@ -330,10 +335,12 @@ p {
   letter-spacing: -0.02em;
   line-height: 1.1;
   color: color-mix(in oklab, #0f172a var(--theme-light-pct), #eaf2ff var(--theme-dark-pct));
+  width: 100%;
 }
 
 .spotlight-copy .muted {
-  max-width: 44ch;
+  width: 100%;
+  max-width: none;
   color: color-mix(in oklab, #5f6880 var(--theme-light-pct), #b3c4df var(--theme-dark-pct));
 }
 
@@ -491,6 +498,15 @@ p {
 .secondary-button:active,
 .danger-button:active {
   transform: translateY(0);
+}
+
+.spotlight-cta:hover,
+.spotlight-cta:focus-visible,
+.spotlight-cta:active {
+  border-color: rgba(122, 162, 235, 0.38);
+  background: linear-gradient(160deg, rgba(23, 44, 93, 0.94), rgba(17, 33, 71, 0.9));
+  color: #d6e9ff;
+  box-shadow: 0 12px 24px -16px rgba(62, 105, 205, 0.42);
 }
 
 .feature-grid {
@@ -776,7 +792,7 @@ p {
 @media (max-width: 760px) {
   .top-nav-inner,
   .screen {
-    width: calc(100% - 1rem);
+    width: calc(100% - 0.75rem);
   }
 
   .top-nav-inner {
@@ -1031,7 +1047,12 @@ p {
     margin-top: 12vh;
   }
 
+  .spotlight-section .card-transition-stage {
+    order: 1;
+  }
+
   .spotlight-copy {
+    order: 2;
     text-align: center;
     justify-items: center;
     max-width: 720px;
@@ -1101,11 +1122,11 @@ p {
   }
 
   .card-transition-section {
-    margin-top: 10vh;
+    margin-top: 7vh;
   }
 
   .spotlight-section {
-    margin-top: 8vh;
+    margin-top: 6vh;
   }
 
   .card-transition-cards,

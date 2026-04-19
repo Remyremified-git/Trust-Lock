@@ -223,10 +223,26 @@ p {
 .card-transition-section {
   margin-top: clamp(18vh, 24vh, 30vh);
   display: grid;
-  grid-template-columns: minmax(360px, 1fr) minmax(420px, 1fr);
+  grid-template-columns: minmax(420px, 1fr) minmax(360px, 1fr);
   gap: 1.8rem;
   align-items: center;
   min-height: clamp(560px, 80vh, 760px);
+}
+
+.card-transition-cards {
+  position: relative;
+  min-height: clamp(520px, 68vh, 690px);
+  display: grid;
+  place-items: center;
+}
+
+.spotlight-section {
+  margin-top: clamp(14vh, 20vh, 26vh);
+  display: grid;
+  grid-template-columns: minmax(360px, 1fr) minmax(420px, 1fr);
+  gap: 1.8rem;
+  align-items: center;
+  min-height: clamp(560px, 78vh, 740px);
 }
 
 .card-transition-stage {
@@ -276,8 +292,8 @@ p {
 .card-transition-copy {
   display: grid;
   gap: 0.86rem;
-  text-align: left;
-  justify-items: start;
+  text-align: right;
+  justify-items: end;
 }
 
 .card-transition-copy h2 {
@@ -288,6 +304,25 @@ p {
 }
 
 .card-transition-copy .muted {
+  max-width: 44ch;
+  color: color-mix(in oklab, #5f6880 var(--theme-light-pct), #b3c4df var(--theme-dark-pct));
+}
+
+.spotlight-copy {
+  display: grid;
+  gap: 0.86rem;
+  text-align: left;
+  justify-items: start;
+}
+
+.spotlight-copy h2 {
+  font-size: clamp(1.65rem, 2.7vw, 2.7rem);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: color-mix(in oklab, #0f172a var(--theme-light-pct), #eaf2ff var(--theme-dark-pct));
+}
+
+.spotlight-copy .muted {
   max-width: 44ch;
   color: color-mix(in oklab, #5f6880 var(--theme-light-pct), #b3c4df var(--theme-dark-pct));
 }
@@ -974,11 +1009,31 @@ p {
     max-width: 720px;
   }
 
-  .card-transition-stage {
+  .card-transition-cards {
     min-height: clamp(430px, 58vh, 560px);
   }
 
-  .card-transition-copy .muted {
+  .spotlight-section {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 0.9rem;
+    min-height: auto;
+    margin-top: 12vh;
+  }
+
+  .spotlight-copy {
+    text-align: center;
+    justify-items: center;
+    max-width: 720px;
+  }
+
+  .card-transition-stage,
+  .spotlight-section .card-transition-stage {
+    min-height: clamp(430px, 58vh, 560px);
+  }
+
+  .card-transition-copy .muted,
+  .spotlight-copy .muted {
     max-width: 58ch;
   }
 
@@ -1039,11 +1094,18 @@ p {
     margin-top: 10vh;
   }
 
-  .card-transition-stage {
+  .spotlight-section {
+    margin-top: 8vh;
+  }
+
+  .card-transition-cards,
+  .card-transition-stage,
+  .spotlight-section .card-transition-stage {
     min-height: clamp(370px, 48vh, 460px);
   }
 
-  .card-transition-copy h2 {
+  .card-transition-copy h2,
+  .spotlight-copy h2 {
     font-size: clamp(1.35rem, 7vw, 1.9rem);
   }
 

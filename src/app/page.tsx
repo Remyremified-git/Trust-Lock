@@ -16,9 +16,18 @@ function rgb(channels: [number, number, number]) {
 export default function Home() {
   const mainRef = useRef<HTMLElement | null>(null);
   const transitionRef = useRef<HTMLElement | null>(null);
+  const spotlightRef = useRef<HTMLElement | null>(null);
   const heroSlotRef = useRef<HTMLDivElement | null>(null);
   const transitionSlotRef = useRef<HTMLDivElement | null>(null);
-  const [stackMotion, setStackMotion] = useState({ x: 0, y: 0, progress: 0, ready: false });
+  const spotlightSlotRef = useRef<HTMLDivElement | null>(null);
+  const [stackMotion, setStackMotion] = useState({
+    x: 0,
+    y: 0,
+    progress: 0,
+    mergeProgress: 0,
+    themeProgress: 0,
+    ready: false,
+  });
   const baseBackgroundRef = useRef<string | null>(null);
   const baseAttachmentRef = useRef<string | null>(null);
 
@@ -31,7 +40,12 @@ export default function Home() {
     const update = () => {
       raf = 0;
 
-      if (!mainRef.current || !heroSlotRef.current || !transitionSlotRef.current) {
+      if (
+        !mainRef.current ||
+        !heroSlotRef.current ||
+        !transitionSlotRef.current ||
+        !spotlightSlotRef.current
+      ) {
         return;
       }
 
@@ -40,6 +54,7 @@ export default function Home() {
       const mainRect = mainRef.current.getBoundingClientRect();
       const heroRect = heroSlotRef.current.getBoundingClientRect();
       const transitionRect = transitionSlotRef.current.getBoundingClientRect();
+      const spotlightRect = spotlightSlotRef.current.getBoundingClientRect();
 
       const mainLeft = mainRect.left + scrollX;
       const mainTop = mainRect.top + scrollY;
@@ -48,6 +63,8 @@ export default function Home() {
       const heroCenterY = heroRect.top + scrollY + heroRect.height / 2 - mainTop;
       const transitionCenterX = transitionRect.left + scrollX + transitionRect.width / 2 - mainLeft;
       const transitionCenterY = transitionRect.top + scrollY + transitionRect.height / 2 - mainTop;
+      const spotlightCenterX = spotlightRect.left + scrollX + spotlightRect.width / 2 - mainLeft;
+      const spotlightCenterY = spotlightRect.top + scrollY + spotlightRect.height / 2 - mainTop;
 
       let progress = 0;
       if (transitionRef.current) {
@@ -58,10 +75,30 @@ export default function Home() {
         progress = clamp((startY - sectionRect.top) / (startY - endY));
       }
 
+      let mergeProgress = 0;
+      if (spotlightRef.current) {
+        const sectionRect = spotlightRef.current.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        const startY = viewportHeight * 0.82;
+        const endY = viewportHeight * 0.2;
+        mergeProgress = clamp((startY - sectionRect.top) / (startY - endY));
+      }
+
+      const x =
+        progress < 1
+          ? lerp(heroCenterX, transitionCenterX, progress)
+          : lerp(transitionCenterX, spotlightCenterX, mergeProgress);
+      const y =
+        progress < 1
+          ? lerp(heroCenterY, transitionCenterY, progress)
+          : lerp(transitionCenterY, spotlightCenterY, mergeProgress);
+
       setStackMotion({
-        x: lerp(heroCenterX, transitionCenterX, progress),
-        y: lerp(heroCenterY, transitionCenterY, progress),
+        x,
+        y,
         progress,
+        mergeProgress,
+        themeProgress: mergeProgress,
         ready: true,
       });
     };
@@ -96,7 +133,7 @@ export default function Home() {
       baseAttachmentRef.current = document.body.style.backgroundAttachment || "";
     }
 
-    const progress = stackMotion.progress;
+    const progress = stackMotion.themeProgress;
     const topLight: [number, number, number] = [253, 253, 255];
     const topDark: [number, number, number] = [7, 10, 20];
     const midLight: [number, number, number] = [248, 248, 252];
@@ -131,7 +168,7 @@ export default function Home() {
       linear-gradient(180deg, ${rgb(topMix)} 0%, ${rgb(midMix)} 55%, ${rgb(lowMix)} 100%)
     `;
     document.body.style.backgroundAttachment = "fixed";
-  }, [stackMotion.progress]);
+  }, [stackMotion.themeProgress]);
 
   useEffect(() => {
     return () => {
@@ -147,18 +184,22 @@ export default function Home() {
   const movingStackStyle = {
     transform: `translate3d(${stackMotion.x}px, ${stackMotion.y}px, 0)`,
     opacity: stackMotion.ready ? 1 : 0,
-    "--stack-progress": stackMotion.progress,
+    "--stack-progress": Math.min(1, stackMotion.progress * 0.65 + stackMotion.mergeProgress * 0.35),
   } as CSSProperties;
 
   const themeBlendStyle = {
-    "--theme-dark-pct": `${Math.round(stackMotion.progress * 100)}%`,
-    "--theme-light-pct": `${Math.round((1 - stackMotion.progress) * 100)}%`,
+    "--theme-dark-pct": `${Math.round(stackMotion.themeProgress * 100)}%`,
+    "--theme-light-pct": `${Math.round((1 - stackMotion.themeProgress) * 100)}%`,
   } as CSSProperties;
 
   return (
     <main ref={mainRef} className="screen page-enter" style={themeBlendStyle}>
       <div className="moving-stack-layer" style={movingStackStyle}>
-        <WalletDebitHeroStack className="motion-linked-stack" progress={stackMotion.progress} />
+        <WalletDebitHeroStack
+          className="motion-linked-stack"
+          progress={stackMotion.progress}
+          mergeProgress={stackMotion.mergeProgress}
+        />
       </div>
 
       <section className="hero-grid hero-focus panel">
@@ -179,7 +220,21 @@ export default function Home() {
       </section>
 
       <section ref={transitionRef} className="card-transition-section">
+        <div className="card-transition-cards">
+          <div ref={transitionSlotRef} className="stack-slot transition-stack-slot" aria-hidden="true" />
+        </div>
         <div className="card-transition-copy">
+          <p className="kicker">Wallet Range + Card Security</p>
+          <h2>Support different wallet types and spend globally with ease</h2>
+          <p className="muted">
+            Connect multiple wallet formats, route spend securely through your linked debit cards, and keep every
+            transaction protected with layered security controls.
+          </p>
+        </div>
+      </section>
+
+      <section ref={spotlightRef} className="spotlight-section">
+        <div className="spotlight-copy">
           <p className="kicker">Global Wallet Card Rail</p>
           <h2>Global payments, one spotlight-ready debit card experience</h2>
           <p className="muted">
@@ -189,7 +244,7 @@ export default function Home() {
         </div>
         <div className="card-transition-stage">
           <div className="spotlight-stage">
-            <div ref={transitionSlotRef} className="stack-slot transition-stack-slot" aria-hidden="true" />
+            <div ref={spotlightSlotRef} className="stack-slot spotlight-stack-slot" aria-hidden="true" />
           </div>
         </div>
       </section>

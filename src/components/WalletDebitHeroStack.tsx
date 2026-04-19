@@ -12,6 +12,7 @@ const debitCards = [
 type WalletDebitHeroStackProps = {
   className?: string;
   progress?: number;
+  mergeProgress?: number;
 };
 
 function clamp(value: number, min = 0, max = 1) {
@@ -27,12 +28,16 @@ function smoothstep(edge0: number, edge1: number, x: number) {
   return t * t * (3 - 2 * t);
 }
 
-export default function WalletDebitHeroStack({ className = "", progress = 0 }: WalletDebitHeroStackProps) {
+export default function WalletDebitHeroStack({
+  className = "",
+  progress = 0,
+  mergeProgress = 0,
+}: WalletDebitHeroStackProps) {
   const normalizedProgress = clamp(progress);
   const easedProgress =
     normalizedProgress * normalizedProgress * (3 - 2 * normalizedProgress);
   const fanProgress = smoothstep(0.2, 0.68, easedProgress);
-  const mergeProgress = smoothstep(0.66, 0.97, easedProgress);
+  const mergeAmount = smoothstep(0.08, 0.94, clamp(mergeProgress));
   const center = (debitCards.length - 1) / 2;
 
   return (
@@ -54,19 +59,19 @@ export default function WalletDebitHeroStack({ className = "", progress = 0 }: W
         const stagedY = lerp(heroY, fanY, fanProgress);
         const stagedRotate = lerp(heroRotate, fanRotate, fanProgress);
 
-        const translateX = lerp(stagedX, 0, mergeProgress);
-        const translateY = lerp(stagedY, 0, mergeProgress);
-        const rotateZ = lerp(stagedRotate, 0, mergeProgress);
+        const translateX = lerp(stagedX, 0, mergeAmount);
+        const translateY = lerp(stagedY, 0, mergeAmount);
+        const rotateZ = lerp(stagedRotate, 0, mergeAmount);
         const rotateX = lerp(7.4, 11.4, fanProgress);
         const rotateY = lerp(-3, t * 6.4, fanProgress);
         const depth = lerp(
           lerp(-Math.abs(offset) * 24, -Math.abs(offset) * 11, fanProgress),
           0,
-          mergeProgress,
+          mergeAmount,
         );
         const isCenterCard = Math.abs(offset) < 0.01;
-        const opacity = isCenterCard ? 1 : 1 - mergeProgress * 1.25;
-        const scale = lerp(1, isCenterCard ? 1.04 : 0.91, mergeProgress);
+        const opacity = isCenterCard ? 1 : 1 - mergeAmount * 1.25;
+        const scale = lerp(1, isCenterCard ? 1.04 : 0.91, mergeAmount);
         const visibility = opacity <= 0.01 ? "hidden" : "visible";
 
         return (

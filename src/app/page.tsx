@@ -13,6 +13,35 @@ function rgb(channels: [number, number, number]) {
   return `rgb(${channels[0]} ${channels[1]} ${channels[2]})`;
 }
 
+function HowStepIcon({ type }: { type: "connect" | "issue" | "control" }) {
+  if (type === "connect") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M8.7 7.2h5.2a4.3 4.3 0 0 1 0 8.6H8.7" />
+        <path d="M15.3 16.8H10a4.3 4.3 0 0 1 0-8.6h5.3" />
+      </svg>
+    );
+  }
+
+  if (type === "issue") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="3.2" y="5.4" width="17.6" height="13.2" rx="2.8" />
+        <path d="M3.2 10.2h17.6" />
+        <path d="M7.2 14.6h4.4" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="8" />
+      <path d="M12 8.2v4.3l2.8 2.2" />
+      <path d="M12 4.2v1.6M12 18.2v1.6M19.8 12h-1.6M5.8 12H4.2" />
+    </svg>
+  );
+}
+
 export default function Home() {
   const mainRef = useRef<HTMLElement | null>(null);
   const transitionRef = useRef<HTMLElement | null>(null);
@@ -255,27 +284,81 @@ export default function Home() {
       </section>
 
       <section className="how-section panel">
-        <p className="kicker">How It Works</p>
-        <h2>Link account. Issue card. Control spend.</h2>
-        <div className="how-grid">
-          <article>
-            <h3>1. Connect</h3>
-            <p>
-              Connect your wallet or exchange account and verify ownership through secure onboarding.
-            </p>
-          </article>
-          <article>
-            <h3>2. Issue</h3>
-            <p>
-              Generate a virtual debit card that attaches to your selected crypto balance and payment routes.
-            </p>
-          </article>
-          <article>
-            <h3>3. Control</h3>
-            <p>
-              Apply risk rules, spend limits, freeze controls, and security policies before every transaction.
-            </p>
-          </article>
+        <div className="how-layout">
+          <div className="how-visual-column">
+            <p className="kicker">How It Works</p>
+            <h2 className="how-hero-title">Link account. Issue card. Control spend.</h2>
+            <div className="how-visual-stage">
+              <div className="spend-image-card" aria-hidden="true">
+                <div className="spend-image-top">
+                  <span className="spend-channel-live">Live Spend Feed</span>
+                  <span className="spend-platform-tag">Wallet + Exchange</span>
+                </div>
+                <div className="spend-profile-line">
+                  <span className="spend-avatar-dot" />
+                  <div>
+                    <strong>Global card route active</strong>
+                    <p>Trust Wallet, MetaMask, KuCoin and Kraken linked</p>
+                  </div>
+                </div>
+                <div className="spend-flow-legend">
+                  <span>Card payments</span>
+                  <span>Security checks</span>
+                </div>
+              </div>
+
+              <div className="spend-chart-card" aria-hidden="true">
+                <p className="spend-chart-title">Daily Card Spend</p>
+                <div className="spend-bars">
+                  <span style={{ "--bar-height": "26%" } as CSSProperties} />
+                  <span style={{ "--bar-height": "43%" } as CSSProperties} />
+                  <span style={{ "--bar-height": "34%" } as CSSProperties} />
+                  <span style={{ "--bar-height": "62%" } as CSSProperties} />
+                  <span style={{ "--bar-height": "51%" } as CSSProperties} />
+                  <span style={{ "--bar-height": "78%" } as CSSProperties} />
+                </div>
+                <svg className="spend-line" viewBox="0 0 180 70" preserveAspectRatio="none">
+                  <path d="M4 61 L32 49 L54 54 L80 34 L106 42 L132 22 L176 14" />
+                </svg>
+                <div className="spend-chart-foot">
+                  <strong>$10,293.67</strong>
+                  <span>24h settled volume</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="how-cards-column">
+            <article className="how-step-card how-step-connect">
+              <div className="how-step-icon" aria-hidden="true">
+                <HowStepIcon type="connect" />
+              </div>
+              <div>
+                <h3>1. Connect</h3>
+                <p>Connect your wallet or exchange account and verify ownership through secure onboarding.</p>
+              </div>
+            </article>
+
+            <article className="how-step-card how-step-issue">
+              <div className="how-step-icon" aria-hidden="true">
+                <HowStepIcon type="issue" />
+              </div>
+              <div>
+                <h3>2. Issue</h3>
+                <p>Generate a virtual debit card that attaches to your selected crypto balance and payment routes.</p>
+              </div>
+            </article>
+
+            <article className="how-step-card how-step-control">
+              <div className="how-step-icon" aria-hidden="true">
+                <HowStepIcon type="control" />
+              </div>
+              <div>
+                <h3>3. Control</h3>
+                <p>Apply risk rules, spend limits, freeze controls, and security policies before every transaction.</p>
+              </div>
+            </article>
+          </div>
         </div>
       </section>
 

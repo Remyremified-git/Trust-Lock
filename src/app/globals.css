@@ -121,6 +121,8 @@ p {
 }
 
 .screen {
+  --theme-dark-pct: 0%;
+  --theme-light-pct: 100%;
   width: min(1240px, calc(100% - 2rem));
   margin: 0 auto;
   padding: 1.2rem 0 calc(2.4rem + 100vh);
@@ -163,12 +165,14 @@ p {
   font-size: clamp(2rem, 3.2vw, 3.3rem);
   letter-spacing: -0.02em;
   line-height: 1.06;
+  color: color-mix(in oklab, #101828 var(--theme-light-pct), #ebf3ff var(--theme-dark-pct));
 }
 
 .hero-copy .muted {
   max-width: 60ch;
   font-size: clamp(1rem, 1.35vw, 1.16rem);
   line-height: 1.62;
+  color: color-mix(in oklab, #5b6475 var(--theme-light-pct), #b5c5dd var(--theme-dark-pct));
 }
 
 .hero-focus {
@@ -219,43 +223,85 @@ p {
 .card-transition-section {
   margin-top: clamp(18vh, 24vh, 30vh);
   display: grid;
-  grid-template-columns: minmax(420px, 1fr) minmax(360px, 1fr);
+  grid-template-columns: minmax(360px, 1fr) minmax(420px, 1fr);
   gap: 1.8rem;
   align-items: center;
   min-height: clamp(560px, 80vh, 760px);
 }
 
-.card-transition-cards {
+.card-transition-stage {
   position: relative;
+  min-height: clamp(520px, 68vh, 690px);
+  display: grid;
+  place-items: center;
+}
+
+.spotlight-stage {
+  position: relative;
+  width: min(100%, 560px);
+  min-height: inherit;
+  display: grid;
+  place-items: center;
+}
+
+.spotlight-stage::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: min(74%, 420px);
+  height: 72%;
+  transform: translateX(-50%);
+  background: conic-gradient(from 180deg at 50% 0%, rgba(226, 242, 255, 0.38), rgba(170, 205, 255, 0.04), rgba(226, 242, 255, 0.38));
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+  filter: blur(3px);
+  opacity: 0.86;
+  pointer-events: none;
+}
+
+.spotlight-stage::after {
+  content: "";
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  width: min(72%, 420px);
+  height: 108px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(169, 205, 255, 0.36) 0%, rgba(121, 166, 255, 0.11) 42%, rgba(0, 0, 0, 0) 75%);
+  filter: blur(10px);
+  pointer-events: none;
 }
 
 .card-transition-copy {
   display: grid;
   gap: 0.86rem;
-  text-align: right;
-  justify-items: end;
+  text-align: left;
+  justify-items: start;
 }
 
 .card-transition-copy h2 {
   font-size: clamp(1.65rem, 2.7vw, 2.7rem);
   letter-spacing: -0.02em;
   line-height: 1.1;
+  color: color-mix(in oklab, #0f172a var(--theme-light-pct), #eaf2ff var(--theme-dark-pct));
 }
 
 .card-transition-copy .muted {
   max-width: 44ch;
+  color: color-mix(in oklab, #5f6880 var(--theme-light-pct), #b3c4df var(--theme-dark-pct));
 }
 
 .kicker {
   text-transform: uppercase;
   letter-spacing: 0.16em;
   font-size: 0.72rem;
-  color: #566283;
+  color: color-mix(in oklab, #566283 var(--theme-light-pct), #8cb0e8 var(--theme-dark-pct));
   font-weight: 700;
 }
 
 .muted {
-  color: var(--muted);
+  color: color-mix(in oklab, var(--muted) var(--theme-light-pct), #b5c5dd var(--theme-dark-pct));
 }
 
 .warning-box {
@@ -363,7 +409,7 @@ p {
 }
 
 .primary-button {
-  color: #1f3c9d;
+  color: color-mix(in oklab, #1f3c9d var(--theme-light-pct), #b8d7ff var(--theme-dark-pct));
 }
 
 .secondary-button {
@@ -745,6 +791,7 @@ p {
   border-radius: 20px;
   padding: 1.16rem;
   border: 1.2px solid rgba(255, 255, 255, 0.38);
+  backdrop-filter: blur(10px) saturate(140%);
   box-shadow:
     0 38px 62px -32px rgba(15, 23, 42, 0.76),
     0 18px 24px -18px rgba(13, 21, 44, 0.62),
@@ -827,27 +874,27 @@ p {
 }
 
 .debit-card--atlas {
-  background: linear-gradient(145deg, #1d3f84 0%, #122a64 48%, #0a1740 100%);
+  background: linear-gradient(145deg, rgba(38, 108, 255, 0.52) 0%, rgba(20, 53, 140, 0.6) 48%, rgba(10, 23, 64, 0.82) 100%);
 }
 
 .debit-card--neo {
-  background: linear-gradient(145deg, #5b59dd 0%, #343db2 50%, #1f2a7e 100%);
+  background: linear-gradient(145deg, rgba(131, 107, 255, 0.5) 0%, rgba(67, 72, 201, 0.62) 50%, rgba(31, 42, 126, 0.82) 100%);
 }
 
 .debit-card--nova {
-  background: linear-gradient(145deg, #12a8d8 0%, #1974be 50%, #1a3f89 100%);
+  background: linear-gradient(145deg, rgba(27, 198, 255, 0.5) 0%, rgba(26, 122, 207, 0.62) 50%, rgba(26, 63, 137, 0.84) 100%);
 }
 
 .debit-card--luna {
-  background: linear-gradient(145deg, #7f4cff 0%, #5b35b8 50%, #35226f 100%);
+  background: linear-gradient(145deg, rgba(142, 86, 255, 0.48) 0%, rgba(91, 53, 184, 0.62) 50%, rgba(53, 34, 111, 0.84) 100%);
 }
 
 .debit-card--ember {
-  background: linear-gradient(145deg, #ff4f88 0%, #c33679 50%, #742a5e 100%);
+  background: linear-gradient(145deg, rgba(255, 94, 152, 0.48) 0%, rgba(195, 54, 121, 0.62) 50%, rgba(116, 42, 94, 0.84) 100%);
 }
 
 .debit-card--mint {
-  background: linear-gradient(145deg, #1ec0a7 0%, #1f8f95 50%, #1d536d 100%);
+  background: linear-gradient(145deg, rgba(36, 222, 190, 0.44) 0%, rgba(31, 143, 149, 0.62) 50%, rgba(29, 83, 109, 0.84) 100%);
 }
 
 @keyframes debitStackFloat {
@@ -927,6 +974,10 @@ p {
     max-width: 720px;
   }
 
+  .card-transition-stage {
+    min-height: clamp(430px, 58vh, 560px);
+  }
+
   .card-transition-copy .muted {
     max-width: 58ch;
   }
@@ -986,6 +1037,10 @@ p {
 
   .card-transition-section {
     margin-top: 10vh;
+  }
+
+  .card-transition-stage {
+    min-height: clamp(370px, 48vh, 460px);
   }
 
   .card-transition-copy h2 {

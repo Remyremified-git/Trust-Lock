@@ -22,10 +22,17 @@ function lerp(from: number, to: number, amount: number) {
   return from + (to - from) * amount;
 }
 
+function smoothstep(edge0: number, edge1: number, x: number) {
+  const t = clamp((x - edge0) / (edge1 - edge0));
+  return t * t * (3 - 2 * t);
+}
+
 export default function WalletDebitHeroStack({ className = "", progress = 0 }: WalletDebitHeroStackProps) {
   const normalizedProgress = clamp(progress);
   const easedProgress =
     normalizedProgress * normalizedProgress * (3 - 2 * normalizedProgress);
+  const fanProgress = smoothstep(0.2, 0.68, easedProgress);
+  const mergeProgress = smoothstep(0.66, 0.97, easedProgress);
   const center = (debitCards.length - 1) / 2;
 
   return (
@@ -43,12 +50,24 @@ export default function WalletDebitHeroStack({ className = "", progress = 0 }: W
         const fanY = Math.pow(Math.abs(t), 1.18) * 62 - 34;
         const fanRotate = t * 42;
 
-        const translateX = lerp(heroX, fanX, easedProgress);
-        const translateY = lerp(heroY, fanY, easedProgress);
-        const rotateZ = lerp(heroRotate, fanRotate, easedProgress);
-        const rotateX = lerp(7.4, 11.4, easedProgress);
-        const rotateY = lerp(-3, t * 6.4, easedProgress);
-        const depth = lerp(-Math.abs(offset) * 24, -Math.abs(offset) * 11, easedProgress);
+        const stagedX = lerp(heroX, fanX, fanProgress);
+        const stagedY = lerp(heroY, fanY, fanProgress);
+        const stagedRotate = lerp(heroRotate, fanRotate, fanProgress);
+
+        const translateX = lerp(stagedX, 0, mergeProgress);
+        const translateY = lerp(stagedY, 0, mergeProgress);
+        const rotateZ = lerp(stagedRotate, 0, mergeProgress);
+        const rotateX = lerp(7.4, 11.4, fanProgress);
+        const rotateY = lerp(-3, t * 6.4, fanProgress);
+        const depth = lerp(
+          lerp(-Math.abs(offset) * 24, -Math.abs(offset) * 11, fanProgress),
+          0,
+          mergeProgress,
+        );
+        const isCenterCard = Math.abs(offset) < 0.01;
+        const opacity = isCenterCard ? 1 : 1 - mergeProgress * 1.25;
+        const scale = lerp(1, isCenterCard ? 1.04 : 0.91, mergeProgress);
+        const visibility = opacity <= 0.01 ? "hidden" : "visible";
 
         return (
           <article
@@ -60,8 +79,10 @@ export default function WalletDebitHeroStack({ className = "", progress = 0 }: W
                 "--delay": `${index * 0.15}s`,
                 "--float-range": `${10 + index * 1.6}px`,
                 "--drift-range": `${2.4 + index * 0.52}px`,
-                zIndex: debitCards.length - index,
-                transform: `translate3d(calc(-50% + ${translateX.toFixed(2)}px), calc(-50% + ${translateY.toFixed(2)}px), ${depth.toFixed(2)}px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) rotateZ(${rotateZ.toFixed(2)}deg)`,
+                zIndex: isCenterCard ? debitCards.length + 6 : debitCards.length - index,
+                opacity,
+                visibility,
+                transform: `translate3d(calc(-50% + ${translateX.toFixed(2)}px), calc(-50% + ${translateY.toFixed(2)}px), ${depth.toFixed(2)}px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) rotateZ(${rotateZ.toFixed(2)}deg) scale(${scale.toFixed(3)})`,
               } as CSSProperties
             }
           >

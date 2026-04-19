@@ -39,6 +39,7 @@ export default function WalletDebitHeroStack({
   const fanProgress = smoothstep(0.2, 0.68, easedProgress);
   const mergeAmount = smoothstep(0.08, 0.94, clamp(mergeProgress));
   const center = (debitCards.length - 1) / 2;
+  const spotlightCardIndex = Math.floor(center);
 
   return (
     <div className={`debit-stack-shell ${className}`.trim()} aria-label="Floating stack of linked debit cards">
@@ -69,9 +70,9 @@ export default function WalletDebitHeroStack({
           0,
           mergeAmount,
         );
-        const isCenterCard = Math.abs(offset) < 0.01;
-        const opacity = isCenterCard ? 1 : 1 - mergeAmount * 1.25;
-        const scale = lerp(1, isCenterCard ? 1.04 : 0.91, mergeAmount);
+        const isSpotlightCard = index === spotlightCardIndex;
+        const opacity = isSpotlightCard ? 1 : 1 - mergeAmount * 1.25;
+        const scale = lerp(1, isSpotlightCard ? 1.12 : 0.9, mergeAmount);
         const visibility = opacity <= 0.01 ? "hidden" : "visible";
 
         return (
@@ -84,7 +85,7 @@ export default function WalletDebitHeroStack({
                 "--delay": `${index * 0.15}s`,
                 "--float-range": `${10 + index * 1.6}px`,
                 "--drift-range": `${2.4 + index * 0.52}px`,
-                zIndex: isCenterCard ? debitCards.length + 6 : debitCards.length - index,
+                zIndex: isSpotlightCard ? debitCards.length + 6 : debitCards.length - index,
                 opacity,
                 visibility,
                 transform: `translate3d(calc(-50% + ${translateX.toFixed(2)}px), calc(-50% + ${translateY.toFixed(2)}px), ${depth.toFixed(2)}px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) rotateZ(${rotateZ.toFixed(2)}deg) scale(${scale.toFixed(3)})`,

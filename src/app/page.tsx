@@ -241,6 +241,11 @@ export default function Home() {
             Spend seamlessly across global platforms with one linked card flow. Integrate major crypto wallet types in
             minutes, route payments securely, and manage your entire spend layer from one control plane.
           </p>
+          <div className="button-row cta-group">
+            <Link className="primary-button" href="/auth">
+              Connect Wallet
+            </Link>
+          </div>
         </div>
         <div className="card-transition-stage">
           <div className="spotlight-stage">

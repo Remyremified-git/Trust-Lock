@@ -139,8 +139,8 @@ export default function AuthPage() {
   return (
     <main className="screen">
       <section className="panel">
-        <p className="kicker">Native Authentication</p>
-        <h1>Signup + Login (No Clerk)</h1>
+        <p className="kicker">Account Access</p>
+        <h1>Sign in to manage linked wallets and virtual spending cards</h1>
 
         <div className="button-row">
           <button

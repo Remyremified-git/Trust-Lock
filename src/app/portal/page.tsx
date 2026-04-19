@@ -178,7 +178,7 @@ export default function PortalPage() {
     <main className="screen">
       <section className="panel">
         <p className="kicker">User Control Panel</p>
-        <h1>Security, Linked Accounts, and Debit Card Operations</h1>
+        <h1>Linked wallet, exchange, and virtual card operations center</h1>
         <div className="button-row"><button type="button" className="secondary-button" onClick={refreshAll}>Refresh all</button></div>
         <p className="muted">{status}</p>
         <div className="stat-grid">
@@ -196,8 +196,8 @@ export default function PortalPage() {
       </section>
 
       <section className="panel">
-        <p className="kicker">Debit Card Desk</p>
-        <h2>Spend Crypto via Card Rails</h2>
+        <p className="kicker">What You Control</p>
+        <h2>Issue cards, fund balances, and execute controlled spend flows</h2>
         <div className="control-grid">
           <article className="feature-card">
             <h3>Issue Card</h3>
@@ -251,7 +251,7 @@ export default function PortalPage() {
       </section>
 
       <section className="panel">
-        <p className="kicker">Security + Linking Quick Controls</p>
+        <p className="kicker">How You Stay Protected</p>
         <div className="feature-grid">
           <article className="feature-card">
             <h3>Anti-Phishing Code</h3>

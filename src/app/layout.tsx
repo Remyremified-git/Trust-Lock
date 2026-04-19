@@ -6,7 +6,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Trust Lock",
   description:
-    "Trust Lock secure wallet vault and control panels",
+    "Attach virtual spending cards to crypto wallets and exchange accounts with secure controls and asset management.",
 };
 
 export default function RootLayout({

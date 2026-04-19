@@ -167,6 +167,7 @@ p {
   letter-spacing: -0.02em;
   line-height: 1.06;
   color: color-mix(in oklab, #101828 var(--theme-light-pct), #ebf3ff var(--theme-dark-pct));
+  text-wrap: balance;
 }
 
 .hero-copy .muted {
@@ -336,6 +337,39 @@ p {
   line-height: 1.1;
   color: color-mix(in oklab, #0f172a var(--theme-light-pct), #eaf2ff var(--theme-dark-pct));
   width: 100%;
+  text-wrap: balance;
+}
+
+.how-section {
+  margin-top: clamp(7vh, 10vh, 14vh);
+  gap: 1rem;
+}
+
+.how-section h2 {
+  font-size: clamp(1.45rem, 2.2vw, 2.2rem);
+  letter-spacing: -0.02em;
+  color: color-mix(in oklab, #0f172a var(--theme-light-pct), #eaf2ff var(--theme-dark-pct));
+}
+
+.how-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.how-grid article {
+  padding: 0.25rem 0;
+}
+
+.how-grid h3 {
+  font-size: 1.05rem;
+  margin-bottom: 0.34rem;
+  color: color-mix(in oklab, #14234a var(--theme-light-pct), #bfdaff var(--theme-dark-pct));
+}
+
+.how-grid p {
+  color: color-mix(in oklab, #5f6880 var(--theme-light-pct), #b3c4df var(--theme-dark-pct));
+  line-height: 1.55;
 }
 
 .spotlight-copy .muted {
@@ -1056,6 +1090,11 @@ p {
     text-align: center;
     justify-items: center;
     max-width: 720px;
+  }
+
+  .how-grid {
+    grid-template-columns: 1fr;
+    gap: 0.45rem;
   }
 
   .card-transition-stage,

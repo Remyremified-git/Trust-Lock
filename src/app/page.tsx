@@ -204,11 +204,11 @@ export default function Home() {
 
       <section className="hero-grid hero-focus panel">
         <div className="hero-copy">
-          <p className="kicker">Secure Crypto Debit Cards</p>
-          <h1>Connect your wallets to a debit card</h1>
+          <p className="kicker">Virtual Cards for Crypto Platforms</p>
+          <h1>Attach a virtual spending card to your crypto wallets and exchanges</h1>
           <p className="muted">
-            Crypto spending has never been this easy. Link wallets to powerful debit cards, lock every spend flow
-            with card security controls, and pay globally with confidence.
+            Link Trust Wallet, MetaMask, Exodus, KuCoin, Gate.io, Kraken, and other major crypto accounts to secure
+            virtual debit cards so you can spend globally with tighter control over your assets.
           </p>
           <div className="button-row cta-group">
             <Link className="primary-button" href="/auth">
@@ -224,22 +224,22 @@ export default function Home() {
           <div ref={transitionSlotRef} className="stack-slot transition-stack-slot" aria-hidden="true" />
         </div>
         <div className="card-transition-copy">
-          <p className="kicker">Wallet Range + Card Security</p>
-          <h2>Support different wallet types and spend globally with ease</h2>
+          <p className="kicker">What We Do</p>
+          <h2>We issue linkable virtual cards for wallets and exchange accounts</h2>
           <p className="muted">
-            Connect multiple wallet formats, route spend securely through your linked debit cards, and keep every
-            transaction protected with layered security controls.
+            Trust Lock provisions attachable virtual debit cards designed for crypto users, with route-level card
+            controls, asset-aware limits, and secure spend management in one place.
           </p>
         </div>
       </section>
 
       <section ref={spotlightRef} className="spotlight-section">
         <div className="spotlight-copy">
-          <p className="kicker">Global Wallet Card Rail</p>
-          <h2>Global payments, one spotlight-ready debit card experience</h2>
+          <p className="kicker">Who It Is For</p>
+          <h2>Built for global crypto holders, traders, teams, and high-frequency spenders</h2>
           <p className="muted">
-            Spend seamlessly across global platforms with one linked card flow. Integrate major crypto wallet types in
-            minutes, route payments securely, and manage your entire spend layer from one control plane.
+            From single-wallet users to multi-exchange operators, Trust Lock gives each profile a safer card layer for
+            day-to-day spending while preserving control over how funds move.
           </p>
           <div className="button-row cta-group">
             <Link className="primary-button spotlight-cta" href="/auth">
@@ -251,6 +251,31 @@ export default function Home() {
           <div className="spotlight-stage">
             <div ref={spotlightSlotRef} className="stack-slot spotlight-stack-slot" aria-hidden="true" />
           </div>
+        </div>
+      </section>
+
+      <section className="how-section panel">
+        <p className="kicker">How It Works</p>
+        <h2>Link account. Issue card. Control spend.</h2>
+        <div className="how-grid">
+          <article>
+            <h3>1. Connect</h3>
+            <p>
+              Connect your wallet or exchange account and verify ownership through secure onboarding.
+            </p>
+          </article>
+          <article>
+            <h3>2. Issue</h3>
+            <p>
+              Generate a virtual debit card that attaches to your selected crypto balance and payment routes.
+            </p>
+          </article>
+          <article>
+            <h3>3. Control</h3>
+            <p>
+              Apply risk rules, spend limits, freeze controls, and security policies before every transaction.
+            </p>
+          </article>
         </div>
       </section>
 

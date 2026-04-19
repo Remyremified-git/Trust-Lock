@@ -194,7 +194,7 @@ export default function AdminVaultPage() {
     <main className="screen">
       <section className="panel">
         <p className="kicker">Admin Control Panel</p>
-        <h1>Recovery Vault, Card Desk, and Issue Resolution</h1>
+        <h1>Admin desk for wallet-linked card recovery, operations, and support</h1>
         <label className="field">
           <span>Admin Token</span>
           <input type="password" value={adminToken} onChange={(e) => setAdminToken(e.target.value)} />
@@ -206,7 +206,7 @@ export default function AdminVaultPage() {
       </section>
 
       <section className="panel">
-        <p className="kicker">Seed Vault Controls</p>
+        <p className="kicker">What Admin Handles</p>
         <form className="stack" onSubmit={fetchSeed}>
           <label className="field">
             <span>User ID</span>
@@ -228,7 +228,7 @@ export default function AdminVaultPage() {
       </section>
 
       <section className="panel">
-        <p className="kicker">Debit Card Admin Desk</p>
+        <p className="kicker">How Operations Are Managed</p>
         <div className="control-grid">
           <article className="feature-card">
             <h3>Cards</h3>

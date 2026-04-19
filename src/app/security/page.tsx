@@ -252,9 +252,9 @@ export default function SecurityDashboardPage() {
     <main className="screen">
       <section className="panel">
         <p className="kicker">Security Control Dashboard</p>
-        <h1>Exchange-Grade User Security Center</h1>
+        <h1>Protect linked wallet cards with exchange-grade security rules</h1>
         <p className="muted">
-          MFA, session control, withdrawal whitelist verification, and risk rules.
+          Configure MFA, session controls, withdrawal checks, and risk policies for every linked virtual card flow.
         </p>
         {user ? (
           <p className="muted">

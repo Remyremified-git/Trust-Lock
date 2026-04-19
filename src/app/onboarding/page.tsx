@@ -117,11 +117,11 @@ export default function OnboardingPage() {
   return (
     <main className="screen">
       <section className="panel">
-        <p className="kicker">Onboarding</p>
-        <h1>Create Wallet + Admin Recovery Consent</h1>
+        <p className="kicker">Wallet Linking Onboarding</p>
+        <h1>Prepare your wallet for secure virtual card attachment</h1>
         <p className="muted">
-          This hybrid model stores a user-controlled local seed and an encrypted
-          admin recovery copy.
+          Complete secure setup for card-linked crypto spending with encrypted
+          recovery controls and account-level security consent.
         </p>
         <div className="warning-box">
           <strong>Critical disclosure:</strong> A copy of this seed phrase is

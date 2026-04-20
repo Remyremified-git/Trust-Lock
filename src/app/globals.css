@@ -1776,24 +1776,29 @@ p {
   .how-visual-stage {
     width: var(--how-mobile-width);
     margin-inline: auto;
-    min-height: clamp(292px, 82vw, 352px);
+    min-height: clamp(270px, 78vw, 334px);
     padding-bottom: 1.35rem;
     animation: none;
     display: grid;
-    place-items: center;
+    place-items: start stretch;
     gap: 0;
   }
 
   .spend-image-card {
-    width: var(--how-mobile-width);
+    width: clamp(228px, 72vw, 252px);
     min-height: 0;
-    aspect-ratio: 1.74 / 1;
+    aspect-ratio: 1.68 / 1;
     border-radius: 22px;
     padding: clamp(0.66rem, 2vw, 0.84rem);
+    margin-left: auto;
+    margin-right: 0;
   }
 
+  .spend-channel-live,
   .spend-platform-tag {
-    display: none;
+    padding: 0.2rem 0.54rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
   }
 
   .spend-profile-line strong {
@@ -1806,23 +1811,23 @@ p {
 
   .spend-chart-card {
     position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    left: clamp(24px, 7vw, 34px);
+    transform: none;
     right: auto;
-    width: min(88%, 306px);
-    bottom: clamp(-40px, -10vw, -26px);
+    width: clamp(236px, 76vw, 266px);
+    bottom: clamp(-24px, -7vw, -16px);
     padding: clamp(0.52rem, 1.8vw, 0.68rem);
     min-height: 0;
-    aspect-ratio: 2.36 / 1;
+    aspect-ratio: 2.2 / 1;
   }
 
   .spend-candle-strip {
-    height: 32px;
+    height: 30px;
     gap: 0.12rem;
   }
 
   .spend-line {
-    height: 38px;
+    height: 34px;
   }
 
   .spend-chart-title {
@@ -1834,11 +1839,11 @@ p {
   }
 
   .spend-chart-foot strong {
-    font-size: 0.9rem;
+    font-size: 0.82rem;
   }
 
   .spend-chart-foot span {
-    font-size: 0.66rem;
+    font-size: 0.61rem;
   }
 
   .how-step-card {

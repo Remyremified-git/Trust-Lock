@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import type { CSSProperties } from "react";
@@ -40,29 +40,6 @@ function HowStepIcon({ type }: { type: "connect" | "issue" | "control" }) {
       <path d="M12 4.2v1.6M12 18.2v1.6M19.8 12h-1.6M5.8 12H4.2" />
     </svg>
   );
-}
-
-function CoinGlyph({ type }: { type: "btc" | "eth" | "sol" }) {
-  if (type === "eth") {
-    return (
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M12 2.2L6.2 12 12 9.5 17.8 12 12 2.2Z" />
-        <path d="M12 21.8L6.2 13.5 12 16.8 17.8 13.5 12 21.8Z" />
-      </svg>
-    );
-  }
-
-  if (type === "sol") {
-    return (
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M4.5 6.2h14.8l-2 2.5H2.5l2-2.5Z" />
-        <path d="M6.5 10.8h14.8l-2 2.5H4.5l2-2.5Z" />
-        <path d="M4.5 15.3h14.8l-2 2.5H2.5l2-2.5Z" />
-      </svg>
-    );
-  }
-
-  return <span className="coin-glyph-btc">₿</span>;
 }
 
 export default function Home() {
@@ -450,25 +427,45 @@ export default function Home() {
       >
         <div className="final-cta-coin final-cta-coin-top">
           <div className="final-cta-coin-core coin-usdc" aria-hidden="true">
-            <CoinGlyph type="btc" />
+            <img
+              className="coin-brand-logo"
+              src="https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/128/color/btc.png"
+              alt=""
+              loading="lazy"
+            />
           </div>
         </div>
 
         <div className="final-cta-coin final-cta-coin-bottom">
           <div className="final-cta-coin-core coin-btc" aria-hidden="true">
-            <CoinGlyph type="eth" />
+            <img
+              className="coin-brand-logo"
+              src="https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/128/color/eth.png"
+              alt=""
+              loading="lazy"
+            />
           </div>
         </div>
 
         <div className="final-cta-coin final-cta-coin-left-mid">
           <div className="final-cta-coin-core coin-sol" aria-hidden="true">
-            <CoinGlyph type="sol" />
+            <img
+              className="coin-brand-logo"
+              src="https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/128/color/sol.png"
+              alt=""
+              loading="lazy"
+            />
           </div>
         </div>
 
         <div className="final-cta-coin final-cta-coin-right-mid">
           <div className="final-cta-coin-core coin-eth" aria-hidden="true">
-            <CoinGlyph type="eth" />
+            <img
+              className="coin-brand-logo"
+              src="https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/128/color/usdt.png"
+              alt=""
+              loading="lazy"
+            />
           </div>
         </div>
 
@@ -480,32 +477,33 @@ export default function Home() {
               Link Wallet
             </Link>
           </div>
-          <div className="final-store-badges">
-            <a className="store-badge" href="#" aria-label="Download on the App Store">
-              <span className="store-icon apple" aria-hidden="true">
-                
-              </span>
-              <span className="store-text">
-                <small>Coming soon</small>
-                <strong>App Store</strong>
-              </span>
-            </a>
-            <a className="store-badge" href="#" aria-label="Get it on Google Play">
-              <span className="store-icon play" aria-hidden="true">
-                ▶
-              </span>
-              <span className="store-text">
-                <small>Coming soon</small>
-                <strong>Google Play</strong>
-              </span>
-            </a>
-          </div>
-          <div className="final-legal-links">
-            <Link href="#">Privacy Policy</Link>
-            <span aria-hidden="true">•</span>
-            <Link href="#">Terms of Service</Link>
-            <span aria-hidden="true">•</span>
-            <Link href="#">Cardholder Agreement</Link>
+          <div className="final-cta-meta">
+            <div className="final-store-badges">
+              <a className="store-badge-image-link" href="#" aria-label="Download on the App Store">
+                <img
+                  className="store-badge-image"
+                  src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
+                  alt="Download on the App Store"
+                  loading="lazy"
+                />
+              </a>
+              <a className="store-badge-image-link" href="#" aria-label="Get it on Google Play">
+                <img
+                  className="store-badge-image"
+                  src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
+                  alt="Get it on Google Play"
+                  loading="lazy"
+                />
+              </a>
+            </div>
+            <p className="final-store-coming-soon">Coming soon to App Store and Google Play</p>
+            <div className="final-legal-links">
+              <Link href="#">Privacy Policy</Link>
+              <span aria-hidden="true">|</span>
+              <Link href="#">Terms of Service</Link>
+              <span aria-hidden="true">|</span>
+              <Link href="#">Cardholder Agreement</Link>
+            </div>
           </div>
         </div>
       </section>
@@ -514,3 +512,6 @@ export default function Home() {
     </main>
   );
 }
+
+
+

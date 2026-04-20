@@ -776,27 +776,32 @@ p {
 
 .final-cta-section {
   margin-top: clamp(10vh, 15vh, 18vh);
-  min-height: clamp(680px, 92vh, 980px);
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
-  padding: clamp(2.8rem, 6vw, 5rem) clamp(1rem, 8vw, 7rem);
+  min-height: clamp(700px, 88vh, 920px);
+  width: min(100%, 1320px);
+  margin-inline: auto;
+  padding: clamp(2.8rem, 5vw, 4.2rem) clamp(1rem, 4vw, 2.8rem);
   position: relative;
   display: grid;
   place-items: center;
   overflow: hidden;
-  border-radius: 0;
+  border-radius: clamp(20px, 3vw, 34px);
   background:
-    radial-gradient(circle at 22% 14%, rgba(122, 162, 255, 0.15), transparent 40%),
-    radial-gradient(circle at 82% 78%, rgba(112, 150, 255, 0.14), transparent 44%),
+    radial-gradient(circle at 22% 14%, rgba(136, 172, 248, 0.2), transparent 40%),
+    radial-gradient(circle at 82% 78%, rgba(118, 160, 246, 0.2), transparent 44%),
+    radial-gradient(circle at 50% 96%, rgba(152, 181, 255, 0.18), transparent 48%),
     linear-gradient(
       180deg,
       color-mix(in oklab, #edf1ff var(--theme-light-pct), #06112b var(--theme-dark-pct)) 0%,
       color-mix(in oklab, #e9eefc var(--theme-light-pct), #0a1737 var(--theme-dark-pct)) 55%,
       color-mix(in oklab, #e5ebfa var(--theme-light-pct), #0d1c42 var(--theme-dark-pct)) 100%
     );
-  border: 0;
-  box-shadow: none;
+  border: 1px solid color-mix(in oklab, rgba(154, 177, 227, 0.42) var(--theme-light-pct), rgba(127, 159, 220, 0.26) var(--theme-dark-pct));
+  backdrop-filter: blur(12px) saturate(120%);
+  box-shadow:
+    0 34px 72px -42px rgba(14, 28, 66, 0.5),
+    0 18px 24px -18px rgba(30, 65, 148, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.56),
+    inset 0 -42px 82px rgba(135, 169, 236, 0.13);
 }
 
 .final-cta-content {
@@ -826,7 +831,7 @@ p {
 
 .final-cta-actions {
   justify-content: center;
-  margin-top: 0.35rem;
+  margin-top: 0.55rem;
 }
 
 .final-cta-coin {
@@ -861,7 +866,7 @@ p {
 }
 
 .final-cta-coin-core {
-  width: clamp(86px, 11vw, 134px);
+  width: clamp(72px, 9.5vw, 118px);
   aspect-ratio: 1;
   border-radius: 50%;
   border: 1px solid rgba(230, 241, 255, 0.82);
@@ -896,6 +901,14 @@ p {
   pointer-events: none;
 }
 
+.coin-brand-logo {
+  width: 54%;
+  height: 54%;
+  object-fit: contain;
+  transform: rotateX(-58deg) rotateZ(16deg);
+  filter: drop-shadow(0 2px 4px rgba(18, 29, 66, 0.22));
+}
+
 .coin-usdc {
   background: linear-gradient(160deg, #8cc4ff 0%, #5b97ff 48%, #325fbf 100%);
 }
@@ -912,84 +925,44 @@ p {
   background: linear-gradient(160deg, #b1c6ff 0%, #8ea8ff 46%, #4b62c8 100%);
 }
 
-.final-cta-coin-core svg {
-  width: 42%;
-  height: 42%;
-  fill: none;
-  stroke: #f5fbff;
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  transform: rotateX(-58deg) rotateZ(16deg);
-}
-
-.coin-glyph-btc {
-  font-size: clamp(1.55rem, 2.4vw, 2rem);
-  line-height: 1;
-  font-weight: 800;
-  color: #f5fbff;
-  transform: rotateX(-58deg) rotateZ(16deg);
-}
-
 .final-store-badges {
-  margin-top: 0.55rem;
+  margin-top: 0.3rem;
   display: flex;
-  gap: 0.6rem;
+  gap: 0.5rem;
   justify-content: center;
   flex-wrap: wrap;
 }
 
-.store-badge {
-  background: #050a15;
-  color: #f6fbff;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 11px;
-  padding: 0.42rem 0.62rem;
-  min-width: 152px;
+.store-badge-image-link {
   display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 16px -14px rgba(13, 23, 52, 0.46);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.store-badge:hover,
-.store-badge:focus-visible {
+.store-badge-image-link:hover,
+.store-badge-image-link:focus-visible {
   transform: translateY(-2px);
-  box-shadow: 0 12px 22px -16px rgba(8, 20, 48, 0.5);
+  box-shadow: 0 14px 20px -14px rgba(13, 23, 52, 0.52);
 }
 
-.store-icon {
-  width: 24px;
-  height: 24px;
-  border-radius: 7px;
+.store-badge-image {
+  width: clamp(136px, 13vw, 168px);
+  height: auto;
+  display: block;
+}
+
+.final-cta-meta {
   display: grid;
-  place-items: center;
-  background: rgba(255, 255, 255, 0.08);
-  font-size: 0.95rem;
+  gap: 0.35rem;
+  margin-top: 0.6rem;
 }
 
-.store-icon.apple {
-  font-size: 1rem;
-}
-
-.store-icon.play {
-  font-size: 0.64rem;
-  transform: translateX(1px);
-}
-
-.store-text {
-  display: grid;
-  line-height: 1.06;
-}
-
-.store-text small {
-  font-size: 0.58rem;
-  color: #c9d6ee;
+.final-store-coming-soon {
+  font-size: 0.74rem;
   letter-spacing: 0.04em;
-}
-
-.store-text strong {
-  font-size: 0.9rem;
+  color: color-mix(in oklab, #4d5f87 var(--theme-light-pct), #98add4 var(--theme-dark-pct));
 }
 
 .final-legal-links {
@@ -1555,6 +1528,21 @@ p {
   .lottie-shell {
     min-height: 220px;
   }
+
+  .final-cta-section {
+    padding: clamp(2.6rem, 4.6vw, 3.4rem) clamp(1.1rem, 3.2vw, 2rem);
+  }
+
+  .final-cta-content {
+    min-height: clamp(460px, 62vh, 620px);
+    grid-template-rows: auto auto auto 1fr;
+    align-content: start;
+  }
+
+  .final-cta-meta {
+    margin-top: 0;
+    align-self: end;
+  }
 }
 
 @media (max-width: 760px) {
@@ -1622,8 +1610,8 @@ p {
 
   .final-cta-section {
     min-height: auto;
-    padding: 5.2rem 0.9rem 3.2rem;
-    border-radius: 0;
+    padding: 5rem 0.9rem 3.2rem;
+    border-radius: 24px;
   }
 
   .final-cta-content h2 {
@@ -1653,6 +1641,17 @@ p {
   .final-cta-coin-right-mid {
     right: 7%;
     top: 13%;
+  }
+
+  .final-cta-content {
+    min-height: clamp(500px, 72vh, 680px);
+    grid-template-rows: auto auto auto 1fr;
+    align-content: start;
+  }
+
+  .final-cta-meta {
+    margin-top: 0;
+    align-self: end;
   }
 }
 
@@ -2231,13 +2230,18 @@ p {
     width: clamp(74px, 22vw, 108px);
   }
 
-  .store-badge {
-    min-width: 138px;
-    padding: 0.38rem 0.58rem;
+  .store-badge-image {
+    width: clamp(124px, 36vw, 156px);
   }
 
-  .store-text strong {
-    font-size: 0.84rem;
+  .final-cta-meta {
+    margin-top: 0;
+    gap: 0.5rem;
+    align-self: end;
+  }
+
+  .final-store-coming-soon {
+    font-size: 0.7rem;
   }
 
   .final-legal-links {

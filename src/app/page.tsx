@@ -470,7 +470,7 @@ export default function Home() {
         </div>
 
         <div className="final-cta-content">
-          <h2>Ready to take the first step?</h2>
+          <h2>Ready for Your Virtual Crypto Card?</h2>
           <p className="muted">Take the first step. Link your wallet and start spending globally with confidence.</p>
           <div className="button-row final-cta-actions">
             <Link className="primary-button" href="/auth">

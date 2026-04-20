@@ -1902,3 +1902,19 @@ p {
     top: clamp(128px, 21vh, 220px);
   }
 }
+
+@media (max-width: 504px) {
+  .spend-chart-card {
+    bottom: clamp(12px, 3.4vw, 18px);
+    aspect-ratio: 1.72 / 1;
+    padding: clamp(0.64rem, 2.4vw, 0.84rem);
+  }
+
+  .spend-candle-strip {
+    height: 36px;
+  }
+
+  .spend-line {
+    height: 40px;
+  }
+}

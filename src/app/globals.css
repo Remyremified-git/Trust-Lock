@@ -1580,8 +1580,8 @@ p {
   }
 
   .how-visual-column {
-    position: sticky;
-    top: clamp(64px, 9vh, 108px);
+    position: static;
+    top: auto;
     justify-items: start;
     text-align: left;
     max-width: none;
@@ -1748,7 +1748,9 @@ p {
   }
 
   .how-visual-stage {
-    min-height: 340px;
+    width: min(100%, 520px);
+    margin-inline: auto;
+    min-height: clamp(300px, 82vw, 420px);
     padding-bottom: 0.9rem;
     animation: none;
     display: grid;
@@ -1757,10 +1759,11 @@ p {
   }
 
   .spend-image-card {
-    width: min(100%, 520px);
-    min-height: 278px;
+    width: 100%;
+    min-height: 0;
+    aspect-ratio: 1.72 / 1;
     border-radius: 22px;
-    padding: 0.86rem;
+    padding: clamp(0.74rem, 2.4vw, 0.95rem);
   }
 
   .spend-platform-tag {
@@ -1777,12 +1780,14 @@ p {
 
   .spend-chart-card {
     position: absolute;
-    left: clamp(8px, 4vw, 18px);
+    left: 50%;
+    transform: translateX(-50%);
     right: auto;
-    width: min(88%, 360px);
-    bottom: -10px;
-    padding: 0.74rem;
-    min-height: 154px;
+    width: min(86%, 370px);
+    bottom: clamp(-12px, -3vw, -6px);
+    padding: clamp(0.62rem, 2vw, 0.8rem);
+    min-height: 0;
+    aspect-ratio: 2.25 / 1;
   }
 
   .spend-candle-strip {

@@ -368,7 +368,7 @@ p {
   display: grid;
   gap: 0.45rem;
   position: sticky;
-  top: clamp(72px, 10vh, 122px);
+  top: clamp(118px, 20vh, 210px);
   align-self: start;
   animation: howLeftFloat 8.2s ease-in-out infinite;
   animation-play-state: paused;
@@ -1597,7 +1597,7 @@ p {
 
   .how-visual-column {
     position: sticky;
-    top: clamp(70px, 9vh, 104px);
+    top: clamp(86px, 16vh, 150px);
     align-self: start;
     justify-items: start;
     text-align: left;
@@ -1776,58 +1776,59 @@ p {
   .how-visual-stage {
     width: var(--how-mobile-width);
     margin-inline: auto;
-    min-height: clamp(270px, 78vw, 334px);
-    padding-bottom: 1.35rem;
+    min-height: clamp(282px, 80vw, 344px);
+    padding-bottom: 1.44rem;
     animation: none;
     display: grid;
-    place-items: start stretch;
+    place-items: center;
     gap: 0;
   }
 
   .spend-image-card {
-    width: clamp(228px, 72vw, 252px);
+    width: var(--how-mobile-width);
     min-height: 0;
-    aspect-ratio: 1.68 / 1;
+    aspect-ratio: 1.7 / 1;
     border-radius: 22px;
-    padding: clamp(0.66rem, 2vw, 0.84rem);
-    margin-left: auto;
-    margin-right: 0;
+    padding: clamp(0.74rem, 2.35vw, 0.94rem);
+    margin-left: 0;
+    margin-right: auto;
   }
 
   .spend-channel-live,
   .spend-platform-tag {
-    padding: 0.2rem 0.54rem;
-    font-size: 0.6rem;
+    padding: 0.24rem 0.62rem;
+    font-size: 0.68rem;
     letter-spacing: 0.06em;
+    white-space: nowrap;
   }
 
   .spend-profile-line strong {
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
 
   .spend-profile-line p {
-    font-size: 0.78rem;
+    font-size: 0.9rem;
   }
 
   .spend-chart-card {
     position: absolute;
-    left: clamp(24px, 7vw, 34px);
+    left: clamp(12px, 4vw, 18px);
     transform: none;
     right: auto;
-    width: clamp(236px, 76vw, 266px);
-    bottom: clamp(-24px, -7vw, -16px);
-    padding: clamp(0.52rem, 1.8vw, 0.68rem);
+    width: min(90%, 312px);
+    bottom: clamp(-22px, -6vw, -14px);
+    padding: clamp(0.58rem, 2.1vw, 0.78rem);
     min-height: 0;
-    aspect-ratio: 2.2 / 1;
+    aspect-ratio: 2.24 / 1;
   }
 
   .spend-candle-strip {
-    height: 30px;
+    height: 34px;
     gap: 0.12rem;
   }
 
   .spend-line {
-    height: 34px;
+    height: 40px;
   }
 
   .spend-chart-title {
@@ -1839,11 +1840,11 @@ p {
   }
 
   .spend-chart-foot strong {
-    font-size: 0.82rem;
+    font-size: 0.96rem;
   }
 
   .spend-chart-foot span {
-    font-size: 0.61rem;
+    font-size: 0.71rem;
   }
 
   .how-step-card {

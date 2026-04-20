@@ -305,10 +305,13 @@ export default function Home() {
       </section>
 
       <section ref={howSectionRef} className={`how-section panel ${isHowInView ? "in-view" : ""}`}>
+        <div className="how-heading-block">
+          <p className="kicker">How It Works</p>
+          <h2 className="how-hero-title">Link account. Issue card. Control spend.</h2>
+        </div>
+
         <div className="how-layout">
           <div className="how-visual-column">
-            <p className="kicker">How It Works</p>
-            <h2 className="how-hero-title">Link account. Issue card. Control spend.</h2>
             <div className="how-visual-stage">
               <div className="spend-image-card" aria-hidden="true">
                 <div className="spend-image-top">

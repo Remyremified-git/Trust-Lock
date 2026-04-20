@@ -346,6 +346,12 @@ p {
   min-height: auto;
 }
 
+.how-heading-block {
+  display: grid;
+  gap: 0.72rem;
+  max-width: 840px;
+}
+
 .how-layout {
   display: grid;
   grid-template-columns: minmax(500px, 1.06fr) minmax(380px, 0.94fr);
@@ -355,7 +361,7 @@ p {
 
 .how-visual-column {
   display: grid;
-  gap: 0.95rem;
+  gap: 0.45rem;
   position: sticky;
   top: clamp(72px, 10vh, 122px);
   align-self: start;
@@ -1304,6 +1310,11 @@ p {
     gap: 1rem;
   }
 
+  .how-heading-block {
+    width: min(100%, 500px);
+    margin-inline: auto;
+  }
+
   .how-visual-column {
     position: static;
     top: auto;
@@ -1735,8 +1746,13 @@ p {
     gap: 1rem;
   }
 
+  .how-heading-block {
+    width: min(100%, 470px);
+    margin-inline: auto;
+  }
+
   .how-visual-column {
-    width: min(100%, 520px);
+    width: min(100%, 470px);
     margin-inline: auto;
     justify-items: start;
     text-align: left;
@@ -1748,10 +1764,10 @@ p {
   }
 
   .how-visual-stage {
-    width: min(100%, 520px);
+    width: min(100%, 470px);
     margin-inline: auto;
-    min-height: clamp(300px, 82vw, 420px);
-    padding-bottom: 0.9rem;
+    min-height: clamp(230px, 66vw, 312px);
+    padding-bottom: 1.15rem;
     animation: none;
     display: grid;
     place-items: center;
@@ -1759,9 +1775,9 @@ p {
   }
 
   .spend-image-card {
-    width: 100%;
+    width: min(100%, 470px);
     min-height: 0;
-    aspect-ratio: 1.72 / 1;
+    aspect-ratio: 2.02 / 1;
     border-radius: 22px;
     padding: clamp(0.74rem, 2.4vw, 0.95rem);
   }
@@ -1780,14 +1796,14 @@ p {
 
   .spend-chart-card {
     position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    left: clamp(10px, 4vw, 18px);
+    transform: none;
     right: auto;
-    width: min(86%, 370px);
-    bottom: clamp(-12px, -3vw, -6px);
+    width: min(76%, 318px);
+    bottom: clamp(-14px, -4vw, -7px);
     padding: clamp(0.62rem, 2vw, 0.8rem);
     min-height: 0;
-    aspect-ratio: 2.25 / 1;
+    aspect-ratio: 2.45 / 1;
   }
 
   .spend-candle-strip {
@@ -1831,7 +1847,7 @@ p {
   }
 
   .how-cards-column {
-    width: min(100%, 520px);
+    width: min(100%, 470px);
     margin-inline: auto;
   }
 }

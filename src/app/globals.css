@@ -370,12 +370,7 @@ p {
   position: sticky;
   top: clamp(118px, 20vh, 210px);
   align-self: start;
-  animation: howLeftFloat 8.2s ease-in-out infinite;
-  animation-play-state: paused;
-}
-
-.how-section.in-view .how-visual-column {
-  animation-play-state: running;
+  animation: none;
 }
 
 .how-hero-title {
@@ -1776,8 +1771,8 @@ p {
   .how-visual-stage {
     width: var(--how-mobile-width);
     margin-inline: auto;
-    min-height: clamp(282px, 80vw, 344px);
-    padding-bottom: 1.44rem;
+    min-height: clamp(276px, 79vw, 332px);
+    padding-bottom: 1.4rem;
     animation: none;
     display: grid;
     place-items: center;
@@ -1785,54 +1780,68 @@ p {
   }
 
   .spend-image-card {
-    width: var(--how-mobile-width);
+    width: 84%;
     min-height: 0;
-    aspect-ratio: 1.7 / 1;
+    aspect-ratio: 1.66 / 1;
     border-radius: 22px;
-    padding: clamp(0.74rem, 2.35vw, 0.94rem);
-    margin-left: 0;
-    margin-right: auto;
+    padding: clamp(0.64rem, 2.1vw, 0.82rem);
+    margin-left: auto;
+    margin-right: 0;
   }
 
   .spend-channel-live,
   .spend-platform-tag {
-    padding: 0.24rem 0.62rem;
-    font-size: 0.68rem;
+    padding: 0.2rem 0.54rem;
+    font-size: 0.62rem;
     letter-spacing: 0.06em;
     white-space: nowrap;
   }
 
+  .spend-image-top {
+    gap: 0.45rem;
+  }
+
+  .spend-profile-line {
+    gap: 0.54rem;
+  }
+
+  .spend-avatar-dot {
+    width: 34px;
+    height: 34px;
+  }
+
   .spend-profile-line strong {
-    font-size: 1rem;
+    font-size: 0.92rem;
   }
 
   .spend-profile-line p {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
+    line-height: 1.36;
   }
 
   .spend-chart-card {
     position: absolute;
-    left: clamp(12px, 4vw, 18px);
+    left: 0;
     transform: none;
     right: auto;
-    width: min(90%, 312px);
-    bottom: clamp(-22px, -6vw, -14px);
-    padding: clamp(0.58rem, 2.1vw, 0.78rem);
+    width: 92%;
+    bottom: clamp(-24px, -7vw, -16px);
+    padding: clamp(0.54rem, 1.9vw, 0.72rem);
     min-height: 0;
-    aspect-ratio: 2.24 / 1;
+    aspect-ratio: 2.2 / 1;
   }
 
   .spend-candle-strip {
-    height: 34px;
+    height: 30px;
     gap: 0.12rem;
   }
 
   .spend-line {
-    height: 40px;
+    height: 35px;
   }
 
   .spend-chart-title {
-    font-size: 0.62rem;
+    font-size: 0.6rem;
   }
 
   .spend-chart-foot {
@@ -1840,11 +1849,11 @@ p {
   }
 
   .spend-chart-foot strong {
-    font-size: 0.96rem;
+    font-size: 0.84rem;
   }
 
   .spend-chart-foot span {
-    font-size: 0.71rem;
+    font-size: 0.62rem;
   }
 
   .how-step-card {
@@ -1856,11 +1865,11 @@ p {
   }
 
   .how-step-card h3 {
-    font-size: 0.98rem;
+    font-size: 0.94rem;
   }
 
   .how-step-card p {
-    font-size: 0.78rem;
+    font-size: 0.76rem;
     line-height: 1.45;
   }
 
@@ -1878,5 +1887,12 @@ p {
   .how-cards-column {
     width: var(--how-mobile-width);
     margin-inline: auto;
+  }
+}
+
+@media (min-width: 921px) {
+  .how-visual-column {
+    position: sticky;
+    top: clamp(128px, 21vh, 220px);
   }
 }

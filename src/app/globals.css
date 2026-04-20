@@ -1681,7 +1681,7 @@ p {
 
 @media (max-width: 620px) {
   :root {
-    --how-mobile-width: min(100%, 350px);
+    --how-mobile-width: min(100%, 94vw);
   }
 
   .moving-stack-layer {
@@ -1771,20 +1771,20 @@ p {
   .how-visual-stage {
     width: var(--how-mobile-width);
     margin-inline: auto;
-    min-height: clamp(276px, 79vw, 332px);
-    padding-bottom: 1.4rem;
+    min-height: clamp(306px, 84vw, 384px);
+    padding-bottom: 1.5rem;
     animation: none;
     display: grid;
-    place-items: center;
+    place-items: start;
     gap: 0;
   }
 
   .spend-image-card {
-    width: 84%;
+    width: 86%;
     min-height: 0;
-    aspect-ratio: 1.66 / 1;
+    aspect-ratio: 1.78 / 1;
     border-radius: 22px;
-    padding: clamp(0.64rem, 2.1vw, 0.82rem);
+    padding: clamp(0.66rem, 2.2vw, 0.86rem);
     margin-left: auto;
     margin-right: 0;
   }
@@ -1811,33 +1811,38 @@ p {
   }
 
   .spend-profile-line strong {
-    font-size: 0.92rem;
+    font-size: 0.98rem;
   }
 
   .spend-profile-line p {
-    font-size: 0.8rem;
+    font-size: 0.84rem;
     line-height: 1.36;
+  }
+
+  .spend-flow-legend {
+    position: relative;
+    z-index: 2;
   }
 
   .spend-chart-card {
     position: absolute;
-    left: 0;
+    left: -7%;
     transform: none;
     right: auto;
-    width: 92%;
-    bottom: clamp(-24px, -7vw, -16px);
-    padding: clamp(0.54rem, 1.9vw, 0.72rem);
+    width: 86%;
+    bottom: clamp(-30px, -8vw, -20px);
+    padding: clamp(0.56rem, 2vw, 0.74rem);
     min-height: 0;
-    aspect-ratio: 2.2 / 1;
+    aspect-ratio: 1.78 / 1;
   }
 
   .spend-candle-strip {
-    height: 30px;
+    height: 28px;
     gap: 0.12rem;
   }
 
   .spend-line {
-    height: 35px;
+    height: 30px;
   }
 
   .spend-chart-title {
@@ -1849,11 +1854,11 @@ p {
   }
 
   .spend-chart-foot strong {
-    font-size: 0.84rem;
+    font-size: 0.88rem;
   }
 
   .spend-chart-foot span {
-    font-size: 0.62rem;
+    font-size: 0.64rem;
   }
 
   .how-step-card {
@@ -1861,7 +1866,8 @@ p {
     min-height: 148px;
     padding: 0.76rem;
     gap: 0.56rem;
-    width: 100%;
+    width: 86%;
+    margin-inline: auto;
   }
 
   .how-step-card h3 {

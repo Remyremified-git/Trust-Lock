@@ -460,29 +460,52 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="final-cta-avatar final-cta-avatar-left" aria-hidden="true">
-          <span className="avatar-ring" />
-          <span className="avatar-ring avatar-ring-outer" />
-          <img src="https://i.pravatar.cc/240?img=13" alt="" loading="lazy" />
+        <div className="final-cta-coin final-cta-coin-left-mid">
+          <div className="final-cta-coin-core coin-sol" aria-hidden="true">
+            <CoinGlyph type="sol" />
+          </div>
         </div>
 
-        <div className="final-cta-avatar final-cta-avatar-right" aria-hidden="true">
-          <span className="avatar-ring" />
-          <span className="avatar-ring avatar-ring-outer" />
-          <img src="https://i.pravatar.cc/240?img=32" alt="" loading="lazy" />
+        <div className="final-cta-coin final-cta-coin-right-mid">
+          <div className="final-cta-coin-core coin-eth" aria-hidden="true">
+            <CoinGlyph type="eth" />
+          </div>
         </div>
 
         <div className="final-cta-content">
           <h2>Ready to take the first step?</h2>
           <p className="muted">Take the first step. Link your wallet and start spending globally with confidence.</p>
-          <p className="muted">
-            Trust Lock gives you regulated-ready virtual card rails, strong security controls, and easy wallet
-            integration in one flow.
-          </p>
           <div className="button-row final-cta-actions">
-            <Link className="primary-button final-cta-button" href="/auth">
-              Sign Up Now
+            <Link className="primary-button" href="/auth">
+              Link Wallet
             </Link>
+          </div>
+          <div className="final-store-badges">
+            <a className="store-badge" href="#" aria-label="Download on the App Store">
+              <span className="store-icon apple" aria-hidden="true">
+                
+              </span>
+              <span className="store-text">
+                <small>Coming soon</small>
+                <strong>App Store</strong>
+              </span>
+            </a>
+            <a className="store-badge" href="#" aria-label="Get it on Google Play">
+              <span className="store-icon play" aria-hidden="true">
+                ▶
+              </span>
+              <span className="store-text">
+                <small>Coming soon</small>
+                <strong>Google Play</strong>
+              </span>
+            </a>
+          </div>
+          <div className="final-legal-links">
+            <Link href="#">Privacy Policy</Link>
+            <span aria-hidden="true">•</span>
+            <Link href="#">Terms of Service</Link>
+            <span aria-hidden="true">•</span>
+            <Link href="#">Cardholder Agreement</Link>
           </div>
         </div>
       </section>

@@ -776,24 +776,27 @@ p {
 
 .final-cta-section {
   margin-top: clamp(10vh, 15vh, 18vh);
-  min-height: clamp(620px, 86vh, 820px);
-  padding: clamp(2.4rem, 4.8vw, 4rem) clamp(1rem, 2.8vw, 2.4rem);
+  min-height: clamp(680px, 92vh, 980px);
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding: clamp(2.8rem, 6vw, 5rem) clamp(1rem, 8vw, 7rem);
   position: relative;
   display: grid;
   place-items: center;
   overflow: hidden;
-  border-radius: clamp(20px, 3vw, 34px);
+  border-radius: 0;
   background:
-    radial-gradient(circle at 24% 14%, rgba(88, 132, 243, 0.16), transparent 38%),
-    radial-gradient(circle at 80% 78%, rgba(79, 118, 234, 0.13), transparent 42%),
+    radial-gradient(circle at 22% 14%, rgba(122, 162, 255, 0.15), transparent 40%),
+    radial-gradient(circle at 82% 78%, rgba(112, 150, 255, 0.14), transparent 44%),
     linear-gradient(
       180deg,
       color-mix(in oklab, #edf1ff var(--theme-light-pct), #06112b var(--theme-dark-pct)) 0%,
       color-mix(in oklab, #e9eefc var(--theme-light-pct), #0a1737 var(--theme-dark-pct)) 55%,
       color-mix(in oklab, #e5ebfa var(--theme-light-pct), #0d1c42 var(--theme-dark-pct)) 100%
     );
-  border: 1px solid color-mix(in oklab, rgba(139, 165, 222, 0.32) var(--theme-light-pct), rgba(120, 159, 255, 0.18) var(--theme-dark-pct));
-  box-shadow: 0 40px 70px -46px rgba(12, 22, 56, 0.38);
+  border: 0;
+  box-shadow: none;
 }
 
 .final-cta-content {
@@ -823,19 +826,14 @@ p {
 
 .final-cta-actions {
   justify-content: center;
-  margin-top: 0.5rem;
-}
-
-.final-cta-button {
-  min-width: 208px;
-  font-size: 1rem;
+  margin-top: 0.35rem;
 }
 
 .final-cta-coin {
   position: absolute;
   z-index: 3;
   animation: finalFloatCoin 8.4s ease-in-out infinite;
-  filter: drop-shadow(0 24px 26px rgba(38, 78, 174, 0.26));
+  filter: drop-shadow(0 20px 20px rgba(52, 88, 178, 0.24));
 }
 
 .final-cta-coin-top {
@@ -850,90 +848,168 @@ p {
   animation-delay: 0.8s;
 }
 
-.final-cta-coin-core {
-  width: clamp(108px, 13vw, 176px);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  border: 1px solid rgba(218, 235, 255, 0.58);
-  display: grid;
-  place-items: center;
-  color: #eef6ff;
-  box-shadow:
-    0 20px 34px -22px rgba(20, 54, 136, 0.55),
-    inset 0 1px 0 rgba(255, 255, 255, 0.54),
-    inset 0 -20px 38px rgba(11, 28, 76, 0.38);
-}
-
-.coin-usdc {
-  background: linear-gradient(160deg, #74b3ff 0%, #3f7dff 42%, #2144a3 100%);
-}
-
-.coin-btc {
-  background: linear-gradient(160deg, #6eb7ff 0%, #2f75ff 48%, #224a9e 100%);
-}
-
-.final-cta-coin-core svg {
-  width: 45%;
-  height: 45%;
-  fill: none;
-  stroke: #eef6ff;
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.coin-glyph-btc {
-  font-size: clamp(2rem, 3.2vw, 2.8rem);
-  line-height: 1;
-  font-weight: 800;
-  color: #eef6ff;
-}
-
-.final-cta-avatar {
-  position: absolute;
-  width: clamp(118px, 13vw, 190px);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  z-index: 2;
-  animation: finalFloatAvatar 7.2s ease-in-out infinite;
-}
-
-.final-cta-avatar-left {
+.final-cta-coin-left-mid {
   left: clamp(4%, 8vw, 12%);
-  top: clamp(28%, 38vh, 56%);
-  animation-delay: 0.3s;
+  top: clamp(44%, 52vh, 62%);
+  animation-delay: 0.5s;
 }
 
-.final-cta-avatar-right {
+.final-cta-coin-right-mid {
   right: clamp(6%, 10vw, 14%);
-  top: clamp(12%, 20vh, 30%);
-  animation-delay: 0.9s;
+  top: clamp(16%, 24vh, 30%);
+  animation-delay: 1.1s;
 }
 
-.final-cta-avatar .avatar-ring {
-  position: absolute;
-  inset: -18%;
+.final-cta-coin-core {
+  width: clamp(86px, 11vw, 134px);
+  aspect-ratio: 1;
   border-radius: 50%;
-  border: 1px solid color-mix(in oklab, rgba(157, 180, 226, 0.42) var(--theme-light-pct), rgba(121, 154, 213, 0.34) var(--theme-dark-pct));
+  border: 1px solid rgba(230, 241, 255, 0.82);
+  display: grid;
+  place-items: center;
+  color: #f8fcff;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(58deg) rotateZ(-16deg);
+  box-shadow:
+    0 14px 20px -14px rgba(30, 65, 146, 0.46),
+    inset 0 1px 0 rgba(255, 255, 255, 0.76),
+    inset 0 -12px 24px rgba(20, 48, 122, 0.28);
+}
+
+.final-cta-coin-core::before {
+  content: "";
+  position: absolute;
+  inset: 14% -6%;
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgba(237, 246, 255, 0.92), rgba(162, 195, 245, 0.66));
+  transform: translateZ(-6px);
+  filter: blur(0.3px);
+}
+
+.final-cta-coin-core::after {
+  content: "";
+  position: absolute;
+  inset: 7%;
+  border-radius: 50%;
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0));
   pointer-events: none;
 }
 
-.final-cta-avatar .avatar-ring-outer {
-  inset: -40%;
-  opacity: 0.72;
+.coin-usdc {
+  background: linear-gradient(160deg, #8cc4ff 0%, #5b97ff 48%, #325fbf 100%);
 }
 
-.final-cta-avatar img {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid rgba(229, 240, 255, 0.8);
-  box-shadow:
-    0 24px 30px -22px rgba(26, 52, 109, 0.45),
-    0 10px 20px -15px rgba(16, 29, 66, 0.5);
+.coin-btc {
+  background: linear-gradient(160deg, #8fd2ff 0%, #66a8ff 45%, #3469c9 100%);
+}
+
+.coin-sol {
+  background: linear-gradient(160deg, #8ef0ff 0%, #68c2ff 44%, #3d7cd3 100%);
+}
+
+.coin-eth {
+  background: linear-gradient(160deg, #b1c6ff 0%, #8ea8ff 46%, #4b62c8 100%);
+}
+
+.final-cta-coin-core svg {
+  width: 42%;
+  height: 42%;
+  fill: none;
+  stroke: #f5fbff;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transform: rotateX(-58deg) rotateZ(16deg);
+}
+
+.coin-glyph-btc {
+  font-size: clamp(1.55rem, 2.4vw, 2rem);
+  line-height: 1;
+  font-weight: 800;
+  color: #f5fbff;
+  transform: rotateX(-58deg) rotateZ(16deg);
+}
+
+.final-store-badges {
+  margin-top: 0.55rem;
+  display: flex;
+  gap: 0.6rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.store-badge {
+  background: #050a15;
+  color: #f6fbff;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 11px;
+  padding: 0.42rem 0.62rem;
+  min-width: 152px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.store-badge:hover,
+.store-badge:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 22px -16px rgba(8, 20, 48, 0.5);
+}
+
+.store-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 0.95rem;
+}
+
+.store-icon.apple {
+  font-size: 1rem;
+}
+
+.store-icon.play {
+  font-size: 0.64rem;
+  transform: translateX(1px);
+}
+
+.store-text {
+  display: grid;
+  line-height: 1.06;
+}
+
+.store-text small {
+  font-size: 0.58rem;
+  color: #c9d6ee;
+  letter-spacing: 0.04em;
+}
+
+.store-text strong {
+  font-size: 0.9rem;
+}
+
+.final-legal-links {
+  margin-top: 0.32rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  color: color-mix(in oklab, #4a5b7d var(--theme-light-pct), #90a7cf var(--theme-dark-pct));
+  font-size: 0.76rem;
+}
+
+.final-legal-links a {
+  opacity: 0.95;
+}
+
+.final-legal-links a:hover,
+.final-legal-links a:focus-visible {
+  text-decoration: underline;
 }
 
 .spotlight-copy .muted {
@@ -1547,7 +1623,7 @@ p {
   .final-cta-section {
     min-height: auto;
     padding: 5.2rem 0.9rem 3.2rem;
-    border-radius: 24px;
+    border-radius: 0;
   }
 
   .final-cta-content h2 {
@@ -1569,14 +1645,14 @@ p {
     bottom: 6%;
   }
 
-  .final-cta-avatar-left {
-    left: 8%;
-    top: 60%;
+  .final-cta-coin-left-mid {
+    left: 7%;
+    top: 62%;
   }
 
-  .final-cta-avatar-right {
-    right: 8%;
-    top: 10%;
+  .final-cta-coin-right-mid {
+    right: 7%;
+    top: 13%;
   }
 }
 
@@ -2152,15 +2228,20 @@ p {
   }
 
   .final-cta-coin-core {
-    width: clamp(90px, 26vw, 126px);
+    width: clamp(74px, 22vw, 108px);
   }
 
-  .final-cta-avatar {
-    width: clamp(88px, 25vw, 124px);
+  .store-badge {
+    min-width: 138px;
+    padding: 0.38rem 0.58rem;
   }
 
-  .final-cta-button {
-    min-width: 176px;
+  .store-text strong {
+    font-size: 0.84rem;
+  }
+
+  .final-legal-links {
+    font-size: 0.72rem;
   }
 }
 

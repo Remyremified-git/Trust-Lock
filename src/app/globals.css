@@ -1826,14 +1826,14 @@ p {
 
   .spend-chart-card {
     position: absolute;
-    left: -4%;
+    left: 3%;
     transform: none;
     right: auto;
-    width: 78%;
-    bottom: clamp(-30px, -8vw, -20px);
+    width: 72%;
+    bottom: clamp(-14px, -4.5vw, -8px);
     padding: clamp(0.56rem, 2vw, 0.74rem);
     min-height: 0;
-    aspect-ratio: 2.05 / 1;
+    aspect-ratio: 2.18 / 1;
   }
 
   .spend-candle-strip {

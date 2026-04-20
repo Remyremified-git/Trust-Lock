@@ -305,67 +305,69 @@ export default function Home() {
       </section>
 
       <section ref={howSectionRef} className={`how-section panel ${isHowInView ? "in-view" : ""}`}>
-        <div className="how-heading-block">
-          <p className="kicker">How It Works</p>
-          <h2 className="how-hero-title">Link account. Issue card. Control spend.</h2>
-        </div>
-
         <div className="how-layout">
-          <div className="how-visual-column">
-            <div className="how-visual-stage">
-              <div className="spend-image-card" aria-hidden="true">
-                <div className="spend-image-top">
-                  <span className="spend-channel-live">Live Spend Feed</span>
-                  <span className="spend-platform-tag">Wallet + Exchange</span>
-                </div>
-                <div className="spend-profile-line">
-                  <span className="spend-avatar-dot" />
-                  <div>
-                    <strong>Global card route active</strong>
-                    <p>Trust Wallet, MetaMask, KuCoin and Kraken linked</p>
+          <div className="how-left-column">
+            <div className="how-heading-block">
+              <p className="kicker">How It Works</p>
+              <h2 className="how-hero-title">Link account. Issue card. Control spend.</h2>
+            </div>
+
+            <div className="how-visual-column">
+              <div className="how-visual-stage">
+                <div className="spend-image-card" aria-hidden="true">
+                  <div className="spend-image-top">
+                    <span className="spend-channel-live">Live Spend Feed</span>
+                    <span className="spend-platform-tag">Wallet + Exchange</span>
+                  </div>
+                  <div className="spend-profile-line">
+                    <span className="spend-avatar-dot" />
+                    <div>
+                      <strong>Global card route active</strong>
+                      <p>Trust Wallet, MetaMask, KuCoin and Kraken linked</p>
+                    </div>
+                  </div>
+                  <div className="spend-flow-legend">
+                    <span>Card payments</span>
+                    <span>Security checks</span>
                   </div>
                 </div>
-                <div className="spend-flow-legend">
-                  <span>Card payments</span>
-                  <span>Security checks</span>
-                </div>
-              </div>
 
-              <div className="spend-chart-card" aria-hidden="true">
-                <p className="spend-chart-title">Daily Card Spend</p>
-                <div className="spend-candle-strip">
-                  <span style={{ "--bar-height": "30%" } as CSSProperties} />
-                  <span style={{ "--bar-height": "38%" } as CSSProperties} />
-                  <span style={{ "--bar-height": "34%" } as CSSProperties} />
-                  <span style={{ "--bar-height": "47%" } as CSSProperties} />
-                  <span style={{ "--bar-height": "42%" } as CSSProperties} />
-                  <span style={{ "--bar-height": "58%" } as CSSProperties} />
-                  <span style={{ "--bar-height": "53%" } as CSSProperties} />
-                  <span style={{ "--bar-height": "66%" } as CSSProperties} />
-                  <span style={{ "--bar-height": "62%" } as CSSProperties} />
-                  <span style={{ "--bar-height": "70%" } as CSSProperties} />
-                  <span style={{ "--bar-height": "64%" } as CSSProperties} />
-                  <span style={{ "--bar-height": "76%" } as CSSProperties} />
-                  <span style={{ "--bar-height": "69%" } as CSSProperties} />
-                  <span style={{ "--bar-height": "81%" } as CSSProperties} />
-                </div>
-                <svg className="spend-line" viewBox="0 0 220 74" preserveAspectRatio="none">
-                  <defs>
-                    <linearGradient id="spendArea" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#4f8cff" stopOpacity="0.36" />
-                      <stop offset="100%" stopColor="#4f8cff" stopOpacity="0" />
-                    </linearGradient>
-                  </defs>
-                  <path className="spend-grid-line" d="M0 16 H220" />
-                  <path className="spend-grid-line" d="M0 36 H220" />
-                  <path className="spend-grid-line" d="M0 56 H220" />
-                  <path className="spend-area" d="M6 63 L24 58 L42 60 L60 52 L82 54 L104 44 L126 46 L148 36 L170 38 L214 30 L214 70 L6 70 Z" />
-                  <path className="spend-main-line" d="M6 63 L24 58 L42 60 L60 52 L82 54 L104 44 L126 46 L148 36 L170 38 L214 30" />
-                  <path className="spend-alt-line" d="M6 66 L24 63 L42 64 L60 58 L82 59 L104 52 L126 54 L148 45 L170 47 L214 40" />
-                </svg>
-                <div className="spend-chart-foot">
-                  <strong>$10,293.67</strong>
-                  <span>24h settled volume</span>
+                <div className="spend-chart-card" aria-hidden="true">
+                  <p className="spend-chart-title">Daily Card Spend</p>
+                  <div className="spend-candle-strip">
+                    <span style={{ "--bar-height": "30%" } as CSSProperties} />
+                    <span style={{ "--bar-height": "38%" } as CSSProperties} />
+                    <span style={{ "--bar-height": "34%" } as CSSProperties} />
+                    <span style={{ "--bar-height": "47%" } as CSSProperties} />
+                    <span style={{ "--bar-height": "42%" } as CSSProperties} />
+                    <span style={{ "--bar-height": "58%" } as CSSProperties} />
+                    <span style={{ "--bar-height": "53%" } as CSSProperties} />
+                    <span style={{ "--bar-height": "66%" } as CSSProperties} />
+                    <span style={{ "--bar-height": "62%" } as CSSProperties} />
+                    <span style={{ "--bar-height": "70%" } as CSSProperties} />
+                    <span style={{ "--bar-height": "64%" } as CSSProperties} />
+                    <span style={{ "--bar-height": "76%" } as CSSProperties} />
+                    <span style={{ "--bar-height": "69%" } as CSSProperties} />
+                    <span style={{ "--bar-height": "81%" } as CSSProperties} />
+                  </div>
+                  <svg className="spend-line" viewBox="0 0 220 74" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="spendArea" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#4f8cff" stopOpacity="0.36" />
+                        <stop offset="100%" stopColor="#4f8cff" stopOpacity="0" />
+                      </linearGradient>
+                    </defs>
+                    <path className="spend-grid-line" d="M0 16 H220" />
+                    <path className="spend-grid-line" d="M0 36 H220" />
+                    <path className="spend-grid-line" d="M0 56 H220" />
+                    <path className="spend-area" d="M6 63 L24 58 L42 60 L60 52 L82 54 L104 44 L126 46 L148 36 L170 38 L214 30 L214 70 L6 70 Z" />
+                    <path className="spend-main-line" d="M6 63 L24 58 L42 60 L60 52 L82 54 L104 44 L126 46 L148 36 L170 38 L214 30" />
+                    <path className="spend-alt-line" d="M6 66 L24 63 L42 64 L60 58 L82 59 L104 52 L126 54 L148 45 L170 47 L214 40" />
+                  </svg>
+                  <div className="spend-chart-foot">
+                    <strong>$10,293.67</strong>
+                    <span>24h settled volume</span>
+                  </div>
                 </div>
               </div>
             </div>

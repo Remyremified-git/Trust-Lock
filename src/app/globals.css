@@ -368,6 +368,15 @@ p {
   position: relative;
 }
 
+.how-left-column {
+  display: grid;
+  gap: clamp(0.9rem, 1.7vw, 1.2rem);
+  align-content: start;
+  position: relative;
+  top: auto;
+  height: fit-content;
+}
+
 .how-visual-column {
   display: grid;
   gap: 0.45rem;
@@ -1318,9 +1327,16 @@ p {
     gap: 1rem;
   }
 
-  .how-heading-block {
+  .how-left-column {
     width: min(100%, 500px);
     margin-inline: auto;
+    position: static;
+    top: auto;
+  }
+
+  .how-heading-block {
+    width: 100%;
+    margin-inline: 0;
   }
 
   .how-visual-column {
@@ -1598,6 +1614,12 @@ p {
     align-items: start;
   }
 
+  .how-left-column {
+    position: relative;
+    top: auto;
+    align-self: start;
+  }
+
   .how-visual-column {
     position: relative;
     top: auto;
@@ -1759,9 +1781,16 @@ p {
     gap: 1rem;
   }
 
-  .how-heading-block {
+  .how-left-column {
     width: calc(100% - 8px);
     margin-inline: auto;
+    position: static;
+    top: auto;
+  }
+
+  .how-heading-block {
+    width: 100%;
+    margin-inline: 0;
   }
 
   .how-visual-column {
@@ -1907,9 +1936,10 @@ p {
 }
 
 @media (min-width: 921px) {
-  .how-visual-column {
+  .how-left-column {
     position: sticky;
-    top: var(--how-sticky-offset);
+    top: 50px;
+    align-self: start;
   }
 }
 

@@ -1830,19 +1830,19 @@ p {
     transform: none;
     right: auto;
     width: 72%;
-    bottom: clamp(-14px, -4.5vw, -8px);
-    padding: clamp(0.56rem, 2vw, 0.74rem);
+    bottom: clamp(4px, 1.8vw, 12px);
+    padding: clamp(0.6rem, 2.2vw, 0.8rem);
     min-height: 0;
-    aspect-ratio: 2.18 / 1;
+    aspect-ratio: 1.88 / 1;
   }
 
   .spend-candle-strip {
-    height: 28px;
+    height: 34px;
     gap: 0.12rem;
   }
 
   .spend-line {
-    height: 30px;
+    height: 36px;
   }
 
   .spend-chart-title {

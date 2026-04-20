@@ -1684,6 +1684,10 @@ p {
 }
 
 @media (max-width: 620px) {
+  :root {
+    --how-mobile-width: min(100%, 350px);
+  }
+
   .moving-stack-layer {
     --stack-shell-width: 320px;
     --stack-shell-height: 390px;
@@ -1752,12 +1756,12 @@ p {
   }
 
   .how-heading-block {
-    width: min(100%, 470px);
+    width: var(--how-mobile-width);
     margin-inline: auto;
   }
 
   .how-visual-column {
-    width: min(100%, 470px);
+    width: var(--how-mobile-width);
     margin-inline: auto;
     justify-items: start;
     text-align: left;
@@ -1769,10 +1773,10 @@ p {
   }
 
   .how-visual-stage {
-    width: min(100%, 470px);
+    width: var(--how-mobile-width);
     margin-inline: auto;
-    min-height: clamp(290px, 84vw, 390px);
-    padding-bottom: 1.35rem;
+    min-height: clamp(248px, 76vw, 308px);
+    padding-bottom: 1.18rem;
     animation: none;
     display: grid;
     place-items: center;
@@ -1780,9 +1784,9 @@ p {
   }
 
   .spend-image-card {
-    width: min(100%, 470px);
+    width: var(--how-mobile-width);
     min-height: 0;
-    aspect-ratio: 1.55 / 1;
+    aspect-ratio: 1.62 / 1;
     border-radius: 22px;
     padding: clamp(0.74rem, 2.4vw, 0.95rem);
   }
@@ -1801,14 +1805,14 @@ p {
 
   .spend-chart-card {
     position: absolute;
-    left: -10px;
+    left: -8px;
     transform: none;
     right: auto;
-    width: min(95%, 372px);
-    bottom: clamp(-24px, -6vw, -12px);
+    width: min(91%, 318px);
+    bottom: clamp(-18px, -5vw, -10px);
     padding: clamp(0.62rem, 2vw, 0.8rem);
     min-height: 0;
-    aspect-ratio: 2.08 / 1;
+    aspect-ratio: 2.16 / 1;
   }
 
   .spend-candle-strip {
@@ -1852,7 +1856,7 @@ p {
   }
 
   .how-cards-column {
-    width: min(100%, 470px);
+    width: var(--how-mobile-width);
     margin-inline: auto;
   }
 }

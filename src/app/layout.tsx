@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import "./globals.css";
@@ -7,6 +7,13 @@ export const metadata: Metadata = {
   title: "Trust Lock",
   description:
     "Attach virtual spending cards to crypto wallets and exchange accounts with secure controls and asset management.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default function RootLayout({

@@ -25,6 +25,9 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100%;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -40,7 +43,7 @@ body {
     radial-gradient(circle at 54% 100%, rgba(167, 139, 250, 0.1), transparent 42%),
     linear-gradient(180deg, #fdfdff 0%, var(--bg) 55%, #f4f6ff 100%);
   background-attachment: fixed;
-  overflow-x: clip;
+  overflow-x: hidden;
 }
 
 a {
@@ -130,6 +133,8 @@ p {
   display: grid;
   gap: 0.6rem;
   position: relative;
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 .page-enter > *:not(.moving-stack-layer) {
@@ -1766,8 +1771,8 @@ p {
   .how-visual-stage {
     width: min(100%, 470px);
     margin-inline: auto;
-    min-height: clamp(230px, 66vw, 312px);
-    padding-bottom: 1.15rem;
+    min-height: clamp(290px, 84vw, 390px);
+    padding-bottom: 1.35rem;
     animation: none;
     display: grid;
     place-items: center;
@@ -1777,7 +1782,7 @@ p {
   .spend-image-card {
     width: min(100%, 470px);
     min-height: 0;
-    aspect-ratio: 2.02 / 1;
+    aspect-ratio: 1.55 / 1;
     border-radius: 22px;
     padding: clamp(0.74rem, 2.4vw, 0.95rem);
   }
@@ -1796,14 +1801,14 @@ p {
 
   .spend-chart-card {
     position: absolute;
-    left: clamp(10px, 4vw, 18px);
+    left: -10px;
     transform: none;
     right: auto;
-    width: min(76%, 318px);
-    bottom: clamp(-14px, -4vw, -7px);
+    width: min(95%, 372px);
+    bottom: clamp(-24px, -6vw, -12px);
     padding: clamp(0.62rem, 2vw, 0.8rem);
     min-height: 0;
-    aspect-ratio: 2.45 / 1;
+    aspect-ratio: 2.08 / 1;
   }
 
   .spend-candle-strip {

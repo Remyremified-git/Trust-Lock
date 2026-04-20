@@ -774,6 +774,168 @@ p {
   max-width: 38ch;
 }
 
+.final-cta-section {
+  margin-top: clamp(10vh, 15vh, 18vh);
+  min-height: clamp(620px, 86vh, 820px);
+  padding: clamp(2.4rem, 4.8vw, 4rem) clamp(1rem, 2.8vw, 2.4rem);
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: clamp(20px, 3vw, 34px);
+  background:
+    radial-gradient(circle at 24% 14%, rgba(88, 132, 243, 0.16), transparent 38%),
+    radial-gradient(circle at 80% 78%, rgba(79, 118, 234, 0.13), transparent 42%),
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, #edf1ff var(--theme-light-pct), #06112b var(--theme-dark-pct)) 0%,
+      color-mix(in oklab, #e9eefc var(--theme-light-pct), #0a1737 var(--theme-dark-pct)) 55%,
+      color-mix(in oklab, #e5ebfa var(--theme-light-pct), #0d1c42 var(--theme-dark-pct)) 100%
+    );
+  border: 1px solid color-mix(in oklab, rgba(139, 165, 222, 0.32) var(--theme-light-pct), rgba(120, 159, 255, 0.18) var(--theme-dark-pct));
+  box-shadow: 0 40px 70px -46px rgba(12, 22, 56, 0.38);
+}
+
+.final-cta-content {
+  width: min(100%, 760px);
+  text-align: center;
+  display: grid;
+  gap: 1.05rem;
+  position: relative;
+  z-index: 4;
+}
+
+.final-cta-content h2 {
+  font-size: clamp(2rem, 5vw, 5.2rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  color: color-mix(in oklab, #17243f var(--theme-light-pct), #ecf5ff var(--theme-dark-pct));
+  text-wrap: balance;
+}
+
+.final-cta-content .muted {
+  max-width: 58ch;
+  margin-inline: auto;
+  font-size: clamp(1.02rem, 1.4vw, 1.42rem);
+  line-height: 1.5;
+  color: color-mix(in oklab, #35445f var(--theme-light-pct), #b7c9e8 var(--theme-dark-pct));
+}
+
+.final-cta-actions {
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.final-cta-button {
+  min-width: 208px;
+  font-size: 1rem;
+}
+
+.final-cta-coin {
+  position: absolute;
+  z-index: 3;
+  animation: finalFloatCoin 8.4s ease-in-out infinite;
+  filter: drop-shadow(0 24px 26px rgba(38, 78, 174, 0.26));
+}
+
+.final-cta-coin-top {
+  left: clamp(2%, 5vw, 8%);
+  top: clamp(5%, 8vh, 14%);
+  animation-delay: 0.2s;
+}
+
+.final-cta-coin-bottom {
+  right: clamp(4%, 7vw, 10%);
+  bottom: clamp(4%, 7vh, 10%);
+  animation-delay: 0.8s;
+}
+
+.final-cta-coin-core {
+  width: clamp(108px, 13vw, 176px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid rgba(218, 235, 255, 0.58);
+  display: grid;
+  place-items: center;
+  color: #eef6ff;
+  box-shadow:
+    0 20px 34px -22px rgba(20, 54, 136, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.54),
+    inset 0 -20px 38px rgba(11, 28, 76, 0.38);
+}
+
+.coin-usdc {
+  background: linear-gradient(160deg, #74b3ff 0%, #3f7dff 42%, #2144a3 100%);
+}
+
+.coin-btc {
+  background: linear-gradient(160deg, #6eb7ff 0%, #2f75ff 48%, #224a9e 100%);
+}
+
+.final-cta-coin-core svg {
+  width: 45%;
+  height: 45%;
+  fill: none;
+  stroke: #eef6ff;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.coin-glyph-btc {
+  font-size: clamp(2rem, 3.2vw, 2.8rem);
+  line-height: 1;
+  font-weight: 800;
+  color: #eef6ff;
+}
+
+.final-cta-avatar {
+  position: absolute;
+  width: clamp(118px, 13vw, 190px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  z-index: 2;
+  animation: finalFloatAvatar 7.2s ease-in-out infinite;
+}
+
+.final-cta-avatar-left {
+  left: clamp(4%, 8vw, 12%);
+  top: clamp(28%, 38vh, 56%);
+  animation-delay: 0.3s;
+}
+
+.final-cta-avatar-right {
+  right: clamp(6%, 10vw, 14%);
+  top: clamp(12%, 20vh, 30%);
+  animation-delay: 0.9s;
+}
+
+.final-cta-avatar .avatar-ring {
+  position: absolute;
+  inset: -18%;
+  border-radius: 50%;
+  border: 1px solid color-mix(in oklab, rgba(157, 180, 226, 0.42) var(--theme-light-pct), rgba(121, 154, 213, 0.34) var(--theme-dark-pct));
+  pointer-events: none;
+}
+
+.final-cta-avatar .avatar-ring-outer {
+  inset: -40%;
+  opacity: 0.72;
+}
+
+.final-cta-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(229, 240, 255, 0.8);
+  box-shadow:
+    0 24px 30px -22px rgba(26, 52, 109, 0.45),
+    0 10px 20px -15px rgba(16, 29, 66, 0.5);
+}
+
 .spotlight-copy .muted {
   width: 100%;
   max-width: none;
@@ -1253,6 +1415,26 @@ p {
   }
 }
 
+@keyframes finalFloatCoin {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-12deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(-6deg);
+  }
+}
+
+@keyframes finalFloatAvatar {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-9px);
+  }
+}
+
 @keyframes candlePulse {
   0%,
   100% {
@@ -1360,6 +1542,41 @@ p {
     justify-content: flex-start;
     min-height: 172px;
     width: 100%;
+  }
+
+  .final-cta-section {
+    min-height: auto;
+    padding: 5.2rem 0.9rem 3.2rem;
+    border-radius: 24px;
+  }
+
+  .final-cta-content h2 {
+    font-size: clamp(1.7rem, 9vw, 2.7rem);
+  }
+
+  .final-cta-content .muted {
+    font-size: 0.96rem;
+    line-height: 1.48;
+  }
+
+  .final-cta-coin-top {
+    left: 4%;
+    top: 3%;
+  }
+
+  .final-cta-coin-bottom {
+    right: 4%;
+    bottom: 6%;
+  }
+
+  .final-cta-avatar-left {
+    left: 8%;
+    top: 60%;
+  }
+
+  .final-cta-avatar-right {
+    right: 8%;
+    top: 10%;
   }
 }
 
@@ -1932,6 +2149,18 @@ p {
   .how-cards-column {
     width: 100%;
     margin-inline: auto;
+  }
+
+  .final-cta-coin-core {
+    width: clamp(90px, 26vw, 126px);
+  }
+
+  .final-cta-avatar {
+    width: clamp(88px, 25vw, 124px);
+  }
+
+  .final-cta-button {
+    min-width: 176px;
   }
 }
 

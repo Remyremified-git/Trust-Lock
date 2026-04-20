@@ -42,11 +42,35 @@ function HowStepIcon({ type }: { type: "connect" | "issue" | "control" }) {
   );
 }
 
+function CoinGlyph({ type }: { type: "btc" | "eth" | "sol" }) {
+  if (type === "eth") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 2.2L6.2 12 12 9.5 17.8 12 12 2.2Z" />
+        <path d="M12 21.8L6.2 13.5 12 16.8 17.8 13.5 12 21.8Z" />
+      </svg>
+    );
+  }
+
+  if (type === "sol") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4.5 6.2h14.8l-2 2.5H2.5l2-2.5Z" />
+        <path d="M6.5 10.8h14.8l-2 2.5H4.5l2-2.5Z" />
+        <path d="M4.5 15.3h14.8l-2 2.5H2.5l2-2.5Z" />
+      </svg>
+    );
+  }
+
+  return <span className="coin-glyph-btc">₿</span>;
+}
+
 export default function Home() {
   const mainRef = useRef<HTMLElement | null>(null);
   const transitionRef = useRef<HTMLElement | null>(null);
   const spotlightRef = useRef<HTMLElement | null>(null);
   const howSectionRef = useRef<HTMLElement | null>(null);
+  const finalCtaRef = useRef<HTMLElement | null>(null);
   const heroSlotRef = useRef<HTMLDivElement | null>(null);
   const transitionSlotRef = useRef<HTMLDivElement | null>(null);
   const spotlightSlotRef = useRef<HTMLDivElement | null>(null);
@@ -57,6 +81,7 @@ export default function Home() {
     progress: 0,
     mergeProgress: 0,
     themeProgress: 0,
+    reverseProgress: 0,
     ready: false,
   });
   const baseBackgroundRef = useRef<string | null>(null);
@@ -115,6 +140,17 @@ export default function Home() {
         mergeProgress = clamp((startY - sectionRect.top) / (startY - endY));
       }
 
+      let reverseProgress = 0;
+      if (finalCtaRef.current) {
+        const sectionRect = finalCtaRef.current.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        const startY = viewportHeight * 0.9;
+        const endY = viewportHeight * 0.2;
+        reverseProgress = clamp((startY - sectionRect.top) / (startY - endY));
+      }
+
+      const darkThemeProgress = mergeProgress * (1 - reverseProgress);
+
       const x =
         progress < 1
           ? lerp(heroCenterX, transitionCenterX, progress)
@@ -129,7 +165,8 @@ export default function Home() {
         y,
         progress,
         mergeProgress,
-        themeProgress: mergeProgress,
+        themeProgress: darkThemeProgress,
+        reverseProgress,
         ready: true,
       });
     };
@@ -403,6 +440,49 @@ export default function Home() {
                 <p>Apply risk rules, spend limits, freeze controls, and security policies before every transaction.</p>
               </div>
             </article>
+          </div>
+        </div>
+      </section>
+
+      <section
+        ref={finalCtaRef}
+        className={`final-cta-section panel ${stackMotion.reverseProgress > 0.06 ? "in-view" : ""}`}
+      >
+        <div className="final-cta-coin final-cta-coin-top">
+          <div className="final-cta-coin-core coin-usdc" aria-hidden="true">
+            <CoinGlyph type="btc" />
+          </div>
+        </div>
+
+        <div className="final-cta-coin final-cta-coin-bottom">
+          <div className="final-cta-coin-core coin-btc" aria-hidden="true">
+            <CoinGlyph type="eth" />
+          </div>
+        </div>
+
+        <div className="final-cta-avatar final-cta-avatar-left" aria-hidden="true">
+          <span className="avatar-ring" />
+          <span className="avatar-ring avatar-ring-outer" />
+          <img src="https://i.pravatar.cc/240?img=13" alt="" loading="lazy" />
+        </div>
+
+        <div className="final-cta-avatar final-cta-avatar-right" aria-hidden="true">
+          <span className="avatar-ring" />
+          <span className="avatar-ring avatar-ring-outer" />
+          <img src="https://i.pravatar.cc/240?img=32" alt="" loading="lazy" />
+        </div>
+
+        <div className="final-cta-content">
+          <h2>Ready to take the first step?</h2>
+          <p className="muted">Take the first step. Link your wallet and start spending globally with confidence.</p>
+          <p className="muted">
+            Trust Lock gives you regulated-ready virtual card rails, strong security controls, and easy wallet
+            integration in one flow.
+          </p>
+          <div className="button-row final-cta-actions">
+            <Link className="primary-button final-cta-button" href="/auth">
+              Sign Up Now
+            </Link>
           </div>
         </div>
       </section>

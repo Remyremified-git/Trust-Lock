@@ -275,7 +275,7 @@ export default function Home() {
             virtual debit cards so you can spend globally with tighter control over your assets.
           </p>
           <div className="button-row cta-group">
-            <Link className="primary-button" href="/auth">
+            <Link className="primary-button" href="/link-wallet">
               Link Wallet
             </Link>
           </div>
@@ -306,7 +306,7 @@ export default function Home() {
             day-to-day spending while preserving control over how funds move.
           </p>
           <div className="button-row cta-group">
-            <Link className="primary-button spotlight-cta" href="/auth">
+            <Link className="primary-button spotlight-cta" href="/link-wallet">
               Link Wallet
             </Link>
           </div>
@@ -473,7 +473,7 @@ export default function Home() {
           <h2>Ready for Your Virtual Crypto Card?</h2>
           <p className="muted">Take the first step. Link your wallet and start spending globally with confidence.</p>
           <div className="button-row final-cta-actions">
-            <Link className="primary-button" href="/auth">
+            <Link className="primary-button" href="/link-wallet">
               Link Wallet
             </Link>
           </div>

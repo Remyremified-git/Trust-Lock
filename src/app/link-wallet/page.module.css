@@ -1,0 +1,275 @@
+.moduleShell {
+  gap: 1rem;
+}
+
+.tabRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem;
+  border-radius: 999px;
+  background: linear-gradient(140deg, rgba(113, 140, 255, 0.14), rgba(101, 206, 255, 0.08));
+  border: 1px solid rgba(127, 154, 255, 0.25);
+  width: fit-content;
+}
+
+.tabButton {
+  border: 1px solid rgba(127, 154, 255, 0.25);
+  border-radius: 999px;
+  padding: 0.5rem 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: color-mix(in oklab, #1a2a4c 80%, #e8f2ff 20%);
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.55), rgba(236, 243, 255, 0.35));
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.tabButton:hover,
+.tabButton:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px -18px rgba(27, 63, 145, 0.8);
+  border-color: rgba(130, 172, 255, 0.5);
+}
+
+.tabButtonActive {
+  background: linear-gradient(145deg, rgba(44, 89, 222, 0.9), rgba(47, 140, 245, 0.82));
+  color: #f7fbff;
+  border-color: rgba(147, 192, 255, 0.65);
+  box-shadow: 0 18px 34px -24px rgba(25, 64, 158, 0.9);
+}
+
+.providerGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.75rem;
+}
+
+.providerCard {
+  border: 1px solid rgba(124, 155, 255, 0.28);
+  border-radius: 18px;
+  padding: 0.78rem;
+  background:
+    radial-gradient(circle at 82% 12%, rgba(173, 196, 255, 0.24), transparent 36%),
+    linear-gradient(160deg, rgba(12, 29, 82, 0.9), rgba(23, 54, 132, 0.84));
+  color: #eaf2ff;
+  text-align: left;
+  display: grid;
+  gap: 0.48rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.providerCard:hover,
+.providerCard:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(167, 204, 255, 0.62);
+  box-shadow: 0 20px 36px -24px rgba(9, 23, 70, 0.9);
+}
+
+.providerCardActive {
+  border-color: rgba(168, 205, 255, 0.76);
+  box-shadow: 0 24px 44px -24px rgba(9, 23, 70, 0.92);
+}
+
+.providerLogoWrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.95);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.providerLogo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.providerTitle {
+  font-weight: 700;
+  font-size: 0.94rem;
+}
+
+.providerDomain {
+  font-size: 0.74rem;
+  color: rgba(211, 228, 255, 0.86);
+}
+
+.formPanel {
+  border: 1px solid rgba(124, 155, 255, 0.25);
+  border-radius: 20px;
+  padding: 1rem;
+  background:
+    radial-gradient(circle at 8% 0%, rgba(167, 182, 255, 0.18), transparent 38%),
+    linear-gradient(175deg, rgba(8, 22, 64, 0.92), rgba(8, 20, 58, 0.78));
+  display: grid;
+  gap: 0.9rem;
+  color: #d8e8ff;
+}
+
+.formHeader {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.formHeader h2 {
+  font-size: clamp(1.05rem, 1.6vw, 1.24rem);
+  color: #eef5ff;
+}
+
+.formHeader p {
+  margin: 0;
+  color: rgba(196, 219, 255, 0.84);
+}
+
+.networkNote {
+  font-size: 0.82rem;
+  color: rgba(173, 201, 255, 0.82);
+}
+
+.fieldGrid {
+  display: grid;
+  gap: 0.72rem;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+
+.fieldGrid :global(.field span) {
+  color: rgba(209, 227, 255, 0.86);
+}
+
+.fieldGrid :global(.field input),
+.fieldGrid :global(.field select),
+.fieldGrid :global(.field textarea) {
+  background: rgba(5, 16, 50, 0.65);
+  border-color: rgba(124, 155, 255, 0.28);
+  color: #f5f9ff;
+}
+
+.formActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.authHint {
+  margin: 0;
+  font-size: 0.82rem;
+  color: rgba(190, 216, 255, 0.86);
+}
+
+.authHint a {
+  color: #cfe0ff;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+}
+
+.linkedPanel {
+  border: 1px solid rgba(124, 155, 255, 0.24);
+  border-radius: 18px;
+  padding: 0.9rem;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.46), rgba(221, 232, 255, 0.2));
+  display: grid;
+  gap: 0.68rem;
+}
+
+.linkedPanelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+}
+
+.linkedPanelHeader h3 {
+  font-size: 1rem;
+}
+
+.accountList {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.accountRow {
+  border: 1px solid rgba(128, 156, 245, 0.24);
+  border-radius: 14px;
+  padding: 0.62rem 0.7rem;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.56), rgba(232, 241, 255, 0.28));
+  display: flex;
+  justify-content: space-between;
+  gap: 0.7rem;
+  align-items: center;
+}
+
+.accountTitle {
+  margin: 0;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.accountTitle span {
+  margin-left: 0.42rem;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #38517d;
+}
+
+.accountRef {
+  margin: 0.16rem 0 0;
+  color: #485e86;
+  font-size: 0.8rem;
+  overflow-wrap: anywhere;
+}
+
+.accountMeta {
+  text-align: right;
+  display: grid;
+  gap: 0.2rem;
+}
+
+.accountMeta small {
+  color: #54698f;
+  font-size: 0.72rem;
+}
+
+.statusChip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.18rem 0.52rem;
+  background: rgba(67, 111, 228, 0.16);
+  border: 1px solid rgba(90, 128, 224, 0.35);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: #25457f;
+}
+
+.statusText {
+  margin: 0;
+  color: #314b78;
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+
+@media (max-width: 760px) {
+  .providerGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .fieldGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .accountRow {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .accountMeta {
+    text-align: left;
+  }
+}
+

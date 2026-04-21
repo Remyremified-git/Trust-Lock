@@ -377,6 +377,12 @@ p {
   height: fit-content;
 }
 
+.how-sticky-stage {
+  display: grid;
+  gap: clamp(0.9rem, 1.7vw, 1.2rem);
+  align-content: start;
+}
+
 .how-visual-column {
   display: grid;
   gap: 0.45rem;
@@ -647,6 +653,7 @@ p {
   animation-play-state: paused;
   padding-bottom: 0.2rem;
   min-height: max-content;
+  position: relative;
 }
 
 .how-section.in-view .how-cards-column {
@@ -1580,6 +1587,11 @@ p {
     top: auto;
   }
 
+  .how-sticky-stage {
+    position: static;
+    top: auto;
+  }
+
   .how-heading-block {
     width: 100%;
     margin-inline: 0;
@@ -2080,6 +2092,11 @@ p {
     top: auto;
   }
 
+  .how-sticky-stage {
+    position: static;
+    top: auto;
+  }
+
   .how-heading-block {
     width: 100%;
     margin-inline: 0;
@@ -2249,8 +2266,8 @@ p {
   }
 }
 
-@media (min-width: 921px) {
-  .how-left-column {
+@media (min-width: 1081px) {
+  .how-sticky-stage {
     position: sticky;
     top: 50px;
     align-self: start;

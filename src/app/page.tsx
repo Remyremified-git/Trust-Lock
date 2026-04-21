@@ -272,7 +272,8 @@ export default function Home() {
           <h1>Attach a virtual spending card to your crypto wallets and exchanges</h1>
           <p className="muted">
             Link Trust Wallet, MetaMask, Exodus, KuCoin, Gate.io, Kraken, and other major crypto accounts to secure
-            virtual debit cards so you can spend globally with tighter control over your assets.
+            virtual debit cards so you can spend globally with tighter control over assets that already move through
+            Web3 rails.
           </p>
           <div className="button-row cta-group">
             <Link className="primary-button" href="/link-wallet">
@@ -292,7 +293,8 @@ export default function Home() {
           <h2>We issue linkable virtual cards for wallets and exchange accounts</h2>
           <p className="muted">
             Trust Lock provisions attachable virtual debit cards designed for crypto users, with route-level card
-            controls, asset-aware limits, and secure spend management in one place.
+            controls, asset-aware limits, and secure spend management in one place where Web3 account access can be
+            routed into everyday payments.
           </p>
         </div>
       </section>
@@ -303,7 +305,8 @@ export default function Home() {
           <h2>Built for global crypto holders, traders, teams, and high-frequency spenders</h2>
           <p className="muted">
             From single-wallet users to multi-exchange operators, Trust Lock gives each profile a safer card layer for
-            day-to-day spending while preserving control over how funds move.
+            day-to-day spending while preserving control over how funds move between Web3 wallets, exchange balances,
+            and live spending routes.
           </p>
           <div className="button-row cta-group">
             <Link className="primary-button spotlight-cta" href="/link-wallet">
@@ -321,66 +324,68 @@ export default function Home() {
       <section ref={howSectionRef} className={`how-section panel ${isHowInView ? "in-view" : ""}`}>
         <div className="how-layout">
           <div className="how-left-column">
-            <div className="how-heading-block">
-              <p className="kicker">How It Works</p>
-              <h2 className="how-hero-title">Link account. Issue card. Control spend.</h2>
-            </div>
+            <div className="how-sticky-stage">
+              <div className="how-heading-block">
+                <p className="kicker">How It Works</p>
+                <h2 className="how-hero-title">Link account. Issue card. Control spend.</h2>
+              </div>
 
-            <div className="how-visual-column">
-              <div className="how-visual-stage">
-                <div className="spend-image-card" aria-hidden="true">
-                  <div className="spend-image-top">
-                    <span className="spend-channel-live">Live Spend Feed</span>
-                    <span className="spend-platform-tag">Wallet + Exchange</span>
-                  </div>
-                  <div className="spend-profile-line">
-                    <span className="spend-avatar-dot" />
-                    <div>
-                      <strong>Global card route active</strong>
-                      <p>Trust Wallet, MetaMask, KuCoin and Kraken linked</p>
+              <div className="how-visual-column">
+                <div className="how-visual-stage">
+                  <div className="spend-image-card" aria-hidden="true">
+                    <div className="spend-image-top">
+                      <span className="spend-channel-live">Live Spend Feed</span>
+                      <span className="spend-platform-tag">Wallet + Exchange</span>
+                    </div>
+                    <div className="spend-profile-line">
+                      <span className="spend-avatar-dot" />
+                      <div>
+                        <strong>Global card route active</strong>
+                        <p>Trust Wallet, MetaMask, KuCoin and Kraken linked</p>
+                      </div>
+                    </div>
+                    <div className="spend-flow-legend">
+                      <span>Web3 card payments</span>
+                      <span>Security checks</span>
                     </div>
                   </div>
-                  <div className="spend-flow-legend">
-                    <span>Card payments</span>
-                    <span>Security checks</span>
-                  </div>
-                </div>
 
-                <div className="spend-chart-card" aria-hidden="true">
-                  <p className="spend-chart-title">Daily Card Spend</p>
-                  <div className="spend-candle-strip">
-                    <span style={{ "--bar-height": "30%" } as CSSProperties} />
-                    <span style={{ "--bar-height": "38%" } as CSSProperties} />
-                    <span style={{ "--bar-height": "34%" } as CSSProperties} />
-                    <span style={{ "--bar-height": "47%" } as CSSProperties} />
-                    <span style={{ "--bar-height": "42%" } as CSSProperties} />
-                    <span style={{ "--bar-height": "58%" } as CSSProperties} />
-                    <span style={{ "--bar-height": "53%" } as CSSProperties} />
-                    <span style={{ "--bar-height": "66%" } as CSSProperties} />
-                    <span style={{ "--bar-height": "62%" } as CSSProperties} />
-                    <span style={{ "--bar-height": "70%" } as CSSProperties} />
-                    <span style={{ "--bar-height": "64%" } as CSSProperties} />
-                    <span style={{ "--bar-height": "76%" } as CSSProperties} />
-                    <span style={{ "--bar-height": "69%" } as CSSProperties} />
-                    <span style={{ "--bar-height": "81%" } as CSSProperties} />
-                  </div>
-                  <svg className="spend-line" viewBox="0 0 220 74" preserveAspectRatio="none">
-                    <defs>
-                      <linearGradient id="spendArea" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#4f8cff" stopOpacity="0.36" />
-                        <stop offset="100%" stopColor="#4f8cff" stopOpacity="0" />
-                      </linearGradient>
-                    </defs>
-                    <path className="spend-grid-line" d="M0 16 H220" />
-                    <path className="spend-grid-line" d="M0 36 H220" />
-                    <path className="spend-grid-line" d="M0 56 H220" />
-                    <path className="spend-area" d="M6 63 L24 58 L42 60 L60 52 L82 54 L104 44 L126 46 L148 36 L170 38 L214 30 L214 70 L6 70 Z" />
-                    <path className="spend-main-line" d="M6 63 L24 58 L42 60 L60 52 L82 54 L104 44 L126 46 L148 36 L170 38 L214 30" />
-                    <path className="spend-alt-line" d="M6 66 L24 63 L42 64 L60 58 L82 59 L104 52 L126 54 L148 45 L170 47 L214 40" />
-                  </svg>
-                  <div className="spend-chart-foot">
-                    <strong>$10,293.67</strong>
-                    <span>24h settled volume</span>
+                  <div className="spend-chart-card" aria-hidden="true">
+                    <p className="spend-chart-title">Daily Card Spend</p>
+                    <div className="spend-candle-strip">
+                      <span style={{ "--bar-height": "30%" } as CSSProperties} />
+                      <span style={{ "--bar-height": "38%" } as CSSProperties} />
+                      <span style={{ "--bar-height": "34%" } as CSSProperties} />
+                      <span style={{ "--bar-height": "47%" } as CSSProperties} />
+                      <span style={{ "--bar-height": "42%" } as CSSProperties} />
+                      <span style={{ "--bar-height": "58%" } as CSSProperties} />
+                      <span style={{ "--bar-height": "53%" } as CSSProperties} />
+                      <span style={{ "--bar-height": "66%" } as CSSProperties} />
+                      <span style={{ "--bar-height": "62%" } as CSSProperties} />
+                      <span style={{ "--bar-height": "70%" } as CSSProperties} />
+                      <span style={{ "--bar-height": "64%" } as CSSProperties} />
+                      <span style={{ "--bar-height": "76%" } as CSSProperties} />
+                      <span style={{ "--bar-height": "69%" } as CSSProperties} />
+                      <span style={{ "--bar-height": "81%" } as CSSProperties} />
+                    </div>
+                    <svg className="spend-line" viewBox="0 0 220 74" preserveAspectRatio="none">
+                      <defs>
+                        <linearGradient id="spendArea" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="#4f8cff" stopOpacity="0.36" />
+                          <stop offset="100%" stopColor="#4f8cff" stopOpacity="0" />
+                        </linearGradient>
+                      </defs>
+                      <path className="spend-grid-line" d="M0 16 H220" />
+                      <path className="spend-grid-line" d="M0 36 H220" />
+                      <path className="spend-grid-line" d="M0 56 H220" />
+                      <path className="spend-area" d="M6 63 L24 58 L42 60 L60 52 L82 54 L104 44 L126 46 L148 36 L170 38 L214 30 L214 70 L6 70 Z" />
+                      <path className="spend-main-line" d="M6 63 L24 58 L42 60 L60 52 L82 54 L104 44 L126 46 L148 36 L170 38 L214 30" />
+                      <path className="spend-alt-line" d="M6 66 L24 63 L42 64 L60 58 L82 59 L104 52 L126 54 L148 45 L170 47 L214 40" />
+                    </svg>
+                    <div className="spend-chart-foot">
+                      <strong>$10,293.67</strong>
+                      <span>24h settled volume</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -394,7 +399,7 @@ export default function Home() {
               </div>
               <div>
                 <h3>1. Connect</h3>
-                <p>Connect your wallet or exchange account and verify ownership through secure onboarding.</p>
+                <p>Connect your wallet or exchange account and verify ownership through secure onboarding and standard Web3 account proofs.</p>
               </div>
             </article>
 
@@ -404,7 +409,7 @@ export default function Home() {
               </div>
               <div>
                 <h3>2. Issue</h3>
-                <p>Generate a virtual debit card that attaches to your selected crypto balance and payment routes.</p>
+                <p>Generate a virtual debit card that attaches to your selected crypto balance and payment routes powered by programmable Web3 account access.</p>
               </div>
             </article>
 

@@ -251,23 +251,48 @@ export default function Home() {
       return;
     }
 
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      for (const node of revealNodes) {
+        node.classList.add("is-visible");
+      }
+      return;
+    }
+
+    const root = document.documentElement;
+    root.classList.add("reveal-ready");
+
+    const checkVisibilityNow = () => {
+      const viewportHeight = window.innerHeight;
+      for (const node of revealNodes) {
+        const rect = node.getBoundingClientRect();
+        const shouldShow = rect.top < viewportHeight * 0.92 && rect.bottom > viewportHeight * 0.08;
+        node.classList.toggle("is-visible", shouldShow);
+      }
+    };
+
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          entry.target.classList.toggle("is-visible", entry.isIntersecting);
+          const target = entry.target as HTMLElement;
+          target.classList.toggle("is-visible", entry.isIntersecting || entry.intersectionRatio > 0);
         }
       },
       {
-        threshold: 0.18,
-        rootMargin: "0px 0px -8% 0px",
+        threshold: 0.06,
+        rootMargin: "0px 0px -5% 0px",
       },
     );
+
+    checkVisibilityNow();
 
     for (const node of revealNodes) {
       observer.observe(node);
     }
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      root.classList.remove("reveal-ready");
+    };
   }, []);
 
   const movingStackStyle = {
@@ -302,7 +327,7 @@ export default function Home() {
             virtual debit cards so you can spend globally with tighter control over assets that already move through
             Web3 rails.
           </p>
-          <div className="button-row cta-group">
+          <div className="button-row cta-group reveal-block reveal-soft-up" data-reveal>
             <Link className="primary-button" href="/link-wallet">
               Link Wallet
             </Link>
@@ -312,11 +337,11 @@ export default function Home() {
       </section>
 
       <section ref={transitionRef} className="card-transition-section">
-        <div className="card-transition-cards">
+        <div className="card-transition-cards reveal-block reveal-rise" data-reveal>
           <div ref={transitionSlotRef} className="stack-slot transition-stack-slot" aria-hidden="true" />
         </div>
         <div className="card-transition-copy">
-          <p className="kicker">What We Do</p>
+          <p className="kicker reveal-block reveal-fade-sweep" data-reveal>What We Do</p>
           <h2 className="reveal-block reveal-clip-left" data-reveal>
             We issue linkable virtual cards for wallets and exchange accounts
           </h2>
@@ -330,7 +355,7 @@ export default function Home() {
 
       <section ref={spotlightRef} className="spotlight-section">
         <div className="spotlight-copy">
-          <p className="kicker">Who It Is For</p>
+          <p className="kicker reveal-block reveal-fade-sweep" data-reveal>Who It Is For</p>
           <h2 className="reveal-block reveal-blur-right" data-reveal>
             Built for global crypto holders, traders, teams, and high-frequency spenders
           </h2>
@@ -339,7 +364,7 @@ export default function Home() {
             day-to-day spending while preserving control over how funds move between Web3 wallets, exchange balances,
             and live spending routes.
           </p>
-          <div className="button-row cta-group">
+          <div className="button-row cta-group reveal-block reveal-soft-up" data-reveal>
             <Link className="primary-button spotlight-cta" href="/link-wallet">
               Link Wallet
             </Link>
@@ -356,7 +381,7 @@ export default function Home() {
         <div className="how-layout">
           <div className="how-left-column">
             <div className="how-sticky-stage">
-              <div className="how-heading-block">
+              <div className="how-heading-block reveal-block reveal-fade-sweep" data-reveal>
                 <p className="kicker">How It Works</p>
                 <h2 className="how-hero-title reveal-block reveal-mask-rise" data-reveal>
                   Link account. Issue card. Control spend.
@@ -365,7 +390,7 @@ export default function Home() {
 
               <div className="how-visual-column">
                 <div className="how-visual-stage">
-                  <div className="spend-image-card" aria-hidden="true">
+                  <div className="spend-image-card reveal-block reveal-rise" data-reveal aria-hidden="true">
                     <div className="spend-image-top">
                       <span className="spend-channel-live">Live Spend Feed</span>
                       <span className="spend-platform-tag">Wallet + Exchange</span>
@@ -383,7 +408,7 @@ export default function Home() {
                     </div>
                   </div>
 
-                  <div className="spend-chart-card" aria-hidden="true">
+                  <div className="spend-chart-card reveal-block reveal-scale-glow" data-reveal aria-hidden="true">
                     <p className="spend-chart-title">Daily Card Spend</p>
                     <div className="spend-candle-strip">
                       <span style={{ "--bar-height": "30%" } as CSSProperties} />
@@ -426,7 +451,7 @@ export default function Home() {
           </div>
 
           <div className="how-cards-column">
-            <article className="how-step-card how-step-connect">
+            <article className="how-step-card how-step-connect reveal-block reveal-soft-up" data-reveal>
               <div className="how-step-icon" aria-hidden="true">
                 <HowStepIcon type="connect" />
               </div>
@@ -436,7 +461,7 @@ export default function Home() {
               </div>
             </article>
 
-            <article className="how-step-card how-step-issue">
+            <article className="how-step-card how-step-issue reveal-block reveal-soft-up" data-reveal>
               <div className="how-step-icon" aria-hidden="true">
                 <HowStepIcon type="issue" />
               </div>
@@ -446,7 +471,7 @@ export default function Home() {
               </div>
             </article>
 
-            <article className="how-step-card how-step-control">
+            <article className="how-step-card how-step-control reveal-block reveal-soft-up" data-reveal>
               <div className="how-step-icon" aria-hidden="true">
                 <HowStepIcon type="control" />
               </div>
@@ -512,12 +537,12 @@ export default function Home() {
           <p className="muted reveal-block reveal-fade-sweep" data-reveal>
             Take the first step. Link your wallet and start spending globally with confidence.
           </p>
-          <div className="button-row final-cta-actions">
+          <div className="button-row final-cta-actions reveal-block reveal-soft-up" data-reveal>
             <Link className="primary-button" href="/link-wallet">
               Link Wallet
             </Link>
           </div>
-          <div className="final-cta-meta">
+          <div className="final-cta-meta reveal-block reveal-fade-sweep" data-reveal>
             <div className="final-store-badges">
               <a className="store-badge-image-link" href="#" aria-label="Download on the App Store">
                 <img

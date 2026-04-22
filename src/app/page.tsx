@@ -258,40 +258,41 @@ export default function Home() {
       return;
     }
 
-    const root = document.documentElement;
-    root.classList.add("reveal-ready");
+    for (const node of revealNodes) {
+      node.classList.add("reveal-on");
+    }
 
-    const checkVisibilityNow = () => {
+    let raf = 0;
+
+    const applyVisibility = () => {
+      raf = 0;
       const viewportHeight = window.innerHeight;
       for (const node of revealNodes) {
         const rect = node.getBoundingClientRect();
-        const shouldShow = rect.top < viewportHeight * 0.92 && rect.bottom > viewportHeight * 0.08;
+        const shouldShow = rect.top < viewportHeight * 0.9 && rect.bottom > viewportHeight * 0.1;
         node.classList.toggle("is-visible", shouldShow);
       }
     };
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          const target = entry.target as HTMLElement;
-          target.classList.toggle("is-visible", entry.isIntersecting || entry.intersectionRatio > 0);
-        }
-      },
-      {
-        threshold: 0.06,
-        rootMargin: "0px 0px -5% 0px",
-      },
-    );
+    const scheduleVisibility = () => {
+      if (raf) {
+        return;
+      }
+      raf = window.requestAnimationFrame(applyVisibility);
+    };
 
-    checkVisibilityNow();
-
-    for (const node of revealNodes) {
-      observer.observe(node);
-    }
+    scheduleVisibility();
+    window.addEventListener("load", scheduleVisibility);
+    window.addEventListener("scroll", scheduleVisibility, { passive: true });
+    window.addEventListener("resize", scheduleVisibility);
 
     return () => {
-      observer.disconnect();
-      root.classList.remove("reveal-ready");
+      if (raf) {
+        window.cancelAnimationFrame(raf);
+      }
+      window.removeEventListener("load", scheduleVisibility);
+      window.removeEventListener("scroll", scheduleVisibility);
+      window.removeEventListener("resize", scheduleVisibility);
     };
   }, []);
 
@@ -381,8 +382,8 @@ export default function Home() {
         <div className="how-layout">
           <div className="how-left-column">
             <div className="how-sticky-stage">
-              <div className="how-heading-block reveal-block reveal-fade-sweep" data-reveal>
-                <p className="kicker">How It Works</p>
+              <div className="how-heading-block">
+                <p className="kicker reveal-block reveal-fade-sweep" data-reveal>How It Works</p>
                 <h2 className="how-hero-title reveal-block reveal-mask-rise" data-reveal>
                   Link account. Issue card. Control spend.
                 </h2>

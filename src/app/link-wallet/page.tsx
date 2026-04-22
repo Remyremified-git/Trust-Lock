@@ -32,6 +32,7 @@ type WalletProvider = {
   name: string;
   logo: string;
   logoFallback?: string;
+  logoFallbackAlt?: string;
   domain: string;
   mode: WalletLinkMode;
   linkingHint: string;
@@ -43,6 +44,7 @@ type ExchangeProvider = {
   name: string;
   logo: string;
   logoFallback?: string;
+  logoFallbackAlt?: string;
   domain: string;
   linkingHint: string;
 };
@@ -53,6 +55,7 @@ const wallets: WalletProvider[] = [
     name: "Trust Wallet",
     logo: "https://logo.clearbit.com/trustwallet.com",
     logoFallback: "https://cdn.simpleicons.org/trustwallet/3375BB",
+    logoFallbackAlt: "https://cryptologos.cc/logos/trust-wallet-token-twt-logo.png?v=040",
     domain: "trustwallet.com",
     mode: "walletconnect",
     linkingHint: "Scan WalletConnect QR and confirm ownership from wallet app.",
@@ -63,6 +66,7 @@ const wallets: WalletProvider[] = [
     name: "MetaMask",
     logo: "https://logo.clearbit.com/metamask.io",
     logoFallback: "https://cdn.simpleicons.org/metamask/E2761B",
+    logoFallbackAlt: "https://cryptologos.cc/logos/metamask-logo.png?v=040",
     domain: "metamask.io",
     mode: "address_signature",
     linkingHint: "Connect extension and sign a one-time ownership challenge.",
@@ -73,6 +77,7 @@ const wallets: WalletProvider[] = [
     name: "Exodus",
     logo: "https://logo.clearbit.com/exodus.com",
     logoFallback: "https://cdn.simpleicons.org/exodus/5A4CFF",
+    logoFallbackAlt: "https://logo.clearbit.com/exodus.io",
     domain: "exodus.com",
     mode: "address_signature",
     linkingHint: "Enter receive address and confirm challenge signature.",
@@ -83,6 +88,7 @@ const wallets: WalletProvider[] = [
     name: "Phantom",
     logo: "https://logo.clearbit.com/phantom.app",
     logoFallback: "https://cdn.simpleicons.org/phantom/AB9FF2",
+    logoFallbackAlt: "https://logo.clearbit.com/phantom.com",
     domain: "phantom.com",
     mode: "address_signature",
     linkingHint: "Connect wallet and sign message from selected network.",
@@ -93,6 +99,7 @@ const wallets: WalletProvider[] = [
     name: "Rabby Wallet",
     logo: "https://logo.clearbit.com/rabby.io",
     logoFallback: "https://cdn.simpleicons.org/rabby/7084FF",
+    logoFallbackAlt: "https://logo.clearbit.com/rabbywallet.com",
     domain: "rabby.io",
     mode: "walletconnect",
     linkingHint: "Pair via WalletConnect and approve ownership in wallet app.",
@@ -103,6 +110,7 @@ const wallets: WalletProvider[] = [
     name: "Keplr",
     logo: "https://logo.clearbit.com/keplr.app",
     logoFallback: "https://cdn.simpleicons.org/keplr/5E4AE3",
+    logoFallbackAlt: "https://logo.clearbit.com/keplrwallet.app",
     domain: "keplr.app",
     mode: "address_signature",
     linkingHint: "Connect Keplr and sign ownership proof from extension or mobile app.",
@@ -116,6 +124,7 @@ const exchanges: ExchangeProvider[] = [
     name: "Gate.io",
     logo: "https://logo.clearbit.com/gate.io",
     logoFallback: "https://cdn.simpleicons.org/gateio/66D0FF",
+    logoFallbackAlt: "https://logo.clearbit.com/gate.com",
     domain: "gate.io",
     linkingHint: "Use API key and account UID validation.",
   },
@@ -124,6 +133,7 @@ const exchanges: ExchangeProvider[] = [
     name: "Kraken",
     logo: "https://logo.clearbit.com/kraken.com",
     logoFallback: "https://cdn.simpleicons.org/kraken/5741D9",
+    logoFallbackAlt: "https://logo.clearbit.com/kraken.kr",
     domain: "kraken.com",
     linkingHint: "Link with account ID and permission-scoped API token.",
   },
@@ -132,6 +142,7 @@ const exchanges: ExchangeProvider[] = [
     name: "MEXC",
     logo: "https://logo.clearbit.com/mexc.com",
     logoFallback: "https://cdn.simpleicons.org/mexc/2ED6A1",
+    logoFallbackAlt: "https://logo.clearbit.com/mexc.co",
     domain: "mexc.com",
     linkingHint: "Bind account UID and scoped API credentials.",
   },
@@ -140,6 +151,7 @@ const exchanges: ExchangeProvider[] = [
     name: "HTX",
     logo: "https://logo.clearbit.com/htx.com",
     logoFallback: "https://cdn.simpleicons.org/htx/1DA1F2",
+    logoFallbackAlt: "https://logo.clearbit.com/huobi.com",
     domain: "htx.com",
     linkingHint: "Link account identifier with read-only API permissions.",
   },
@@ -148,6 +160,7 @@ const exchanges: ExchangeProvider[] = [
     name: "Bitfinex",
     logo: "https://logo.clearbit.com/bitfinex.com",
     logoFallback: "https://cdn.simpleicons.org/bitfinex/16B157",
+    logoFallbackAlt: "https://logo.clearbit.com/bitfinex.net",
     domain: "bitfinex.com",
     linkingHint: "Use API key and account validation challenge.",
   },
@@ -156,6 +169,7 @@ const exchanges: ExchangeProvider[] = [
     name: "Deribit",
     logo: "https://logo.clearbit.com/deribit.com",
     logoFallback: "https://cdn.simpleicons.org/deribit/FFB11A",
+    logoFallbackAlt: "https://logo.clearbit.com/deribit.net",
     domain: "deribit.com",
     linkingHint: "Connect account using scoped API keys.",
   },
@@ -376,11 +390,15 @@ export default function LinkWalletPage() {
                   className={styles.providerLogo}
                   loading="lazy"
                   data-fallback={provider.logoFallback ?? ""}
+                  data-fallback-alt={provider.logoFallbackAlt ?? ""}
                   onError={(event) => {
                     const image = event.currentTarget;
                     const fallback = image.dataset.fallback;
+                    const fallbackAlt = image.dataset.fallbackAlt;
                     if (fallback && image.src !== fallback) {
                       image.src = fallback;
+                    } else if (fallbackAlt && image.src !== fallbackAlt) {
+                      image.src = fallbackAlt;
                     }
                   }}
                 />

@@ -245,6 +245,31 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const revealNodes = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+    if (!revealNodes.length) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          entry.target.classList.toggle("is-visible", entry.isIntersecting);
+        }
+      },
+      {
+        threshold: 0.18,
+        rootMargin: "0px 0px -8% 0px",
+      },
+    );
+
+    for (const node of revealNodes) {
+      observer.observe(node);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   const movingStackStyle = {
     transform: `translate3d(${stackMotion.x}px, ${stackMotion.y}px, 0)`,
     opacity: stackMotion.ready ? 1 : 0,
@@ -269,8 +294,10 @@ export default function Home() {
       <section className="hero-grid hero-focus panel">
         <div className="hero-copy">
           <p className="kicker">Virtual Cards for Crypto Platforms</p>
-          <h1>Attach a virtual spending card to your crypto wallets and exchanges</h1>
-          <p className="muted">
+          <h1 className="reveal-block reveal-rise" data-reveal>
+            Attach a virtual spending card to your crypto wallets and exchanges
+          </h1>
+          <p className="muted reveal-block reveal-soft-up" data-reveal>
             Link Trust Wallet, MetaMask, Exodus, KuCoin, Gate.io, Kraken, and other major crypto accounts to secure
             virtual debit cards so you can spend globally with tighter control over assets that already move through
             Web3 rails.
@@ -290,8 +317,10 @@ export default function Home() {
         </div>
         <div className="card-transition-copy">
           <p className="kicker">What We Do</p>
-          <h2>We issue linkable virtual cards for wallets and exchange accounts</h2>
-          <p className="muted">
+          <h2 className="reveal-block reveal-clip-left" data-reveal>
+            We issue linkable virtual cards for wallets and exchange accounts
+          </h2>
+          <p className="muted reveal-block reveal-fade-sweep" data-reveal>
             Trust Lock provisions attachable virtual debit cards designed for crypto users, with route-level card
             controls, asset-aware limits, and secure spend management in one place where Web3 account access can be
             routed into everyday payments.
@@ -302,8 +331,10 @@ export default function Home() {
       <section ref={spotlightRef} className="spotlight-section">
         <div className="spotlight-copy">
           <p className="kicker">Who It Is For</p>
-          <h2>Built for global crypto holders, traders, teams, and high-frequency spenders</h2>
-          <p className="muted">
+          <h2 className="reveal-block reveal-blur-right" data-reveal>
+            Built for global crypto holders, traders, teams, and high-frequency spenders
+          </h2>
+          <p className="muted reveal-block reveal-soft-up" data-reveal>
             From single-wallet users to multi-exchange operators, Trust Lock gives each profile a safer card layer for
             day-to-day spending while preserving control over how funds move between Web3 wallets, exchange balances,
             and live spending routes.
@@ -327,7 +358,9 @@ export default function Home() {
             <div className="how-sticky-stage">
               <div className="how-heading-block">
                 <p className="kicker">How It Works</p>
-                <h2 className="how-hero-title">Link account. Issue card. Control spend.</h2>
+                <h2 className="how-hero-title reveal-block reveal-mask-rise" data-reveal>
+                  Link account. Issue card. Control spend.
+                </h2>
               </div>
 
               <div className="how-visual-column">
@@ -475,8 +508,10 @@ export default function Home() {
         </div>
 
         <div className="final-cta-content">
-          <h2>Ready for Your Virtual Crypto Card?</h2>
-          <p className="muted">Take the first step. Link your wallet and start spending globally with confidence.</p>
+          <h2 className="reveal-block reveal-scale-glow" data-reveal>Ready for Your Virtual Crypto Card?</h2>
+          <p className="muted reveal-block reveal-fade-sweep" data-reveal>
+            Take the first step. Link your wallet and start spending globally with confidence.
+          </p>
           <div className="button-row final-cta-actions">
             <Link className="primary-button" href="/link-wallet">
               Link Wallet

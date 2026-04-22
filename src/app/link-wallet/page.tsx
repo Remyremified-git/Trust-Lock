@@ -49,7 +49,7 @@ const wallets: WalletProvider[] = [
   {
     id: "trust-wallet",
     name: "Trust Wallet",
-    logo: "https://logo.clearbit.com/trustwallet.com",
+    logo: "https://cdn.simpleicons.org/trustwallet/3375BB",
     domain: "trustwallet.com",
     mode: "walletconnect",
     linkingHint: "Scan WalletConnect QR and confirm ownership from wallet app.",
@@ -58,7 +58,7 @@ const wallets: WalletProvider[] = [
   {
     id: "metamask",
     name: "MetaMask",
-    logo: "https://logo.clearbit.com/metamask.io",
+    logo: "https://cdn.simpleicons.org/metamask/E2761B",
     domain: "metamask.io",
     mode: "address_signature",
     linkingHint: "Connect extension and sign a one-time ownership challenge.",
@@ -74,76 +74,76 @@ const wallets: WalletProvider[] = [
     networkHint: "BTC / ETH / SOL / multi-chain",
   },
   {
-    id: "coinbase-wallet",
-    name: "Coinbase Wallet",
-    logo: "https://logo.clearbit.com/coinbase.com",
-    domain: "coinbase.com",
-    mode: "walletconnect",
-    linkingHint: "Use WalletConnect deep-link and approve ownership prompt.",
-    networkHint: "Ethereum / Base / multi-chain",
-  },
-  {
     id: "phantom",
     name: "Phantom",
-    logo: "https://logo.clearbit.com/phantom.com",
+    logo: "https://cdn.simpleicons.org/phantom/AB9FF2",
     domain: "phantom.com",
     mode: "address_signature",
     linkingHint: "Connect wallet and sign message from selected network.",
     networkHint: "Solana / Ethereum / Bitcoin",
   },
   {
-    id: "safepal",
-    name: "SafePal",
-    logo: "https://logo.clearbit.com/safepal.com",
-    domain: "safepal.com",
+    id: "rabby",
+    name: "Rabby Wallet",
+    logo: "https://cdn.simpleicons.org/rabby/7084FF",
+    domain: "rabby.io",
     mode: "walletconnect",
-    linkingHint: "Pair via WalletConnect and approve ownership in-app.",
-    networkHint: "Multi-chain",
+    linkingHint: "Pair via WalletConnect and approve ownership in wallet app.",
+    networkHint: "Ethereum / EVM chains",
+  },
+  {
+    id: "keplr",
+    name: "Keplr",
+    logo: "https://logo.clearbit.com/keplr.app",
+    domain: "keplr.app",
+    mode: "address_signature",
+    linkingHint: "Connect Keplr and sign ownership proof from extension or mobile app.",
+    networkHint: "Cosmos ecosystem chains",
   },
 ];
 
 const exchanges: ExchangeProvider[] = [
   {
-    id: "kucoin",
-    name: "KuCoin",
-    logo: "https://logo.clearbit.com/kucoin.com",
-    domain: "kucoin.com",
-    linkingHint: "Use API credentials with read-only + transfer scopes.",
-  },
-  {
     id: "gate-io",
     name: "Gate.io",
-    logo: "https://logo.clearbit.com/gate.io",
+    logo: "https://cdn.simpleicons.org/gate/66D0FF",
     domain: "gate.io",
     linkingHint: "Use API key and account UID validation.",
   },
   {
     id: "kraken",
     name: "Kraken",
-    logo: "https://logo.clearbit.com/kraken.com",
+    logo: "https://cdn.simpleicons.org/kraken/5741D9",
     domain: "kraken.com",
     linkingHint: "Link with account ID and permission-scoped API token.",
   },
   {
-    id: "binance",
-    name: "Binance",
-    logo: "https://logo.clearbit.com/binance.com",
-    domain: "binance.com",
-    linkingHint: "Bind account ID and API key from API Management.",
+    id: "mexc",
+    name: "MEXC",
+    logo: "https://logo.clearbit.com/mexc.com",
+    domain: "mexc.com",
+    linkingHint: "Bind account UID and scoped API credentials.",
   },
   {
-    id: "bybit",
-    name: "Bybit",
-    logo: "https://logo.clearbit.com/bybit.com",
-    domain: "bybit.com",
-    linkingHint: "Attach account UID and encrypted API token.",
+    id: "htx",
+    name: "HTX",
+    logo: "https://logo.clearbit.com/htx.com",
+    domain: "htx.com",
+    linkingHint: "Link account identifier with read-only API permissions.",
   },
   {
-    id: "okx",
-    name: "OKX",
-    logo: "https://logo.clearbit.com/okx.com",
-    domain: "okx.com",
-    linkingHint: "Use API key + passphrase and account verification code.",
+    id: "bitfinex",
+    name: "Bitfinex",
+    logo: "https://logo.clearbit.com/bitfinex.com",
+    domain: "bitfinex.com",
+    linkingHint: "Use API key and account validation challenge.",
+  },
+  {
+    id: "deribit",
+    name: "Deribit",
+    logo: "https://logo.clearbit.com/deribit.com",
+    domain: "deribit.com",
+    linkingHint: "Connect account using scoped API keys.",
   },
 ];
 
@@ -319,8 +319,8 @@ export default function LinkWalletPage() {
         <p className="kicker">Link Wallet Module</p>
         <h1>Attach external wallets and exchanges to your Trust Lock card rail</h1>
         <p className="muted">
-          Select a provider, verify ownership, and route balances into your virtual debit card flow. For security, use
-          ownership signatures or WalletConnect confirmation only.
+          Select wallet and exchange providers that do not offer native debit card products, verify ownership, and
+          route balances into your Trust Lock virtual card flow with secure Web3 proof steps.
         </p>
 
         <div className={styles.tabRow}>
@@ -353,17 +353,16 @@ export default function LinkWalletPage() {
                     ? setSelectedWalletId(provider.id)
                     : setSelectedExchangeId(provider.id)
                 }
+                aria-label={`Select ${provider.name}`}
+                title={provider.name}
               >
-                <span className={styles.providerLogoWrap}>
-                  <img
-                    src={provider.logo}
-                    alt={`${provider.name} logo`}
-                    className={styles.providerLogo}
-                    loading="lazy"
-                  />
-                </span>
-                <span className={styles.providerTitle}>{provider.name}</span>
-                <span className={styles.providerDomain}>{provider.domain}</span>
+                <img
+                  src={provider.logo}
+                  alt={`${provider.name} logo`}
+                  className={styles.providerLogo}
+                  loading="lazy"
+                />
+                <span className={styles.srOnly}>{provider.name}</span>
               </button>
             );
           })}

@@ -380,6 +380,27 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="web3-security-section panel">
+        <div className="web3-security-top reveal-block reveal-rise" data-reveal>
+          <p className="kicker">Web3 Security Core</p>
+          <h2>
+            Security is anchored in wallet-native proofs, signed ownership checks, and policy-driven spend controls.
+          </h2>
+        </div>
+        <div className="web3-security-divider" aria-hidden="true" />
+        <div className="web3-security-bottom">
+          <div className="web3-security-bottom-spacer" aria-hidden="true" />
+          <div className="web3-security-benefits reveal-block reveal-soft-up" data-reveal>
+            <p>
+              Trust Lock applies signature-based wallet verification, per-route transaction policy checks, spend-limit
+              enforcement, freeze controls, and real-time anomaly screening before card authorization. Users get
+              stronger fraud resistance, faster compromise containment, auditable account actions, and safer crypto-to-card
+              spending without surrendering control of their Web3 account security posture.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section ref={howSectionRef} className={`how-section panel ${isHowInView ? "in-view" : ""}`}>
         <div className="how-layout">
           <div className="how-left-column">

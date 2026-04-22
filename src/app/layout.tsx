@@ -6,7 +6,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Trust Lock",
   description:
-    "Attach virtual spending cards to crypto wallets and exchange accounts with secure controls and asset management.",
+    "Attach virtual spending cards to crypto wallets with secure controls and asset management.",
 };
 
 export const viewport: Viewport = {

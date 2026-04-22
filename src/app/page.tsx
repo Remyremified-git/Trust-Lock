@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import Link from "next/link";
-import type { CSSProperties } from "react";
+import type { CSSProperties, FormEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 import WalletDebitHeroStack from "@/components/WalletDebitHeroStack";
 
@@ -42,6 +42,82 @@ function HowStepIcon({ type }: { type: "connect" | "issue" | "control" }) {
   );
 }
 
+type WalletLinkMode = "walletconnect" | "address_signature";
+
+type WalletProvider = {
+  id: string;
+  name: string;
+  logo: string;
+  logoFallback?: string;
+  logoFallbackAlt?: string;
+  mode: WalletLinkMode;
+  linkingHint: string;
+  networkHint: string;
+};
+
+const walletProviders: WalletProvider[] = [
+  {
+    id: "trust-wallet",
+    name: "Trust Wallet",
+    logo: "https://logo.clearbit.com/trustwallet.com",
+    logoFallback: "https://cdn.simpleicons.org/trustwallet/3375BB",
+    logoFallbackAlt: "https://cryptologos.cc/logos/trust-wallet-token-twt-logo.png?v=040",
+    mode: "walletconnect",
+    linkingHint: "Pair your wallet session and confirm ownership in the app.",
+    networkHint: "Ethereum / BNB / TRON / multi-chain",
+  },
+  {
+    id: "metamask",
+    name: "MetaMask",
+    logo: "https://logo.clearbit.com/metamask.io",
+    logoFallback: "https://cdn.simpleicons.org/metamask/E2761B",
+    logoFallbackAlt: "https://cryptologos.cc/logos/metamask-logo.png?v=040",
+    mode: "address_signature",
+    linkingHint: "Connect and sign a one-time ownership proof.",
+    networkHint: "Ethereum / EVM chains",
+  },
+  {
+    id: "exodus",
+    name: "Exodus",
+    logo: "https://logo.clearbit.com/exodus.com",
+    logoFallback: "https://cdn.simpleicons.org/exodus/5A4CFF",
+    logoFallbackAlt: "https://logo.clearbit.com/exodus.io",
+    mode: "address_signature",
+    linkingHint: "Submit wallet address and ownership signature.",
+    networkHint: "BTC / ETH / SOL / multi-chain",
+  },
+  {
+    id: "phantom",
+    name: "Phantom",
+    logo: "https://logo.clearbit.com/phantom.app",
+    logoFallback: "https://cdn.simpleicons.org/phantom/AB9FF2",
+    logoFallbackAlt: "https://logo.clearbit.com/phantom.com",
+    mode: "address_signature",
+    linkingHint: "Connect and sign ownership proof from Phantom.",
+    networkHint: "Solana / Ethereum / Bitcoin",
+  },
+  {
+    id: "rabby",
+    name: "Rabby Wallet",
+    logo: "https://logo.clearbit.com/rabby.io",
+    logoFallback: "https://cdn.simpleicons.org/rabby/7084FF",
+    logoFallbackAlt: "https://logo.clearbit.com/rabbywallet.com",
+    mode: "walletconnect",
+    linkingHint: "Pair with WalletConnect and approve ownership.",
+    networkHint: "Ethereum / EVM chains",
+  },
+  {
+    id: "keplr",
+    name: "Keplr",
+    logo: "https://logo.clearbit.com/keplr.app",
+    logoFallback: "https://cdn.simpleicons.org/keplr/5E4AE3",
+    logoFallbackAlt: "https://logo.clearbit.com/keplrwallet.app",
+    mode: "address_signature",
+    linkingHint: "Connect your account and sign ownership challenge.",
+    networkHint: "Cosmos ecosystem chains",
+  },
+];
+
 export default function Home() {
   const mainRef = useRef<HTMLElement | null>(null);
   const transitionRef = useRef<HTMLElement | null>(null);
@@ -51,6 +127,17 @@ export default function Home() {
   const heroSlotRef = useRef<HTMLDivElement | null>(null);
   const transitionSlotRef = useRef<HTMLDivElement | null>(null);
   const spotlightSlotRef = useRef<HTMLDivElement | null>(null);
+  const [walletModalOpen, setWalletModalOpen] = useState(false);
+  const [walletModalStep, setWalletModalStep] = useState<"select" | "connect">("select");
+  const [selectedWallet, setSelectedWallet] = useState<WalletProvider | null>(null);
+  const [sessionEmail, setSessionEmail] = useState("");
+  const [walletAlias, setWalletAlias] = useState("");
+  const [walletConnectUri, setWalletConnectUri] = useState("");
+  const [walletAddress, setWalletAddress] = useState("");
+  const [walletNetwork, setWalletNetwork] = useState("Ethereum");
+  const [walletSignature, setWalletSignature] = useState("");
+  const [linkingStatus, setLinkingStatus] = useState("");
+  const [isLinking, setIsLinking] = useState(false);
   const [isHowInView, setIsHowInView] = useState(false);
   const [stackMotion, setStackMotion] = useState({
     x: 0,
@@ -170,6 +257,37 @@ export default function Home() {
       window.removeEventListener("scroll", requestUpdate);
       window.removeEventListener("resize", requestUpdate);
     };
+  }, []);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("walletModal") === "1") {
+      setWalletModalOpen(true);
+      setWalletModalStep("select");
+      params.delete("walletModal");
+      const next = `${window.location.pathname}${params.toString() ? `?${params.toString()}` : ""}${window.location.hash}`;
+      window.history.replaceState({}, "", next);
+    }
+  }, []);
+
+  useEffect(() => {
+    const loadSession = async () => {
+      try {
+        const response = await fetch("/api/auth/me");
+        const payload = (await response.json()) as {
+          ok: boolean;
+          user?: { email: string | null };
+        };
+        if (payload.ok && payload.user) {
+          setSessionEmail(payload.user.email ?? "");
+        } else {
+          setSessionEmail("");
+        }
+      } catch {
+        setSessionEmail("");
+      }
+    };
+    void loadSession();
   }, []);
 
   useEffect(() => {
@@ -309,6 +427,80 @@ export default function Home() {
     "--theme-light-pct": `${Math.round((1 - stackMotion.themeProgress) * 100)}%`,
   } as CSSProperties;
 
+  const openWalletModal = () => {
+    setWalletModalOpen(true);
+    setWalletModalStep("select");
+    setLinkingStatus("");
+  };
+
+  const closeWalletModal = () => {
+    setWalletModalOpen(false);
+    setWalletModalStep("select");
+    setSelectedWallet(null);
+    setWalletAlias("");
+    setWalletConnectUri("");
+    setWalletAddress("");
+    setWalletNetwork("Ethereum");
+    setWalletSignature("");
+    setLinkingStatus("");
+    setIsLinking(false);
+  };
+
+  const pickWallet = (wallet: WalletProvider) => {
+    setSelectedWallet(wallet);
+    setWalletAlias("");
+    setWalletConnectUri("");
+    setWalletAddress("");
+    setWalletSignature("");
+    setWalletNetwork("Ethereum");
+    setWalletModalStep("connect");
+  };
+
+  const submitWalletLink = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!selectedWallet) return;
+    if (!sessionEmail) {
+      setLinkingStatus("Session required. Sign in before linking a wallet.");
+      return;
+    }
+
+    const accountReference =
+      selectedWallet.mode === "walletconnect"
+        ? walletConnectUri.trim()
+        : `${walletNetwork.trim()}:${walletAddress.trim()}`;
+
+    if (!accountReference) {
+      setLinkingStatus("Add a valid wallet reference to continue.");
+      return;
+    }
+
+    try {
+      setIsLinking(true);
+      setLinkingStatus("Linking wallet...");
+      const response = await fetch("/api/linking/accounts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          provider_type: "WALLET",
+          provider_name: selectedWallet.name,
+          account_label: walletAlias.trim() || `${selectedWallet.name} wallet`,
+          account_reference: accountReference,
+          access_token: walletSignature.trim() || undefined,
+        }),
+      });
+      const payload = (await response.json()) as { ok: boolean; error?: string };
+      if (!payload.ok) {
+        setLinkingStatus(payload.error ?? "Wallet linking failed.");
+        return;
+      }
+      setLinkingStatus(`${selectedWallet.name} submitted for verification.`);
+    } catch (error) {
+      setLinkingStatus(error instanceof Error ? error.message : "Wallet link request failed.");
+    } finally {
+      setIsLinking(false);
+    }
+  };
+
   return (
     <main ref={mainRef} className="screen page-enter" style={themeBlendStyle}>
       <div className="moving-stack-layer" style={movingStackStyle}>
@@ -323,17 +515,16 @@ export default function Home() {
         <div className="hero-copy">
           <p className="kicker">Virtual Cards for Crypto Platforms</p>
           <h1 className="reveal-block reveal-rise" data-reveal>
-            Attach a virtual spending card to your crypto wallets and exchanges
+            Attach a virtual spending card to your crypto wallets
           </h1>
           <p className="muted reveal-block reveal-soft-up" data-reveal>
-            Link Trust Wallet, MetaMask, Exodus, KuCoin, Gate.io, Kraken, and other major crypto accounts to secure
-            virtual debit cards so you can spend globally with tighter control over assets that already move through
-            Web3 rails.
+            Link Trust Wallet, MetaMask, Exodus, Phantom, and other major wallets to secure virtual debit cards so you
+            can spend globally with tighter control over assets that move through Web3 rails.
           </p>
           <div className="button-row cta-group reveal-block reveal-soft-up" data-reveal>
-            <Link className="primary-button" href="/link-wallet">
+            <button className="primary-button" type="button" onClick={openWalletModal}>
               Link Wallet
-            </Link>
+            </button>
           </div>
         </div>
         <div ref={heroSlotRef} className="stack-slot hero-stack-slot" aria-hidden="true" />
@@ -346,12 +537,12 @@ export default function Home() {
         <div className="card-transition-copy">
           <p className="kicker reveal-block reveal-fade-sweep" data-reveal>What We Do</p>
           <h2 className="reveal-block reveal-clip-left" data-reveal>
-            We issue linkable virtual cards for wallets and exchange accounts
+            We issue linkable virtual cards for wallet accounts
           </h2>
           <p className="muted reveal-block reveal-fade-sweep" data-reveal>
             Trust Lock provisions attachable virtual debit cards designed for crypto users, with route-level card
             controls, asset-aware limits, and secure spend management in one place where Web3 account access can be
-            routed into everyday payments.
+            routed from wallets into everyday payments.
           </p>
         </div>
       </section>
@@ -363,14 +554,14 @@ export default function Home() {
             Built for global crypto holders, traders, teams, and high-frequency spenders
           </h2>
           <p className="muted reveal-block reveal-soft-up" data-reveal>
-            From single-wallet users to multi-exchange operators, Trust Lock gives each profile a safer card layer for
-            day-to-day spending while preserving control over how funds move between Web3 wallets, exchange balances,
-            and live spending routes.
+            From single-wallet users to multi-wallet operators, Trust Lock gives each profile a safer card layer for
+            day-to-day spending while preserving control over how funds move between Web3 wallets and live spending
+            routes.
           </p>
           <div className="button-row cta-group reveal-block reveal-soft-up" data-reveal>
-            <Link className="primary-button spotlight-cta" href="/link-wallet">
+            <button className="primary-button spotlight-cta" type="button" onClick={openWalletModal}>
               Link Wallet
-            </Link>
+            </button>
           </div>
         </div>
         <div className="card-transition-stage">
@@ -417,13 +608,13 @@ export default function Home() {
                   <div className="spend-image-card reveal-block reveal-rise" data-reveal aria-hidden="true">
                     <div className="spend-image-top">
                       <span className="spend-channel-live">Live Spend Feed</span>
-                      <span className="spend-platform-tag">Wallet + Exchange</span>
+                      <span className="spend-platform-tag">Wallet-linked</span>
                     </div>
                     <div className="spend-profile-line">
                       <span className="spend-avatar-dot" />
                       <div>
                         <strong>Global card route active</strong>
-                        <p>Trust Wallet, MetaMask, KuCoin and Kraken linked</p>
+                        <p>Trust Wallet, MetaMask, Exodus and Phantom linked</p>
                       </div>
                     </div>
                     <div className="spend-flow-legend">
@@ -481,7 +672,7 @@ export default function Home() {
               </div>
               <div>
                 <h3>1. Connect</h3>
-                <p>Connect your wallet or exchange account and verify ownership through secure onboarding and standard Web3 account proofs.</p>
+                <p>Connect your wallet and verify ownership through secure onboarding and standard Web3 account proofs.</p>
               </div>
             </article>
 
@@ -562,9 +753,9 @@ export default function Home() {
             Take the first step. Link your wallet and start spending globally with confidence.
           </p>
           <div className="button-row final-cta-actions reveal-block reveal-soft-up" data-reveal>
-            <Link className="primary-button" href="/link-wallet">
+            <button className="primary-button" type="button" onClick={openWalletModal}>
               Link Wallet
-            </Link>
+            </button>
           </div>
           <div className="final-cta-meta reveal-block reveal-fade-sweep" data-reveal>
             <div className="final-store-badges">
@@ -596,6 +787,142 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {walletModalOpen ? (
+        <div className="wallet-modal-overlay" role="dialog" aria-modal="true" aria-label="Wallet linking modal">
+          <div className="wallet-modal-shell">
+            <button
+              type="button"
+              className="wallet-modal-close"
+              aria-label="Close wallet modal"
+              onClick={closeWalletModal}
+            >
+              ×
+            </button>
+
+            {walletModalStep === "select" ? (
+              <div className="wallet-modal-step">
+                <p className="kicker">Wallet Linking</p>
+                <h2>Select your wallet platform</h2>
+                <p className="muted">
+                  Choose your wallet to begin secure ownership verification and card linking.
+                </p>
+                <div className="wallet-modal-grid">
+                  {walletProviders.map((wallet) => (
+                    <button
+                      type="button"
+                      key={wallet.id}
+                      className="wallet-logo-button"
+                      onClick={() => pickWallet(wallet)}
+                      title={wallet.name}
+                      aria-label={`Link ${wallet.name}`}
+                    >
+                      <img
+                        src={wallet.logo}
+                        alt={`${wallet.name} logo`}
+                        loading="lazy"
+                        onError={(event) => {
+                          const image = event.currentTarget;
+                          if (wallet.logoFallback && image.src !== wallet.logoFallback) {
+                            image.src = wallet.logoFallback;
+                          } else if (wallet.logoFallbackAlt && image.src !== wallet.logoFallbackAlt) {
+                            image.src = wallet.logoFallbackAlt;
+                          }
+                        }}
+                      />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+
+            {walletModalStep === "connect" && selectedWallet ? (
+              <form className="wallet-modal-step wallet-connect-form" onSubmit={submitWalletLink}>
+                <div className="wallet-connect-head">
+                  <button
+                    type="button"
+                    className="wallet-modal-back"
+                    onClick={() => setWalletModalStep("select")}
+                  >
+                    ← Wallets
+                  </button>
+                  <h2>{selectedWallet.name} wallet linking</h2>
+                  <p>{selectedWallet.linkingHint}</p>
+                  <p className="wallet-connect-network">Supported networks: {selectedWallet.networkHint}</p>
+                </div>
+
+                <div className="wallet-connect-grid">
+                  <label className="field">
+                    <span>Wallet Label</span>
+                    <input
+                      value={walletAlias}
+                      onChange={(event) => setWalletAlias(event.target.value)}
+                      placeholder={`${selectedWallet.name} primary`}
+                    />
+                  </label>
+
+                  {selectedWallet.mode === "walletconnect" ? (
+                    <label className="field">
+                      <span>WalletConnect URI</span>
+                      <input
+                        value={walletConnectUri}
+                        onChange={(event) => setWalletConnectUri(event.target.value)}
+                        placeholder="wc:xxxx@2?relay-protocol=irn..."
+                        required
+                      />
+                    </label>
+                  ) : (
+                    <>
+                      <label className="field">
+                        <span>Network</span>
+                        <input
+                          value={walletNetwork}
+                          onChange={(event) => setWalletNetwork(event.target.value)}
+                          placeholder="Ethereum"
+                          required
+                        />
+                      </label>
+                      <label className="field">
+                        <span>Wallet Address</span>
+                        <input
+                          value={walletAddress}
+                          onChange={(event) => setWalletAddress(event.target.value)}
+                          placeholder="0x... or network address"
+                          required
+                        />
+                      </label>
+                    </>
+                  )}
+
+                  <label className="field">
+                    <span>Ownership Signature (optional)</span>
+                    <input
+                      value={walletSignature}
+                      onChange={(event) => setWalletSignature(event.target.value)}
+                      placeholder="Signed challenge proof"
+                    />
+                  </label>
+                </div>
+
+                <div className="wallet-connect-actions">
+                  <button className="primary-button" type="submit" disabled={isLinking}>
+                    {isLinking ? "Linking..." : "Link Wallet"}
+                  </button>
+                  {linkingStatus ? <p className="wallet-connect-status">{linkingStatus}</p> : null}
+                  {!sessionEmail ? (
+                    <p className="wallet-connect-auth-hint">
+                      Session required. <Link href="/auth">Sign in here</Link>.
+                    </p>
+                  ) : null}
+                  <p className="wallet-connect-safe-note">
+                    For your safety, never share your recovery phrase with any app or support agent.
+                  </p>
+                </div>
+              </form>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
 
       <div className="page-bottom-space" aria-hidden="true" />
     </main>

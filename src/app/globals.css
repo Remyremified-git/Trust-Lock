@@ -1313,6 +1313,180 @@ body.reveal-runtime .reveal-block.reveal-scale-glow:not(.is-visible) {
   box-shadow: 0 12px 24px -16px rgba(62, 105, 205, 0.42);
 }
 
+.wallet-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: grid;
+  place-items: center;
+  padding: clamp(0.8rem, 2.2vw, 1.6rem);
+  background:
+    radial-gradient(circle at 18% 15%, rgba(116, 169, 255, 0.22), transparent 38%),
+    radial-gradient(circle at 82% 18%, rgba(129, 106, 255, 0.2), transparent 38%),
+    rgba(5, 12, 29, 0.62);
+  backdrop-filter: blur(8px) saturate(120%);
+}
+
+.wallet-modal-shell {
+  width: min(940px, 100%);
+  border-radius: 28px;
+  border: 1px solid rgba(173, 201, 255, 0.34);
+  padding: clamp(1rem, 2.4vw, 1.35rem);
+  background:
+    radial-gradient(circle at 88% 14%, rgba(132, 162, 255, 0.22), transparent 42%),
+    radial-gradient(circle at 10% 90%, rgba(83, 228, 255, 0.14), transparent 34%),
+    linear-gradient(155deg, rgba(10, 24, 68, 0.9), rgba(10, 20, 56, 0.82));
+  box-shadow:
+    0 48px 88px -52px rgba(4, 11, 31, 0.95),
+    0 18px 34px -24px rgba(52, 94, 205, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    inset 0 -50px 90px rgba(5, 16, 45, 0.44);
+  position: relative;
+  overflow: hidden;
+}
+
+.wallet-modal-shell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(132deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 42%);
+}
+
+.wallet-modal-close {
+  position: absolute;
+  top: 0.68rem;
+  right: 0.78rem;
+  border: 0;
+  background: transparent;
+  color: rgba(216, 233, 255, 0.88);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.wallet-modal-step {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.wallet-modal-step h2 {
+  font-size: clamp(1.24rem, 2.2vw, 1.86rem);
+  color: #eef5ff;
+  letter-spacing: -0.01em;
+}
+
+.wallet-modal-step .muted {
+  color: rgba(192, 214, 245, 0.9);
+  max-width: 62ch;
+}
+
+.wallet-modal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 0.9rem;
+  align-items: center;
+}
+
+.wallet-logo-button {
+  border: 1px solid rgba(128, 162, 244, 0.36);
+  border-radius: 18px;
+  min-height: 106px;
+  background: linear-gradient(160deg, rgba(23, 45, 103, 0.76), rgba(18, 35, 82, 0.62));
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.wallet-logo-button:hover,
+.wallet-logo-button:focus-visible {
+  transform: translateY(-2px) scale(1.02);
+  border-color: rgba(176, 208, 255, 0.68);
+  box-shadow: 0 18px 30px -24px rgba(69, 128, 255, 0.72);
+}
+
+.wallet-logo-button img {
+  width: clamp(62px, 8vw, 84px);
+  height: clamp(62px, 8vw, 84px);
+  object-fit: contain;
+}
+
+.wallet-connect-form {
+  gap: 0.84rem;
+}
+
+.wallet-connect-head {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.wallet-modal-back {
+  justify-self: start;
+  border: 1px solid rgba(132, 167, 247, 0.4);
+  border-radius: 999px;
+  padding: 0.26rem 0.62rem;
+  background: rgba(51, 87, 188, 0.26);
+  color: rgba(228, 238, 255, 0.92);
+  cursor: pointer;
+}
+
+.wallet-connect-head p {
+  color: rgba(193, 218, 255, 0.88);
+}
+
+.wallet-connect-network {
+  font-size: 0.84rem;
+  color: rgba(168, 199, 252, 0.85);
+}
+
+.wallet-connect-grid {
+  display: grid;
+  gap: 0.72rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.wallet-connect-grid .field span {
+  color: rgba(210, 226, 255, 0.9);
+}
+
+.wallet-connect-grid .field input {
+  background: rgba(7, 20, 55, 0.72);
+  border-color: rgba(130, 165, 243, 0.3);
+  color: #f7fbff;
+}
+
+.wallet-connect-actions {
+  display: grid;
+  gap: 0.46rem;
+}
+
+.wallet-connect-auth-hint {
+  margin: 0;
+  font-size: 0.82rem;
+  color: rgba(193, 216, 255, 0.88);
+}
+
+.wallet-connect-auth-hint a {
+  color: #d7e8ff;
+  text-decoration: underline;
+}
+
+.wallet-connect-status {
+  margin: 0;
+  font-size: 0.82rem;
+  color: rgba(210, 229, 255, 0.94);
+}
+
+.wallet-connect-safe-note {
+  margin: 0;
+  font-size: 0.8rem;
+  color: rgba(170, 202, 252, 0.86);
+}
+
 .feature-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
@@ -1699,6 +1873,25 @@ body.reveal-runtime .reveal-block.reveal-scale-glow:not(.is-visible) {
   .final-cta-meta {
     margin-top: 0;
     align-self: end;
+  }
+
+  .wallet-modal-shell {
+    border-radius: 22px;
+    padding: 0.9rem;
+  }
+
+  .wallet-modal-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.72rem;
+  }
+
+  .wallet-logo-button {
+    min-height: 92px;
+    border-radius: 14px;
+  }
+
+  .wallet-connect-grid {
+    grid-template-columns: 1fr;
   }
 }
 

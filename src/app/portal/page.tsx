@@ -178,7 +178,7 @@ export default function PortalPage() {
     <main className="screen">
       <section className="panel">
         <p className="kicker">User Control Panel</p>
-        <h1>Linked wallet, exchange, and virtual card operations center</h1>
+        <h1>Linked wallet and virtual card operations center</h1>
         <div className="button-row"><button type="button" className="secondary-button" onClick={refreshAll}>Refresh all</button></div>
         <p className="muted">{status}</p>
         <div className="stat-grid">

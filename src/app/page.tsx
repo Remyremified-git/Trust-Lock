@@ -258,11 +258,8 @@ export default function Home() {
       return;
     }
 
-    for (const node of revealNodes) {
-      node.classList.add("reveal-on");
-    }
-
     let raf = 0;
+    const body = document.body;
 
     const applyVisibility = () => {
       raf = 0;
@@ -281,18 +278,23 @@ export default function Home() {
       raf = window.requestAnimationFrame(applyVisibility);
     };
 
+    applyVisibility();
+    body.classList.add("reveal-runtime");
     scheduleVisibility();
     window.addEventListener("load", scheduleVisibility);
     window.addEventListener("scroll", scheduleVisibility, { passive: true });
     window.addEventListener("resize", scheduleVisibility);
+    window.addEventListener("orientationchange", scheduleVisibility);
 
     return () => {
       if (raf) {
         window.cancelAnimationFrame(raf);
       }
+      body.classList.remove("reveal-runtime");
       window.removeEventListener("load", scheduleVisibility);
       window.removeEventListener("scroll", scheduleVisibility);
       window.removeEventListener("resize", scheduleVisibility);
+      window.removeEventListener("orientationchange", scheduleVisibility);
     };
   }, []);
 

@@ -365,8 +365,7 @@ export default function Home() {
                 trigger: target,
                 start: "top 90%",
                 end: "top 35%",
-                toggleActions: isCompactViewport ? "play none none none" : "restart reverse restart reverse",
-                once: isCompactViewport,
+                toggleActions: "restart reverse restart reverse",
               },
             },
           );
@@ -399,8 +398,7 @@ export default function Home() {
                 trigger: target,
                 start: "top 92%",
                 end: "top 36%",
-                toggleActions: isCompactViewport ? "play none none none" : "restart reverse restart reverse",
-                once: isCompactViewport,
+                toggleActions: "restart reverse restart reverse",
               },
             },
           );

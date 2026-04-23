@@ -301,6 +301,7 @@ export default function Home() {
       return;
     }
 
+    const isCompactViewport = window.matchMedia("(max-width: 1024px)").matches;
     let ctx: { revert: () => void } | null = null;
     let alive = true;
 
@@ -311,7 +312,15 @@ export default function Home() {
 
       gsap.registerPlugin(ScrollTrigger);
       ctx = gsap.context(() => {
-        const revealTargets = gsap.utils.toArray<HTMLElement>("[data-reveal]");
+        const heroRevealTargets = gsap.utils.toArray<HTMLElement>(".hero-copy [data-reveal]");
+        if (isCompactViewport && heroRevealTargets.length) {
+          // Keep hero heading/subheading always visible on mobile/tablet to avoid flicker.
+          gsap.set(heroRevealTargets, { autoAlpha: 1, clearProps: "transform,filter" });
+        }
+
+        const revealTargets = gsap
+          .utils.toArray<HTMLElement>("[data-reveal]")
+          .filter((target) => !(isCompactViewport && heroRevealTargets.includes(target)));
         const textTags = new Set(["H1", "H2", "H3", "H4", "P", "SPAN", "A", "STRONG"]);
         const textTargets = revealTargets.filter((target) => {
           return (
@@ -356,7 +365,8 @@ export default function Home() {
                 trigger: target,
                 start: "top 90%",
                 end: "top 35%",
-                toggleActions: "restart reverse restart reverse",
+                toggleActions: isCompactViewport ? "play none none none" : "restart reverse restart reverse",
+                once: isCompactViewport,
               },
             },
           );
@@ -389,7 +399,8 @@ export default function Home() {
                 trigger: target,
                 start: "top 92%",
                 end: "top 36%",
-                toggleActions: "restart reverse restart reverse",
+                toggleActions: isCompactViewport ? "play none none none" : "restart reverse restart reverse",
+                once: isCompactViewport,
               },
             },
           );

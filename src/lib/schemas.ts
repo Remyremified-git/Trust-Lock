@@ -153,6 +153,10 @@ export const cardFreezeSchema = z.object({
   reason: z.string().trim().max(160).optional(),
 });
 
+export const cardBlockSchema = z.object({
+  reason: z.string().trim().max(160).optional(),
+});
+
 export const cardIssueTicketSchema = z.object({
   card_id: z.string().uuid().optional(),
   issue_type: z.enum([

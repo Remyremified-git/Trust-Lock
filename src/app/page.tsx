@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import Link from "next/link";
-import type { CSSProperties, FormEvent } from "react";
+import type { CSSProperties } from "react";
 import { useEffect, useRef, useState } from "react";
 import WalletDebitHeroStack from "@/components/WalletDebitHeroStack";
 
@@ -42,79 +42,42 @@ function HowStepIcon({ type }: { type: "connect" | "issue" | "control" }) {
   );
 }
 
-type WalletLinkMode = "walletconnect" | "address_signature";
-
 type WalletProvider = {
   id: string;
   name: string;
   logo: string;
-  logoFallback?: string;
-  logoFallbackAlt?: string;
-  mode: WalletLinkMode;
-  linkingHint: string;
-  networkHint: string;
 };
 
 const walletProviders: WalletProvider[] = [
   {
     id: "trust-wallet",
     name: "Trust Wallet",
-    logo: "https://logo.clearbit.com/trustwallet.com",
-    logoFallback: "https://cdn.simpleicons.org/trustwallet/3375BB",
-    logoFallbackAlt: "https://cryptologos.cc/logos/trust-wallet-token-twt-logo.png?v=040",
-    mode: "walletconnect",
-    linkingHint: "Pair your wallet session and confirm ownership in the app.",
-    networkHint: "Ethereum / BNB / TRON / multi-chain",
+    logo: "/wallet-logos/trust-wallet.png",
   },
   {
     id: "metamask",
     name: "MetaMask",
-    logo: "https://logo.clearbit.com/metamask.io",
-    logoFallback: "https://cdn.simpleicons.org/metamask/E2761B",
-    logoFallbackAlt: "https://cryptologos.cc/logos/metamask-logo.png?v=040",
-    mode: "address_signature",
-    linkingHint: "Connect and sign a one-time ownership proof.",
-    networkHint: "Ethereum / EVM chains",
+    logo: "/wallet-logos/metamask.png",
   },
   {
     id: "exodus",
     name: "Exodus",
-    logo: "https://logo.clearbit.com/exodus.com",
-    logoFallback: "https://cdn.simpleicons.org/exodus/5A4CFF",
-    logoFallbackAlt: "https://logo.clearbit.com/exodus.io",
-    mode: "address_signature",
-    linkingHint: "Submit wallet address and ownership signature.",
-    networkHint: "BTC / ETH / SOL / multi-chain",
+    logo: "/wallet-logos/exodus.png",
   },
   {
     id: "phantom",
     name: "Phantom",
-    logo: "https://logo.clearbit.com/phantom.app",
-    logoFallback: "https://cdn.simpleicons.org/phantom/AB9FF2",
-    logoFallbackAlt: "https://logo.clearbit.com/phantom.com",
-    mode: "address_signature",
-    linkingHint: "Connect and sign ownership proof from Phantom.",
-    networkHint: "Solana / Ethereum / Bitcoin",
+    logo: "/wallet-logos/phantom.png",
   },
   {
     id: "rabby",
     name: "Rabby Wallet",
-    logo: "https://logo.clearbit.com/rabby.io",
-    logoFallback: "https://cdn.simpleicons.org/rabby/7084FF",
-    logoFallbackAlt: "https://logo.clearbit.com/rabbywallet.com",
-    mode: "walletconnect",
-    linkingHint: "Pair with WalletConnect and approve ownership.",
-    networkHint: "Ethereum / EVM chains",
+    logo: "/wallet-logos/rabby.png",
   },
   {
     id: "keplr",
     name: "Keplr",
-    logo: "https://logo.clearbit.com/keplr.app",
-    logoFallback: "https://cdn.simpleicons.org/keplr/5E4AE3",
-    logoFallbackAlt: "https://logo.clearbit.com/keplrwallet.app",
-    mode: "address_signature",
-    linkingHint: "Connect your account and sign ownership challenge.",
-    networkHint: "Cosmos ecosystem chains",
+    logo: "/wallet-logos/keplr.png",
   },
 ];
 
@@ -128,16 +91,7 @@ export default function Home() {
   const transitionSlotRef = useRef<HTMLDivElement | null>(null);
   const spotlightSlotRef = useRef<HTMLDivElement | null>(null);
   const [walletModalOpen, setWalletModalOpen] = useState(false);
-  const [walletModalStep, setWalletModalStep] = useState<"select" | "connect">("select");
-  const [selectedWallet, setSelectedWallet] = useState<WalletProvider | null>(null);
-  const [sessionEmail, setSessionEmail] = useState("");
-  const [walletAlias, setWalletAlias] = useState("");
-  const [walletConnectUri, setWalletConnectUri] = useState("");
-  const [walletAddress, setWalletAddress] = useState("");
-  const [walletNetwork, setWalletNetwork] = useState("Ethereum");
-  const [walletSignature, setWalletSignature] = useState("");
   const [linkingStatus, setLinkingStatus] = useState("");
-  const [isLinking, setIsLinking] = useState(false);
   const [isHowInView, setIsHowInView] = useState(false);
   const [stackMotion, setStackMotion] = useState({
     x: 0,
@@ -263,31 +217,10 @@ export default function Home() {
     const params = new URLSearchParams(window.location.search);
     if (params.get("walletModal") === "1") {
       setWalletModalOpen(true);
-      setWalletModalStep("select");
       params.delete("walletModal");
       const next = `${window.location.pathname}${params.toString() ? `?${params.toString()}` : ""}${window.location.hash}`;
       window.history.replaceState({}, "", next);
     }
-  }, []);
-
-  useEffect(() => {
-    const loadSession = async () => {
-      try {
-        const response = await fetch("/api/auth/me");
-        const payload = (await response.json()) as {
-          ok: boolean;
-          user?: { email: string | null };
-        };
-        if (payload.ok && payload.user) {
-          setSessionEmail(payload.user.email ?? "");
-        } else {
-          setSessionEmail("");
-        }
-      } catch {
-        setSessionEmail("");
-      }
-    };
-    void loadSession();
   }, []);
 
   useEffect(() => {
@@ -364,55 +297,110 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const revealNodes = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
-    if (!revealNodes.length) {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !mainRef.current) {
       return;
     }
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      for (const node of revealNodes) {
-        node.classList.add("is-visible");
-      }
-      return;
-    }
+    let ctx: { revert: () => void } | null = null;
+    let alive = true;
 
-    let raf = 0;
-    const body = document.body;
+    const run = async () => {
+      const { gsap } = await import("gsap");
+      const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+      if (!alive || !mainRef.current) return;
 
-    const applyVisibility = () => {
-      raf = 0;
-      const viewportHeight = window.innerHeight;
-      for (const node of revealNodes) {
-        const rect = node.getBoundingClientRect();
-        const shouldShow = rect.top < viewportHeight * 0.9 && rect.bottom > viewportHeight * 0.1;
-        node.classList.toggle("is-visible", shouldShow);
-      }
+      gsap.registerPlugin(ScrollTrigger);
+      ctx = gsap.context(() => {
+        const revealTargets = gsap.utils.toArray<HTMLElement>("[data-reveal]");
+        const textTags = new Set(["H1", "H2", "H3", "H4", "P", "SPAN", "A", "STRONG"]);
+        const textTargets = revealTargets.filter((target) => {
+          return (
+            textTags.has(target.tagName) ||
+            target.classList.contains("kicker") ||
+            target.classList.contains("muted") ||
+            target.classList.contains("how-hero-title")
+          );
+        });
+        const blockTargets = revealTargets.filter((target) => !textTargets.includes(target));
+
+        const textVariants: Array<{ y: number; rotateX: number; skewY: number; x: number }> = [
+          { y: 42, rotateX: 11, skewY: 2, x: 0 },
+          { y: 28, rotateX: -9, skewY: -1.8, x: 12 },
+          { y: 34, rotateX: 7, skewY: 1.2, x: -12 },
+          { y: 22, rotateX: -5, skewY: -1, x: 0 },
+        ];
+
+        textTargets.forEach((target, index) => {
+          const variant = textVariants[index % textVariants.length];
+          gsap.fromTo(
+            target,
+            {
+              autoAlpha: 0,
+              y: variant.y,
+              x: variant.x,
+              skewY: variant.skewY,
+              rotateX: variant.rotateX,
+              filter: "blur(10px)",
+              transformOrigin: "50% 100%",
+            },
+            {
+              autoAlpha: 1,
+              y: 0,
+              x: 0,
+              skewY: 0,
+              rotateX: 0,
+              filter: "blur(0px)",
+              duration: 0.95,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: target,
+                start: "top 90%",
+                end: "top 35%",
+                toggleActions: "restart reverse restart reverse",
+              },
+            },
+          );
+        });
+
+        blockTargets.forEach((target, index) => {
+          const fromX = index % 2 === 0 ? 36 : -36;
+          const fromRotate = index % 2 === 0 ? 3.6 : -3.6;
+          gsap.fromTo(
+            target,
+            {
+              autoAlpha: 0,
+              x: fromX,
+              y: 26,
+              rotateZ: fromRotate,
+              scale: 0.93,
+              filter: "blur(8px)",
+              transformOrigin: "50% 50%",
+            },
+            {
+              autoAlpha: 1,
+              x: 0,
+              y: 0,
+              rotateZ: 0,
+              scale: 1,
+              filter: "blur(0px)",
+              duration: 1.05,
+              ease: "expo.out",
+              scrollTrigger: {
+                trigger: target,
+                start: "top 92%",
+                end: "top 36%",
+                toggleActions: "restart reverse restart reverse",
+              },
+            },
+          );
+        });
+      }, mainRef);
     };
 
-    const scheduleVisibility = () => {
-      if (raf) {
-        return;
-      }
-      raf = window.requestAnimationFrame(applyVisibility);
-    };
-
-    applyVisibility();
-    body.classList.add("reveal-runtime");
-    scheduleVisibility();
-    window.addEventListener("load", scheduleVisibility);
-    window.addEventListener("scroll", scheduleVisibility, { passive: true });
-    window.addEventListener("resize", scheduleVisibility);
-    window.addEventListener("orientationchange", scheduleVisibility);
-
+    void run();
     return () => {
-      if (raf) {
-        window.cancelAnimationFrame(raf);
-      }
-      body.classList.remove("reveal-runtime");
-      window.removeEventListener("load", scheduleVisibility);
-      window.removeEventListener("scroll", scheduleVisibility);
-      window.removeEventListener("resize", scheduleVisibility);
-      window.removeEventListener("orientationchange", scheduleVisibility);
+      alive = false;
+      if (ctx) ctx.revert();
     };
   }, []);
 
@@ -429,76 +417,16 @@ export default function Home() {
 
   const openWalletModal = () => {
     setWalletModalOpen(true);
-    setWalletModalStep("select");
     setLinkingStatus("");
   };
 
   const closeWalletModal = () => {
     setWalletModalOpen(false);
-    setWalletModalStep("select");
-    setSelectedWallet(null);
-    setWalletAlias("");
-    setWalletConnectUri("");
-    setWalletAddress("");
-    setWalletNetwork("Ethereum");
-    setWalletSignature("");
     setLinkingStatus("");
-    setIsLinking(false);
   };
 
-  const pickWallet = (wallet: WalletProvider) => {
-    setSelectedWallet(wallet);
-    setWalletAlias("");
-    setWalletConnectUri("");
-    setWalletAddress("");
-    setWalletSignature("");
-    setWalletNetwork("Ethereum");
-    setWalletModalStep("connect");
-  };
-
-  const submitWalletLink = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!selectedWallet) return;
-    if (!sessionEmail) {
-      setLinkingStatus("Session required. Sign in before linking a wallet.");
-      return;
-    }
-
-    const accountReference =
-      selectedWallet.mode === "walletconnect"
-        ? walletConnectUri.trim()
-        : `${walletNetwork.trim()}:${walletAddress.trim()}`;
-
-    if (!accountReference) {
-      setLinkingStatus("Add a valid wallet reference to continue.");
-      return;
-    }
-
-    try {
-      setIsLinking(true);
-      setLinkingStatus("Linking wallet...");
-      const response = await fetch("/api/linking/accounts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          provider_type: "WALLET",
-          provider_name: selectedWallet.name,
-          account_label: walletAlias.trim() || `${selectedWallet.name} wallet`,
-          account_reference: accountReference,
-          access_token: walletSignature.trim() || undefined,
-        }),
-      });
-      const payload = (await response.json()) as { ok: boolean; error?: string };
-      if (!payload.ok) {
-        setLinkingStatus(payload.error ?? "Wallet linking failed.");
-        return;
-      }
-      setLinkingStatus(`${selectedWallet.name} submitted for verification.`);
-    } catch (error) {
-      setLinkingStatus(error instanceof Error ? error.message : "Wallet link request failed.");
-    } finally {
-      setIsLinking(false);
-    }
+  const handleWalletLogoClick = (wallet: WalletProvider) => {
+    setLinkingStatus(`${wallet.name} linking connector is coming soon.`);
   };
 
   return (
@@ -800,126 +728,29 @@ export default function Home() {
               ×
             </button>
 
-            {walletModalStep === "select" ? (
-              <div className="wallet-modal-step">
-                <p className="kicker">Wallet Linking</p>
-                <h2>Select your wallet platform</h2>
-                <p className="muted">
-                  Choose your wallet to begin secure ownership verification and card linking.
-                </p>
-                <div className="wallet-modal-grid">
-                  {walletProviders.map((wallet) => (
-                    <button
-                      type="button"
-                      key={wallet.id}
-                      className="wallet-logo-button"
-                      onClick={() => pickWallet(wallet)}
-                      title={wallet.name}
-                      aria-label={`Link ${wallet.name}`}
-                    >
-                      <img
-                        src={wallet.logo}
-                        alt={`${wallet.name} logo`}
-                        loading="lazy"
-                        onError={(event) => {
-                          const image = event.currentTarget;
-                          if (wallet.logoFallback && image.src !== wallet.logoFallback) {
-                            image.src = wallet.logoFallback;
-                          } else if (wallet.logoFallbackAlt && image.src !== wallet.logoFallbackAlt) {
-                            image.src = wallet.logoFallbackAlt;
-                          }
-                        }}
-                      />
-                    </button>
-                  ))}
-                </div>
-              </div>
-            ) : null}
-
-            {walletModalStep === "connect" && selectedWallet ? (
-              <form className="wallet-modal-step wallet-connect-form" onSubmit={submitWalletLink}>
-                <div className="wallet-connect-head">
+            <div className="wallet-modal-step">
+              <p className="kicker">Wallet Linking</p>
+              <h2>Select your wallet platform</h2>
+              <p className="muted">
+                Choose your wallet to begin secure ownership verification and card linking.
+              </p>
+              <div className="wallet-modal-grid">
+                {walletProviders.map((wallet, index) => (
                   <button
                     type="button"
-                    className="wallet-modal-back"
-                    onClick={() => setWalletModalStep("select")}
+                    key={wallet.id}
+                    className="wallet-logo-button"
+                    onClick={() => handleWalletLogoClick(wallet)}
+                    title={wallet.name}
+                    aria-label={`Select ${wallet.name}`}
+                    style={{ "--wallet-float-delay": `${index * 0.12}s` } as CSSProperties}
                   >
-                    ← Wallets
+                    <img src={wallet.logo} alt={`${wallet.name} logo`} loading="lazy" />
                   </button>
-                  <h2>{selectedWallet.name} wallet linking</h2>
-                  <p>{selectedWallet.linkingHint}</p>
-                  <p className="wallet-connect-network">Supported networks: {selectedWallet.networkHint}</p>
-                </div>
-
-                <div className="wallet-connect-grid">
-                  <label className="field">
-                    <span>Wallet Label</span>
-                    <input
-                      value={walletAlias}
-                      onChange={(event) => setWalletAlias(event.target.value)}
-                      placeholder={`${selectedWallet.name} primary`}
-                    />
-                  </label>
-
-                  {selectedWallet.mode === "walletconnect" ? (
-                    <label className="field">
-                      <span>WalletConnect URI</span>
-                      <input
-                        value={walletConnectUri}
-                        onChange={(event) => setWalletConnectUri(event.target.value)}
-                        placeholder="wc:xxxx@2?relay-protocol=irn..."
-                        required
-                      />
-                    </label>
-                  ) : (
-                    <>
-                      <label className="field">
-                        <span>Network</span>
-                        <input
-                          value={walletNetwork}
-                          onChange={(event) => setWalletNetwork(event.target.value)}
-                          placeholder="Ethereum"
-                          required
-                        />
-                      </label>
-                      <label className="field">
-                        <span>Wallet Address</span>
-                        <input
-                          value={walletAddress}
-                          onChange={(event) => setWalletAddress(event.target.value)}
-                          placeholder="0x... or network address"
-                          required
-                        />
-                      </label>
-                    </>
-                  )}
-
-                  <label className="field">
-                    <span>Ownership Signature (optional)</span>
-                    <input
-                      value={walletSignature}
-                      onChange={(event) => setWalletSignature(event.target.value)}
-                      placeholder="Signed challenge proof"
-                    />
-                  </label>
-                </div>
-
-                <div className="wallet-connect-actions">
-                  <button className="primary-button" type="submit" disabled={isLinking}>
-                    {isLinking ? "Linking..." : "Link Wallet"}
-                  </button>
-                  {linkingStatus ? <p className="wallet-connect-status">{linkingStatus}</p> : null}
-                  {!sessionEmail ? (
-                    <p className="wallet-connect-auth-hint">
-                      Session required. <Link href="/auth">Sign in here</Link>.
-                    </p>
-                  ) : null}
-                  <p className="wallet-connect-safe-note">
-                    For your safety, never share your recovery phrase with any app or support agent.
-                  </p>
-                </div>
-              </form>
-            ) : null}
+                ))}
+              </div>
+              {linkingStatus ? <p className="wallet-connect-status">{linkingStatus}</p> : null}
+            </div>
           </div>
         </div>
       ) : null}

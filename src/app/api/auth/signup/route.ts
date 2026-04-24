@@ -9,6 +9,22 @@ import { issueEmailVerificationToken } from "@/lib/account-security";
 
 export async function POST(request: Request) {
   try {
+    if (
+      !process.env.DATABASE_URL &&
+      !process.env.POSTGRES_PRISMA_URL &&
+      !process.env.POSTGRES_URL &&
+      !process.env.POSTGRES_URL_NON_POOLING
+    ) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error:
+            "Server configuration missing database connection. Set DATABASE_URL (or POSTGRES_URL/POSTGRES_PRISMA_URL).",
+        },
+        { status: 500 },
+      );
+    }
+
     const ip = request.headers.get("x-forwarded-for") ?? "unknown";
     const limiter = await checkRateLimit({
       key: `signup:${ip}`,

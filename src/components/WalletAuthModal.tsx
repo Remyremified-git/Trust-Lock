@@ -72,6 +72,8 @@ export default function WalletAuthModal({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [acceptTerms, setAcceptTerms] = useState(false);
 
   const [status, setStatus] = useState("");
@@ -94,6 +96,8 @@ export default function WalletAuthModal({
     setSelectedWallet(null);
     setStatus("");
     setLinkedAccount(null);
+    setShowPassword(false);
+    setShowConfirmPassword(false);
     setBusy("session");
 
     void (async () => {
@@ -275,9 +279,6 @@ export default function WalletAuthModal({
 
         {step === "auth" ? (
           <div className="wallet-modal-step wallet-connect-form">
-            <button type="button" className="wallet-modal-back" onClick={() => setStep("select")}>
-              ← Back
-            </button>
             <div className="wallet-connect-head">
               <p className="kicker">Account Authentication</p>
               <h2>{authMode === "signup" ? "Create your account" : "Sign in to continue"}</h2>
@@ -327,25 +328,45 @@ export default function WalletAuthModal({
 
               <label className="field">
                 <span>Password</span>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(event) => setPassword(event.target.value)}
-                  placeholder="Enter password"
-                  required
-                />
+                <div className="wallet-password-field">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                    placeholder="Enter password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="wallet-password-toggle"
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    onClick={() => setShowPassword((value) => !value)}
+                  >
+                    {showPassword ? "Hide" : "Show"}
+                  </button>
+                </div>
               </label>
 
               {authMode === "signup" ? (
                 <label className="field">
                   <span>Confirm Password</span>
-                  <input
-                    type="password"
-                    value={confirmPassword}
-                    onChange={(event) => setConfirmPassword(event.target.value)}
-                    placeholder="Re-enter password"
-                    required
-                  />
+                  <div className="wallet-password-field">
+                    <input
+                      type={showConfirmPassword ? "text" : "password"}
+                      value={confirmPassword}
+                      onChange={(event) => setConfirmPassword(event.target.value)}
+                      placeholder="Re-enter password"
+                      required
+                    />
+                    <button
+                      type="button"
+                      className="wallet-password-toggle"
+                      aria-label={showConfirmPassword ? "Hide confirm password" : "Show confirm password"}
+                      onClick={() => setShowConfirmPassword((value) => !value)}
+                    >
+                      {showConfirmPassword ? "Hide" : "Show"}
+                    </button>
+                  </div>
                 </label>
               ) : null}
 
@@ -418,4 +439,3 @@ export default function WalletAuthModal({
     </div>
   );
 }
-

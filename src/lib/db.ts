@@ -1,14 +1,11 @@
 import { PrismaClient } from "@prisma/client";
+import { resolveDatabaseUrl } from "@/lib/db-config";
 
 const globalForPrisma = globalThis as unknown as {
   prisma?: PrismaClient;
 };
 
-const resolvedDatabaseUrl =
-  process.env.DATABASE_URL ??
-  process.env.POSTGRES_PRISMA_URL ??
-  process.env.POSTGRES_URL ??
-  process.env.POSTGRES_URL_NON_POOLING;
+const resolvedDatabaseUrl = resolveDatabaseUrl();
 
 if (!process.env.DATABASE_URL && resolvedDatabaseUrl) {
   process.env.DATABASE_URL = resolvedDatabaseUrl;

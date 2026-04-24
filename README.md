@@ -14,9 +14,15 @@ This project is a Next.js + Prisma starter for a **hybrid custodial key platform
 
 All new code is in:
 
-`C:\Users\DELL\Desktop\soltrustXchange\hybrid-vault-platform`
+`C:\Users\DELL\Desktop\Trust-lock`
 
 If your IDE doesn't show files, open this folder as the project root.
+
+## Aiven + Vercel Setup
+
+Use this runbook for production DB + deploy setup:
+
+`docs/AIVEN_VERCEL_SETUP.md`
 
 ## Included in this environment
 
@@ -35,6 +41,7 @@ If your IDE doesn't show files, open this folder as the project root.
 - `POST /api/auth/passkey/verify`
 - `POST /api/portal/lead-profile` for lead/user portal details
 - `POST /api/portal/anti-phishing-code`
+- `GET /api/system/db-status` (admin-token protected DB connectivity check)
 - `GET|POST /api/cards` (issue/list user debit cards)
 - `POST /api/cards/:id/top-up`
 - `POST /api/cards/:id/spend`
@@ -118,7 +125,7 @@ Paste both PEM blocks into env variables.
 ## Vercel deployment
 
 1. Create a Vercel project from this folder.
-2. Set Root Directory to `hybrid-vault-platform`.
+2. Set Root Directory to repository root (`Trust-lock`).
 3. Add environment variables from `.env`.
 4. Ensure build command remains:
 ```bash

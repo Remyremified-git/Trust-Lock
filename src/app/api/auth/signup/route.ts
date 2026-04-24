@@ -6,20 +6,16 @@ import { createUserSession, hashPassword } from "@/lib/auth";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { logSecurityEvent } from "@/lib/security-events";
 import { issueEmailVerificationToken } from "@/lib/account-security";
+import { hasDatabaseConfig } from "@/lib/db-config";
 
 export async function POST(request: Request) {
   try {
-    if (
-      !process.env.DATABASE_URL &&
-      !process.env.POSTGRES_PRISMA_URL &&
-      !process.env.POSTGRES_URL &&
-      !process.env.POSTGRES_URL_NON_POOLING
-    ) {
+    if (!hasDatabaseConfig()) {
       return NextResponse.json(
         {
           ok: false,
           error:
-            "Server configuration missing database connection. Set DATABASE_URL (or POSTGRES_URL/POSTGRES_PRISMA_URL).",
+            "Server configuration missing database connection. Set DATABASE_URL (or AIVEN_DATABASE_URL / POSTGRES_URL / POSTGRES_PRISMA_URL).",
         },
         { status: 500 },
       );

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import type { CSSProperties } from "react";
+import WalletAuthModal, { type LinkedWalletAccount } from "@/components/WalletAuthModal";
 import styles from "./page.module.css";
 
 type ThemeMode = "light" | "dark";
@@ -54,12 +55,7 @@ type CardIssue = {
   card: { network: string; last4: string } | null;
 };
 
-type LinkedAccount = {
-  id: string;
-  providerType: string;
-  providerName: string;
-  status: string;
-};
+type LinkedAccount = LinkedWalletAccount;
 
 const money = (value: number) =>
   new Intl.NumberFormat("en-US", {
@@ -191,6 +187,10 @@ export default function PortalPage() {
   const [issues, setIssues] = useState<CardIssue[]>([]);
   const [linkedAccounts, setLinkedAccounts] = useState<LinkedAccount[]>([]);
   const [showCardModal, setShowCardModal] = useState(false);
+  const [walletModalOpen, setWalletModalOpen] = useState(false);
+  const [selectedWalletTabId, setSelectedWalletTabId] = useState("");
+  const [renamingWalletId, setRenamingWalletId] = useState<string | null>(null);
+  const [renamingWalletLabel, setRenamingWalletLabel] = useState("");
 
   const [issueCardholderName, setIssueCardholderName] = useState("");
   const [issueCardNetwork, setIssueCardNetwork] = useState<"VISA" | "MASTERCARD">("VISA");
@@ -231,6 +231,23 @@ export default function PortalPage() {
     if (!selectedCardId) return [];
     return transactionsByCard[selectedCardId] ?? [];
   }, [selectedCardId, transactionsByCard]);
+
+  const walletAccounts = useMemo(
+    () =>
+      linkedAccounts
+        .filter((account) => account.providerType === "WALLET")
+        .slice()
+        .sort(
+          (a, b) =>
+            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+        ),
+    [linkedAccounts],
+  );
+
+  const selectedWalletTab = useMemo(
+    () => walletAccounts.find((wallet) => wallet.id === selectedWalletTabId) ?? null,
+    [walletAccounts, selectedWalletTabId],
+  );
 
   const totals = useMemo(() => {
     const totalBalance = cards.reduce((sum, card) => sum + card.available_balance_usd, 0);
@@ -352,6 +369,18 @@ export default function PortalPage() {
     void loadDashboard();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (!walletAccounts.length) {
+      setSelectedWalletTabId("");
+      return;
+    }
+    setSelectedWalletTabId((current) =>
+      walletAccounts.some((wallet) => wallet.id === current)
+        ? current
+        : walletAccounts[0].id,
+    );
+  }, [walletAccounts]);
 
   async function runAction(actionKey: string, task: () => Promise<void>) {
     setActionBusy(actionKey);
@@ -482,6 +511,40 @@ export default function PortalPage() {
     });
   }
 
+  function startWalletRename(wallet: LinkedAccount) {
+    setRenamingWalletId(wallet.id);
+    setRenamingWalletLabel(wallet.accountLabel);
+  }
+
+  function cancelWalletRename() {
+    setRenamingWalletId(null);
+    setRenamingWalletLabel("");
+  }
+
+  async function submitWalletRename(walletId: string) {
+    const nextLabel = renamingWalletLabel.trim();
+    if (nextLabel.length < 2) {
+      setStatus("Wallet tab name must be at least 2 characters.");
+      return;
+    }
+    await runAction("wallet-rename", async () => {
+      await getJson(`/api/linking/accounts/${walletId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ account_label: nextLabel }),
+      });
+      setStatus("Wallet tab name updated.");
+      cancelWalletRename();
+      await loadDashboard();
+    });
+  }
+
+  async function onWalletLinked() {
+    setWalletModalOpen(false);
+    setStatus("Wallet linked and synced to dashboard.");
+    await loadDashboard();
+  }
+
   const spendLimitPercent =
     totals.totalDailyLimit > 0 ? Math.min(100, (totals.spentToday / totals.totalDailyLimit) * 100) : 0;
 
@@ -495,7 +558,7 @@ export default function PortalPage() {
             Dashboard operations are tied to live user card data. Please authenticate to continue.
           </p>
           <div className={styles.inlineActions}>
-            <Link className={styles.primaryButton} href="/auth">
+            <Link className={styles.primaryButton} href="/?walletModal=1">
               Open Auth
             </Link>
           </div>
@@ -541,10 +604,98 @@ export default function PortalPage() {
             <article className={styles.glassCard}>
               <div className={styles.sectionHeader}>
                 <h2>My Cards</h2>
-                <button type="button" className={styles.secondaryButton} onClick={() => setShowCardModal(true)}>
-                  View Card
+                <div className={styles.sectionHeaderActions}>
+                  <button
+                    type="button"
+                    className={styles.secondaryButton}
+                    onClick={() => setShowCardModal(true)}
+                  >
+                    View Card
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.secondaryButton}
+                    onClick={() => setWalletModalOpen(true)}
+                  >
+                    + Add Wallet
+                  </button>
+                </div>
+              </div>
+
+              <div className={styles.walletTabsRow}>
+                <div className={styles.walletTabsRail}>
+                  {walletAccounts.length ? (
+                    walletAccounts.map((wallet, index) => (
+                      <div key={wallet.id} className={styles.walletTabItem}>
+                        {renamingWalletId === wallet.id ? (
+                          <div className={styles.walletRenameInline}>
+                            <input
+                              value={renamingWalletLabel}
+                              onChange={(event) => setRenamingWalletLabel(event.target.value)}
+                              maxLength={80}
+                              aria-label={`Rename ${wallet.accountLabel}`}
+                            />
+                            <button
+                              type="button"
+                              className={styles.ghostButton}
+                              onClick={() => void submitWalletRename(wallet.id)}
+                              disabled={actionBusy === "wallet-rename"}
+                            >
+                              Save
+                            </button>
+                            <button
+                              type="button"
+                              className={styles.ghostButton}
+                              onClick={cancelWalletRename}
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        ) : (
+                          <div className={styles.walletTabDisplay}>
+                            <button
+                              type="button"
+                              className={`${styles.walletTabButton} ${
+                                selectedWalletTabId === wallet.id ? styles.walletTabActive : ""
+                              }`}
+                              onClick={() => setSelectedWalletTabId(wallet.id)}
+                            >
+                              <span>{wallet.accountLabel || `Wallet ${index + 1}`}</span>
+                              <small>{wallet.providerName}</small>
+                            </button>
+                            <button
+                              type="button"
+                              className={styles.walletRenameButton}
+                              onClick={() => startWalletRename(wallet)}
+                              title="Rename wallet tab"
+                              aria-label={`Rename ${wallet.accountLabel}`}
+                            >
+                              ✎
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    ))
+                  ) : (
+                    <p className={styles.muted}>No linked wallet tabs yet. Add your first wallet.</p>
+                  )}
+                </div>
+                <button
+                  type="button"
+                  className={styles.walletQuickAdd}
+                  title="Add new wallet"
+                  aria-label="Add new wallet"
+                  onClick={() => setWalletModalOpen(true)}
+                >
+                  +
                 </button>
               </div>
+              <p className={styles.walletSelectionMeta}>
+                {selectedWalletTab
+                  ? `Active wallet: ${selectedWalletTab.accountLabel} • ${selectedWalletTab.providerName}`
+                  : "Select or add a wallet to create dashboard tabs."}
+              </p>
+
               <div className={styles.cardRail}>
                 {cards.length ? (
                   cards.map((card, index) => {
@@ -872,7 +1023,9 @@ export default function PortalPage() {
                 {linkedAccounts.length ? (
                   linkedAccounts.slice(0, 6).map((item) => (
                     <div key={item.id} className={styles.linkedRow}>
-                      <span>{item.providerName}</span>
+                      <span>
+                        {item.accountLabel} · {item.providerName}
+                      </span>
                       <span className={`${styles.statusChip} ${styles[`statusLinked${item.status}`]}`}>{item.status}</span>
                     </div>
                   ))
@@ -918,6 +1071,15 @@ export default function PortalPage() {
           </div>
         </div>
       ) : null}
+
+      <WalletAuthModal
+        open={walletModalOpen}
+        onClose={() => setWalletModalOpen(false)}
+        onLinked={() => {
+          void onWalletLinked();
+        }}
+        context="portal"
+      />
     </main>
   );
 }

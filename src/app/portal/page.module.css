@@ -143,6 +143,14 @@
   margin-bottom: 0.7rem;
 }
 
+.sectionHeaderActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
 .sectionHeader h2,
 .glassCard h2 {
   margin: 0;
@@ -157,6 +165,118 @@
   font-size: 0.74rem;
   font-weight: 700;
   color: color-mix(in srgb, var(--ink) 82%, var(--accent) 18%);
+}
+
+.walletTabsRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.6rem;
+  align-items: start;
+  margin-bottom: 0.62rem;
+}
+
+.walletTabsRail {
+  display: grid;
+  gap: 0.48rem;
+}
+
+.walletTabItem {
+  display: grid;
+  gap: 0.36rem;
+}
+
+.walletTabDisplay {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.walletTabButton {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--surface) 88%, #8eaaf8 12%);
+  color: var(--ink);
+  padding: 0.46rem 0.64rem;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+  display: grid;
+  gap: 0.18rem;
+}
+
+.walletTabButton span {
+  font-weight: 700;
+  font-size: 0.78rem;
+}
+
+.walletTabButton small {
+  color: var(--muted);
+  font-size: 0.69rem;
+}
+
+.walletTabButton:hover,
+.walletTabButton:focus-visible {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--line) 50%, #9fc0ff 50%);
+  box-shadow: 0 12px 24px -18px color-mix(in srgb, var(--accent) 60%, transparent 40%);
+}
+
+.walletTabActive {
+  border-color: color-mix(in srgb, var(--line) 28%, #8db2ff 72%);
+  background: color-mix(in srgb, var(--surface) 72%, #7d9fff 28%);
+}
+
+.walletRenameButton,
+.walletQuickAdd {
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: var(--button-bg);
+  color: var(--button-ink);
+  cursor: pointer;
+  font-weight: 700;
+  min-width: 34px;
+  min-height: 34px;
+  padding: 0.34rem 0.52rem;
+  transition: transform 180ms ease, border-color 180ms ease;
+}
+
+.walletRenameButton:hover,
+.walletRenameButton:focus-visible,
+.walletQuickAdd:hover,
+.walletQuickAdd:focus-visible {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--button-border) 56%, #93b6ff 44%);
+}
+
+.walletQuickAdd {
+  align-self: start;
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.walletRenameInline {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 0.4rem;
+}
+
+.walletRenameInline input {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--surface) 84%, #9ab5ff 16%);
+  color: var(--ink);
+  padding: 0.46rem 0.56rem;
+  font: inherit;
+  font-size: 0.78rem;
+}
+
+.walletSelectionMeta {
+  margin: 0 0 0.6rem;
+  color: var(--muted);
+  font-size: 0.74rem;
 }
 
 .cardRail {
@@ -673,6 +793,18 @@
     grid-template-columns: 1fr;
   }
 
+  .walletTabsRow {
+    grid-template-columns: 1fr;
+  }
+
+  .walletQuickAdd {
+    justify-self: start;
+  }
+
+  .walletRenameInline {
+    grid-template-columns: 1fr;
+  }
+
   .donutRow {
     grid-template-columns: 1fr;
   }
@@ -681,4 +813,3 @@
     margin-inline: auto;
   }
 }
-

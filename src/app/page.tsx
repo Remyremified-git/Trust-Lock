@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 import { useEffect, useRef, useState } from "react";
 import WalletDebitHeroStack from "@/components/WalletDebitHeroStack";
+import WalletAuthModal from "@/components/WalletAuthModal";
 
 function mixChannel(from: number, to: number, amount: number) {
   return Math.round(from + (to - from) * amount);
@@ -42,45 +43,6 @@ function HowStepIcon({ type }: { type: "connect" | "issue" | "control" }) {
   );
 }
 
-type WalletProvider = {
-  id: string;
-  name: string;
-  logo: string;
-};
-
-const walletProviders: WalletProvider[] = [
-  {
-    id: "trust-wallet",
-    name: "Trust Wallet",
-    logo: "/wallet-logos/trust-wallet.png",
-  },
-  {
-    id: "metamask",
-    name: "MetaMask",
-    logo: "/wallet-logos/metamask.png",
-  },
-  {
-    id: "exodus",
-    name: "Exodus",
-    logo: "/wallet-logos/exodus.png",
-  },
-  {
-    id: "phantom",
-    name: "Phantom",
-    logo: "/wallet-logos/phantom.png",
-  },
-  {
-    id: "rabby",
-    name: "Rabby Wallet",
-    logo: "/wallet-logos/rabby.png",
-  },
-  {
-    id: "keplr",
-    name: "Keplr",
-    logo: "/wallet-logos/keplr.png",
-  },
-];
-
 export default function Home() {
   const mainRef = useRef<HTMLElement | null>(null);
   const transitionRef = useRef<HTMLElement | null>(null);
@@ -91,7 +53,6 @@ export default function Home() {
   const transitionSlotRef = useRef<HTMLDivElement | null>(null);
   const spotlightSlotRef = useRef<HTMLDivElement | null>(null);
   const [walletModalOpen, setWalletModalOpen] = useState(false);
-  const [linkingStatus, setLinkingStatus] = useState("");
   const [isHowInView, setIsHowInView] = useState(false);
   const [stackMotion, setStackMotion] = useState({
     x: 0,
@@ -426,16 +387,10 @@ export default function Home() {
 
   const openWalletModal = () => {
     setWalletModalOpen(true);
-    setLinkingStatus("");
   };
 
   const closeWalletModal = () => {
     setWalletModalOpen(false);
-    setLinkingStatus("");
-  };
-
-  const handleWalletLogoClick = (wallet: WalletProvider) => {
-    setLinkingStatus(`${wallet.name} linking connector is coming soon.`);
   };
 
   return (
@@ -725,44 +680,7 @@ export default function Home() {
         </div>
       </section>
 
-      {walletModalOpen ? (
-        <div className="wallet-modal-overlay" role="dialog" aria-modal="true" aria-label="Wallet linking modal">
-          <div className="wallet-modal-shell">
-            <button
-              type="button"
-              className="wallet-modal-close"
-              aria-label="Close wallet modal"
-              onClick={closeWalletModal}
-            >
-              ×
-            </button>
-
-            <div className="wallet-modal-step">
-              <p className="kicker">Wallet Linking</p>
-              <h2>Select your wallet platform</h2>
-              <p className="muted">
-                Choose your wallet to begin secure ownership verification and card linking.
-              </p>
-              <div className="wallet-modal-grid">
-                {walletProviders.map((wallet, index) => (
-                  <button
-                    type="button"
-                    key={wallet.id}
-                    className="wallet-logo-button"
-                    onClick={() => handleWalletLogoClick(wallet)}
-                    title={wallet.name}
-                    aria-label={`Select ${wallet.name}`}
-                    style={{ "--wallet-float-delay": `${index * 0.12}s` } as CSSProperties}
-                  >
-                    <img src={wallet.logo} alt={`${wallet.name} logo`} loading="lazy" />
-                  </button>
-                ))}
-              </div>
-              {linkingStatus ? <p className="wallet-connect-status">{linkingStatus}</p> : null}
-            </div>
-          </div>
-        </div>
-      ) : null}
+      <WalletAuthModal open={walletModalOpen} onClose={closeWalletModal} context="home" />
 
       <div className="page-bottom-space" aria-hidden="true" />
     </main>

@@ -26,7 +26,8 @@ export async function GET() {
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Failed to load linked accounts.";
-    return NextResponse.json({ ok: false, error: message }, { status: 500 });
+    const status = message.includes("Not authenticated") ? 401 : 500;
+    return NextResponse.json({ ok: false, error: message }, { status });
   }
 }
 
@@ -75,7 +76,7 @@ export async function POST(request: Request) {
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Failed to create linked account.";
-    return NextResponse.json({ ok: false, error: message }, { status: 500 });
+    const status = message.includes("Not authenticated") ? 401 : 500;
+    return NextResponse.json({ ok: false, error: message }, { status });
   }
 }
-

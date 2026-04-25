@@ -1522,6 +1522,44 @@ body.reveal-runtime .reveal-block.reveal-scale-glow:not(.is-visible) {
   gap: 0.7rem;
 }
 
+.wallet-clerk-shell {
+  border: 1px solid rgba(132, 167, 247, 0.34);
+  border-radius: 16px;
+  background: rgba(7, 20, 55, 0.42);
+  padding: 0.72rem;
+}
+
+.wallet-clerk-card,
+.wallet-clerk-cardbox {
+  box-shadow: none !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+.wallet-clerk-title {
+  color: #eef5ff !important;
+  letter-spacing: -0.01em !important;
+}
+
+.wallet-clerk-subtitle,
+.wallet-clerk-footer-text,
+.wallet-clerk-label,
+.wallet-clerk-identity {
+  color: rgba(201, 220, 250, 0.9) !important;
+}
+
+.wallet-clerk-input {
+  background: rgba(7, 20, 55, 0.72) !important;
+  border: 1px solid rgba(130, 165, 243, 0.3) !important;
+  color: #f7fbff !important;
+}
+
+.wallet-clerk-social-button {
+  background: rgba(25, 46, 101, 0.52) !important;
+  border: 1px solid rgba(131, 169, 250, 0.34) !important;
+  color: #e8f1ff !important;
+}
+
 .wallet-auth-grid .field span {
   color: rgba(210, 226, 255, 0.9);
 }

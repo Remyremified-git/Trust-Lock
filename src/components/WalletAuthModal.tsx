@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { useAuth, useUser, SignIn, SignUp } from "@clerk/nextjs";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 
 export type WalletProvider = {
@@ -55,30 +56,41 @@ async function readJson<T>(input: RequestInfo | URL, init?: RequestInit): Promis
   return payload;
 }
 
+const clerkAppearance = {
+  elements: {
+    card: "wallet-clerk-card",
+    cardBox: "wallet-clerk-cardbox",
+    headerTitle: "wallet-clerk-title",
+    headerSubtitle: "wallet-clerk-subtitle",
+    socialButtonsBlockButton: "wallet-clerk-social-button",
+    formButtonPrimary: "primary-button",
+    formFieldInput: "wallet-clerk-input",
+    formFieldLabel: "wallet-clerk-label",
+    footerActionLink: "wallet-inline-link",
+    footerActionText: "wallet-clerk-footer-text",
+    identityPreviewText: "wallet-clerk-identity",
+    formResendCodeLink: "wallet-inline-link",
+  },
+} as const;
+
 export default function WalletAuthModal({
   open,
   onClose,
   onLinked,
   context = "home",
 }: WalletAuthModalProps) {
+  const { isLoaded, isSignedIn } = useAuth();
+  const { user } = useUser();
+
   const [step, setStep] = useState<ModalStep>("select");
   const [authMode, setAuthMode] = useState<AuthMode>("signup");
   const [selectedWallet, setSelectedWallet] = useState<WalletProvider | null>(null);
-
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [sessionUser, setSessionUser] = useState<AuthUser | null>(null);
 
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [acceptTerms, setAcceptTerms] = useState(false);
-
   const [status, setStatus] = useState("");
-  const [busy, setBusy] = useState<"session" | "auth" | "link" | null>(null);
+  const [busy, setBusy] = useState<"session" | "link" | null>(null);
   const [linkedAccount, setLinkedAccount] = useState<LinkedWalletAccount | null>(null);
+  const linkingRef = useRef<string | null>(null);
 
   const selectedWalletDisplay = useMemo(
     () => selectedWallet?.name ?? "your wallet",
@@ -89,43 +101,37 @@ export default function WalletAuthModal({
     if (!open) {
       return;
     }
-
-    let mounted = true;
     setStep("select");
     setAuthMode("signup");
     setSelectedWallet(null);
     setStatus("");
     setLinkedAccount(null);
-    setShowPassword(false);
-    setShowConfirmPassword(false);
     setBusy("session");
-
-    void (async () => {
-      try {
-        const payload = await readJson<{ ok: true; user: AuthUser }>("/api/auth/me");
-        if (!mounted) return;
-        setIsAuthenticated(true);
-        setSessionUser(payload.user);
-        if (payload.user.email) {
-          setEmail(payload.user.email);
-        }
-      } catch {
-        if (!mounted) return;
-        setIsAuthenticated(false);
-        setSessionUser(null);
-      } finally {
-        if (mounted) {
-          setBusy(null);
-        }
-      }
-    })();
-
-    return () => {
-      mounted = false;
-    };
+    linkingRef.current = null;
   }, [open]);
 
+  useEffect(() => {
+    if (!open || !isLoaded) {
+      return;
+    }
+    if (isSignedIn) {
+      const fallbackEmail = user?.emailAddresses?.[0]?.emailAddress ?? null;
+      setSessionUser({
+        id: user?.id ?? "",
+        email: fallbackEmail,
+        display_name: user?.fullName ?? user?.username ?? undefined,
+      });
+    } else {
+      setSessionUser(null);
+    }
+    setBusy(null);
+  }, [open, isLoaded, isSignedIn, user]);
+
   async function linkWallet(wallet: WalletProvider) {
+    if (linkingRef.current === wallet.id) {
+      return;
+    }
+    linkingRef.current = wallet.id;
     setBusy("link");
     setStatus(`Linking ${wallet.name}...`);
     try {
@@ -156,86 +162,32 @@ export default function WalletAuthModal({
       onLinked?.(createPayload.linked_account);
     } catch (error) {
       const message = error instanceof Error ? error.message : "Failed to link wallet.";
+      setStatus(message);
       if (message.toLowerCase().includes("not authenticated")) {
-        setIsAuthenticated(false);
         setStep("auth");
-        setStatus("Sign in or create an account to complete wallet linking.");
-      } else {
-        setStatus(message);
       }
     } finally {
       setBusy(null);
+      linkingRef.current = null;
     }
   }
 
   async function onWalletSelect(wallet: WalletProvider) {
     setSelectedWallet(wallet);
-    if (isAuthenticated) {
+    if (isLoaded && isSignedIn) {
       await linkWallet(wallet);
       return;
     }
     setStep("auth");
-    setStatus(`Continue to authentication for ${wallet.name}.`);
+    setStatus(`Continue with Clerk authentication for ${wallet.name}.`);
   }
 
-  async function submitAuth(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (!selectedWallet) {
-      setStatus("Select a wallet first.");
-      setStep("select");
+  useEffect(() => {
+    if (!open || step !== "auth" || !selectedWallet || !isLoaded || !isSignedIn || busy === "link") {
       return;
     }
-
-    if (authMode === "signup") {
-      if (!username.trim()) {
-        setStatus("Username is required.");
-        return;
-      }
-      if (password !== confirmPassword) {
-        setStatus("Passwords do not match.");
-        return;
-      }
-      if (!acceptTerms) {
-        setStatus("Accept Terms and Privacy Policy to continue.");
-        return;
-      }
-    }
-
-    setBusy("auth");
-    setStatus(authMode === "signup" ? "Creating account..." : "Signing in...");
-    try {
-      if (authMode === "signup") {
-        const payload = await readJson<{ ok: true; user: AuthUser }>("/api/auth/signup", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            display_name: username.trim(),
-            email,
-            password,
-          }),
-        });
-        setSessionUser(payload.user);
-      } else {
-        const payload = await readJson<{ ok: true; user: AuthUser }>("/api/auth/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email,
-            password,
-          }),
-        });
-        setSessionUser(payload.user);
-      }
-
-      setIsAuthenticated(true);
-      await linkWallet(selectedWallet);
-    } catch (error) {
-      const message = error instanceof Error ? error.message : "Authentication failed.";
-      setStatus(message);
-    } finally {
-      setBusy(null);
-    }
-  }
+    void linkWallet(selectedWallet);
+  }, [open, step, selectedWallet, isLoaded, isSignedIn, busy]);
 
   if (!open) {
     return null;
@@ -253,8 +205,7 @@ export default function WalletAuthModal({
             <p className="kicker">Wallet Linking</p>
             <h2>Select your wallet platform</h2>
             <p className="muted">
-              Choose your wallet to begin card provisioning. Your selected wallet will be logged and added to your
-              dashboard tabs.
+              Choose your wallet to begin card provisioning. Your selected wallet is saved as a wallet tab.
             </p>
             <div className="wallet-modal-grid">
               {walletProviders.map((wallet, index) => (
@@ -272,7 +223,7 @@ export default function WalletAuthModal({
                 </button>
               ))}
             </div>
-            {busy === "session" ? <p className="wallet-connect-status">Checking account session...</p> : null}
+            {busy === "session" ? <p className="wallet-connect-status">Checking Clerk session...</p> : null}
             {status ? <p className="wallet-connect-status">{status}</p> : null}
           </div>
         ) : null}
@@ -302,104 +253,27 @@ export default function WalletAuthModal({
               </button>
             </div>
 
-            <form className="wallet-auth-grid" onSubmit={submitAuth}>
+            <div className="wallet-clerk-shell">
               {authMode === "signup" ? (
-                <label className="field">
-                  <span>Username</span>
-                  <input
-                    value={username}
-                    onChange={(event) => setUsername(event.target.value)}
-                    placeholder="your_username"
-                    required
-                  />
-                </label>
-              ) : null}
-
-              <label className="field">
-                <span>Email</span>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                  placeholder="you@domain.com"
-                  required
+                <SignUp
+                  routing="hash"
+                  appearance={clerkAppearance}
+                  signInForceRedirectUrl="/?walletModal=1"
+                  forceRedirectUrl="/?walletModal=1"
                 />
-              </label>
+              ) : (
+                <SignIn
+                  routing="hash"
+                  appearance={clerkAppearance}
+                  signUpForceRedirectUrl="/?walletModal=1"
+                  forceRedirectUrl="/?walletModal=1"
+                />
+              )}
+            </div>
 
-              <label className="field">
-                <span>Password</span>
-                <div className="wallet-password-field">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    value={password}
-                    onChange={(event) => setPassword(event.target.value)}
-                    placeholder="Enter password"
-                    required
-                  />
-                  <button
-                    type="button"
-                    className="wallet-password-toggle"
-                    aria-label={showPassword ? "Hide password" : "Show password"}
-                    onClick={() => setShowPassword((value) => !value)}
-                  >
-                    {showPassword ? "Hide" : "Show"}
-                  </button>
-                </div>
-              </label>
-
-              {authMode === "signup" ? (
-                <label className="field">
-                  <span>Confirm Password</span>
-                  <div className="wallet-password-field">
-                    <input
-                      type={showConfirmPassword ? "text" : "password"}
-                      value={confirmPassword}
-                      onChange={(event) => setConfirmPassword(event.target.value)}
-                      placeholder="Re-enter password"
-                      required
-                    />
-                    <button
-                      type="button"
-                      className="wallet-password-toggle"
-                      aria-label={showConfirmPassword ? "Hide confirm password" : "Show confirm password"}
-                      onClick={() => setShowConfirmPassword((value) => !value)}
-                    >
-                      {showConfirmPassword ? "Hide" : "Show"}
-                    </button>
-                  </div>
-                </label>
-              ) : null}
-
-              {authMode === "signup" ? (
-                <label className="wallet-checkbox-field">
-                  <input
-                    type="checkbox"
-                    checked={acceptTerms}
-                    onChange={(event) => setAcceptTerms(event.target.checked)}
-                  />
-                  <span>I agree to Terms of Service and Privacy Policy</span>
-                </label>
-              ) : null}
-
-              <button className="primary-button" type="submit" disabled={busy === "auth" || busy === "link"}>
-                {busy === "auth" || busy === "link"
-                  ? "Processing..."
-                  : authMode === "signup"
-                    ? "Sign Up and Link Wallet"
-                    : "Sign In and Link Wallet"}
-              </button>
-            </form>
-
-            <p className="wallet-inline-toggle">
-              {authMode === "signup" ? "Already have an account?" : "New here?"}{" "}
-              <button
-                type="button"
-                className="wallet-inline-link"
-                onClick={() => setAuthMode(authMode === "signup" ? "signin" : "signup")}
-              >
-                {authMode === "signup" ? "Sign in" : "Create account"}
-              </button>
-            </p>
+            {isLoaded && isSignedIn ? (
+              <p className="wallet-connect-status">Authenticated. Linking {selectedWalletDisplay} now...</p>
+            ) : null}
             {status ? <p className="wallet-connect-status">{status}</p> : null}
           </div>
         ) : null}
@@ -410,8 +284,7 @@ export default function WalletAuthModal({
             <h2>{selectedWalletDisplay} connected successfully</h2>
             <div className="wallet-success-card">
               <p>
-                <strong>Account:</strong>{" "}
-                {sessionUser?.display_name || sessionUser?.email || "Authenticated user"}
+                <strong>Account:</strong> {sessionUser?.display_name || sessionUser?.email || "Authenticated user"}
               </p>
               <p>
                 <strong>Dashboard tab:</strong> {linkedAccount?.accountLabel ?? "Wallet"}

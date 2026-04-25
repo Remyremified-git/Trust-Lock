@@ -1,7 +1,9 @@
-# Aiven + Vercel Database Setup (Trust Lock)
+# Aiven + Vercel Setup (Trust Lock + Clerk)
 
-This project is already configured for PostgreSQL via Prisma.  
-To connect production auth, wallet linking, and dashboard data, point environment variables to your Aiven PostgreSQL service.
+This project uses:
+
+- PostgreSQL (Aiven) for app data
+- Clerk for sign in/sign up/session auth
 
 ## 1. Create PostgreSQL service in Aiven
 
@@ -22,6 +24,8 @@ In your local `.env`:
 ```bash
 DATABASE_URL="postgresql://avnadmin:<PASSWORD>@<HOST>:<PORT>/defaultdb?sslmode=require"
 APP_BASE_URL="http://localhost:3000"
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="pk_test_xxxxxxxxx"
+CLERK_SECRET_KEY="sk_test_xxxxxxxxx"
 ```
 
 Notes:
@@ -39,13 +43,7 @@ npm run prisma:generate
 npm run db:push
 ```
 
-This creates/updates all required tables for:
-
-- auth/session
-- linked wallet accounts
-- user security data
-- debit card + transactions
-- support/issues
+This creates/updates required tables for wallets, cards, transactions, and dashboard data.
 
 ## 4. Configure Vercel environment variables
 
@@ -53,16 +51,10 @@ In Vercel Project -> **Settings -> Environment Variables**, add:
 
 - `DATABASE_URL` (Aiven URI with `sslmode=require`)
 - `APP_BASE_URL` (your Vercel URL or custom domain)
-- `AUTH_SESSION_SECRET`
-- `ADMIN_VAULT_AT_REST_KEY`
-- `AUTH_DATA_AT_REST_KEY`
-- `ADMIN_API_TOKEN`
-- `ADMIN_SEED_PUBLIC_KEY_PEM`
-- `ADMIN_SEED_PRIVATE_KEY_PEM`
-- `AUTH_SESSION_TTL_DAYS`
-- `AUTH_REQUIRE_VERIFIED_EMAIL`
-- `SMTP_*` and `MAIL_FROM` (if email flows enabled)
-- `WEBAUTHN_RP_*` (if passkeys enabled)
+- `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`
+- `CLERK_SECRET_KEY`
+
+Optional advanced envs are documented in `.env.example` but not required for Clerk auth flow.
 
 ## 5. Deploy to Vercel
 
@@ -79,7 +71,7 @@ npm run build
 
 ## 6. Post-deploy verification
 
-1. Open site and trigger wallet modal auth signup/signin.
+1. Open site and trigger wallet modal auth signup/signin (Clerk).
 2. Confirm signup succeeds (no DB config error).
 3. Confirm selected wallet appears as a dashboard wallet tab.
 4. Confirm adding another wallet creates a new tab and persists after refresh.
@@ -96,4 +88,3 @@ npm run build
 - Verify Aiven credentials, host, port, and database name.
 - Confirm URI includes `sslmode=require`.
 - Check Aiven service is running and accessible.
-

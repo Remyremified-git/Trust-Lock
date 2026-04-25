@@ -7,7 +7,7 @@ This project is a Next.js + Prisma starter for a **hybrid custodial key platform
 - Seed is encrypted client-side with server public key.
 - Backend stores an encrypted admin recovery copy in a dedicated vault.
 - Admin retrieval is token-gated and audit-logged.
-- App uses first-party auth (signup/login/session), not Clerk.
+- App uses Clerk for signup/login/session auth.
 - Exchange-aligned security/linking matrix: `docs/SECURITY_AND_LINKING_FEATURES.md`
 
 ## Important Workspace Path
@@ -31,7 +31,7 @@ Use this runbook for production DB + deploy setup:
 - `GET|DELETE /api/admin/vault/seed/:userId` for admin-only recovery access.
 - `POST /api/security/preferences` for user security controls.
 - `POST /api/devices/register` for device tracking.
-- `POST /api/auth/signup` / `POST /api/auth/login` / `POST /api/auth/logout`
+- `POST /api/auth/logout`
 - `GET /api/auth/me` for authenticated user context
 - `POST /api/auth/resend-verification`
 - `GET /api/auth/verify-email?token=...`
@@ -90,17 +90,11 @@ cp .env.example .env
 
 3. Fill real values in `.env`:
 - `DATABASE_URL`
-- `ADMIN_API_TOKEN`
-- `AUTH_SESSION_SECRET`
-- `AUTH_SESSION_TTL_DAYS`
-- `AUTH_REQUIRE_VERIFIED_EMAIL`
-- `AUTH_DATA_AT_REST_KEY` (recommended, 64 hex chars; if missing system falls back to `ADMIN_VAULT_AT_REST_KEY`)
-- `ADMIN_VAULT_AT_REST_KEY` (64 hex chars)
-- `ADMIN_SEED_PUBLIC_KEY_PEM`
-- `ADMIN_SEED_PRIVATE_KEY_PEM`
-- `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` (optional shared rate limiting)
-- `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `MAIL_FROM` (optional real email)
-- `WEBAUTHN_RP_NAME`, `WEBAUTHN_RP_ID`, `WEBAUTHN_ORIGINS`
+- `APP_BASE_URL`
+- `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`
+- `CLERK_SECRET_KEY`
+
+Optional advanced module env vars are listed in `.env.example` and can be added later.
 
 4. Generate Prisma client + push schema:
 ```bash
@@ -112,15 +106,6 @@ npm run db:push
 ```bash
 npm run dev
 ```
-
-## Generate RSA key pair (example)
-
-```bash
-openssl genpkey -algorithm RSA -out private_key.pem -pkeyopt rsa_keygen_bits:4096
-openssl rsa -pubout -in private_key.pem -out public_key.pem
-```
-
-Paste both PEM blocks into env variables.
 
 ## Vercel deployment
 

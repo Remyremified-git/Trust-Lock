@@ -1,23 +1,7 @@
 import { createHmac, pbkdf2Sync, randomBytes, timingSafeEqual } from "crypto";
-import { cookies, headers } from "next/headers";
-import { AppRole } from "@prisma/client";
+import { auth, currentUser } from "@clerk/nextjs/server";
+import { AppRole, type User } from "@prisma/client";
 import { prisma } from "@/lib/db";
-import { logSecurityEvent } from "@/lib/security-events";
-
-const SESSION_COOKIE_NAME = "hv_session";
-const DEFAULT_SESSION_DAYS = 14;
-
-function sessionSecret(): string {
-  const value = process.env.AUTH_SESSION_SECRET;
-  if (!value || value.length < 24) {
-    throw new Error("AUTH_SESSION_SECRET must be configured (min 24 chars)");
-  }
-  return value;
-}
-
-function hashSessionToken(token: string): string {
-  return createHmac("sha256", sessionSecret()).update(token).digest("hex");
-}
 
 type PasswordParts = {
   iterations: number;
@@ -39,6 +23,87 @@ function decodePassword(payload: string): PasswordParts {
     throw new Error("Malformed password hash");
   }
   return { iterations, saltHex, hashHex };
+}
+
+function sessionSecret(): string {
+  return process.env.AUTH_SESSION_SECRET || "trust-lock-clerk-session-fallback-secret";
+}
+
+function bestDisplayName(input: {
+  firstName?: string | null;
+  lastName?: string | null;
+  username?: string | null;
+  email?: string | null;
+}) {
+  const full = [input.firstName, input.lastName].filter(Boolean).join(" ").trim();
+  if (full) return full;
+  if (input.username?.trim()) return input.username.trim();
+  if (input.email) return input.email.split("@")[0] || "User";
+  return "User";
+}
+
+async function upsertUserFromClerkContext(): Promise<User | null> {
+  const { userId } = await auth();
+  if (!userId) {
+    return null;
+  }
+
+  const clerk = await currentUser();
+  const email =
+    clerk?.emailAddresses?.find((entry) => entry.id === clerk.primaryEmailAddressId)?.emailAddress ??
+    clerk?.emailAddresses?.[0]?.emailAddress ??
+    null;
+  const displayName = bestDisplayName({
+    firstName: clerk?.firstName,
+    lastName: clerk?.lastName,
+    username: clerk?.username,
+    email,
+  });
+  const emailVerifiedAt = clerk?.primaryEmailAddress?.verification?.status === "verified" ? new Date() : null;
+
+  const byClerk = await prisma.user.findUnique({
+    where: { clerkUserId: userId },
+  });
+
+  if (byClerk) {
+    return prisma.user.update({
+      where: { id: byClerk.id },
+      data: {
+        email: email ?? byClerk.email,
+        displayName,
+        emailVerifiedAt: emailVerifiedAt ?? byClerk.emailVerifiedAt,
+        lastLoginAt: new Date(),
+      },
+    });
+  }
+
+  if (email) {
+    const byEmail = await prisma.user.findUnique({
+      where: { email },
+    });
+    if (byEmail) {
+      return prisma.user.update({
+        where: { id: byEmail.id },
+        data: {
+          clerkUserId: userId,
+          displayName: byEmail.displayName || displayName,
+          emailVerifiedAt: emailVerifiedAt ?? byEmail.emailVerifiedAt,
+          lastLoginAt: new Date(),
+        },
+      });
+    }
+  }
+
+  return prisma.user.create({
+    data: {
+      clerkUserId: userId,
+      email,
+      emailVerifiedAt,
+      displayName,
+      role: AppRole.USER,
+      lastLoginAt: new Date(),
+    },
+  });
 }
 
 export function hashPassword(password: string): string {
@@ -68,127 +133,35 @@ export function verifyPassword(password: string, payload: string): boolean {
   return timingSafeEqual(actual, expected);
 }
 
-function sessionTtlDays(): number {
-  const raw = process.env.AUTH_SESSION_TTL_DAYS;
-  if (!raw) {
-    return DEFAULT_SESSION_DAYS;
-  }
-  const parsed = Number(raw);
-  if (!Number.isFinite(parsed) || parsed <= 0 || parsed > 90) {
-    return DEFAULT_SESSION_DAYS;
-  }
-  return parsed;
+// Compatibility no-op: Clerk manages sessions and cookies.
+export async function createUserSession(_userId: string) {
+  return;
 }
 
-export async function createUserSession(userId: string) {
-  const token = randomBytes(32).toString("base64url");
-  const tokenHash = hashSessionToken(token);
-  const headerStore = await headers();
-  const expiresAt = new Date(Date.now() + sessionTtlDays() * 24 * 60 * 60 * 1000);
-
-  const session = await prisma.authSession.create({
-    data: {
-      userId,
-      tokenHash,
-      ipAddress: headerStore.get("x-forwarded-for") ?? undefined,
-      userAgent: headerStore.get("user-agent") ?? undefined,
-      expiresAt,
-      lastSeenAt: new Date(),
-    },
-  });
-
-  const cookieStore = await cookies();
-  cookieStore.set(SESSION_COOKIE_NAME, token, {
-    httpOnly: true,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-    path: "/",
-    expires: expiresAt,
-  });
-
-  await logSecurityEvent({
-    userId,
-    eventType: "auth.session_created",
-    severity: "low",
-    metadata: {
-      session_id: session.id,
-      expires_at: expiresAt.toISOString(),
-    },
-  });
-}
-
+// Compatibility no-op: Clerk manages logout.
 export async function clearUserSession() {
-  const cookieStore = await cookies();
-  const rawToken = cookieStore.get(SESSION_COOKIE_NAME)?.value;
-  if (rawToken) {
-    const tokenHash = hashSessionToken(rawToken);
-    const update = await prisma.authSession.updateMany({
-      where: {
-        tokenHash,
-        revokedAt: null,
-      },
-      data: {
-        revokedAt: new Date(),
-      },
-    });
-    if (update.count > 0) {
-      const userSession = await prisma.authSession.findFirst({
-        where: { tokenHash },
-        select: { userId: true },
-      });
-      if (userSession) {
-        await logSecurityEvent({
-          userId: userSession.userId,
-          eventType: "auth.session_revoked",
-          severity: "low",
-          metadata: { reason: "logout" },
-        });
-      }
-    }
-  }
-  cookieStore.delete(SESSION_COOKIE_NAME);
+  return;
 }
 
 export async function getCurrentSession() {
-  const cookieStore = await cookies();
-  const rawToken = cookieStore.get(SESSION_COOKIE_NAME)?.value;
-  if (!rawToken) {
+  const user = await getCurrentSessionUser();
+  if (!user) {
     return null;
   }
-
-  const tokenHash = hashSessionToken(rawToken);
-  const now = new Date();
-  const session = await prisma.authSession.findFirst({
-    where: {
-      tokenHash,
-      revokedAt: null,
-      expiresAt: {
-        gt: now,
-      },
-    },
-    include: {
-      user: true,
-    },
-  });
-  if (!session) {
-    cookieStore.delete(SESSION_COOKIE_NAME);
-    return null;
-  }
-  await prisma.authSession.update({
-    where: { id: session.id },
-    data: { lastSeenAt: now },
-  });
-  return session;
+  return {
+    id: `clerk:${user.id}`,
+    userId: user.id,
+  };
 }
 
 export async function getCurrentSessionUser() {
-  const session = await getCurrentSession();
-  if (!session) {
+  const base = await upsertUserFromClerkContext();
+  if (!base) {
     return null;
   }
 
-  const enriched = await prisma.user.findUnique({
-    where: { id: session.userId },
+  return prisma.user.findUnique({
+    where: { id: base.id },
     include: {
       leadProfile: true,
       securityPrefs: true,
@@ -199,7 +172,6 @@ export async function getCurrentSessionUser() {
       },
     },
   });
-  return enriched;
 }
 
 export async function requireRole(role: AppRole) {

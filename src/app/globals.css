@@ -1317,18 +1317,23 @@ body.reveal-runtime .reveal-block.reveal-scale-glow:not(.is-visible) {
   position: fixed;
   inset: 0;
   z-index: 120;
-  display: grid;
-  place-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
   padding: clamp(0.8rem, 2.2vw, 1.6rem);
   background:
     radial-gradient(circle at 18% 15%, rgba(116, 169, 255, 0.22), transparent 38%),
     radial-gradient(circle at 82% 18%, rgba(129, 106, 255, 0.2), transparent 38%),
     rgba(5, 12, 29, 0.62);
   backdrop-filter: blur(8px) saturate(120%);
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .wallet-modal-shell {
   width: min(940px, 100%);
+  margin: auto 0;
+  max-height: calc(100dvh - clamp(1.2rem, 3vw, 2rem));
   border-radius: 28px;
   border: 1px solid rgba(173, 201, 255, 0.34);
   padding: clamp(1rem, 2.4vw, 1.35rem);
@@ -1343,6 +1348,9 @@ body.reveal-runtime .reveal-block.reveal-scale-glow:not(.is-visible) {
     inset 0 -50px 90px rgba(5, 16, 45, 0.44);
   position: relative;
   overflow: hidden;
+  display: grid;
+  align-content: start;
+  overflow-y: auto;
 }
 
 .wallet-modal-shell::after {
@@ -1371,6 +1379,7 @@ body.reveal-runtime .reveal-block.reveal-scale-glow:not(.is-visible) {
   z-index: 1;
   display: grid;
   gap: 0.9rem;
+  min-width: 0;
 }
 
 .wallet-modal-step h2 {
@@ -1517,6 +1526,32 @@ body.reveal-runtime .reveal-block.reveal-scale-glow:not(.is-visible) {
   flex-wrap: wrap;
 }
 
+.wallet-auth-tab {
+  border: 1px solid rgba(132, 167, 247, 0.34);
+  border-radius: 10px;
+  padding: 0.42rem 0.9rem;
+  background: rgba(15, 37, 89, 0.48);
+  color: rgba(199, 218, 251, 0.94);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.wallet-auth-tab:hover,
+.wallet-auth-tab:focus-visible {
+  transform: translateY(-1px);
+  border-color: rgba(165, 194, 255, 0.58);
+  background: rgba(26, 56, 122, 0.62);
+}
+
+.wallet-auth-tab-active {
+  color: #f1f7ff;
+  border-color: rgba(145, 180, 255, 0.76);
+  background: linear-gradient(160deg, rgba(61, 98, 194, 0.84), rgba(42, 66, 145, 0.9));
+  box-shadow: 0 10px 22px -16px rgba(91, 141, 255, 0.7);
+}
+
 .wallet-auth-grid {
   display: grid;
   gap: 0.7rem;
@@ -1527,6 +1562,16 @@ body.reveal-runtime .reveal-block.reveal-scale-glow:not(.is-visible) {
   border-radius: 16px;
   background: rgba(7, 20, 55, 0.42);
   padding: 0.72rem;
+  width: 100%;
+  min-width: 0;
+  max-height: min(62dvh, 640px);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.wallet-clerk-root {
+  width: 100%;
+  min-width: 0;
 }
 
 .wallet-clerk-card,
@@ -1534,6 +1579,8 @@ body.reveal-runtime .reveal-block.reveal-scale-glow:not(.is-visible) {
   box-shadow: none !important;
   border: 0 !important;
   background: transparent !important;
+  width: 100% !important;
+  max-width: 100% !important;
 }
 
 .wallet-clerk-title {
@@ -1554,10 +1601,61 @@ body.reveal-runtime .reveal-block.reveal-scale-glow:not(.is-visible) {
   color: #f7fbff !important;
 }
 
+.wallet-clerk-input::placeholder {
+  color: rgba(186, 206, 241, 0.78) !important;
+}
+
+.wallet-clerk-primary {
+  border: 1px solid rgba(126, 164, 247, 0.58) !important;
+  border-radius: 12px !important;
+  background: linear-gradient(165deg, rgba(48, 87, 182, 0.92), rgba(30, 51, 128, 0.96)) !important;
+  color: #eef6ff !important;
+  box-shadow: 0 16px 28px -18px rgba(53, 101, 214, 0.7) !important;
+}
+
+.wallet-clerk-primary:hover,
+.wallet-clerk-primary:focus-visible {
+  background: linear-gradient(165deg, rgba(68, 113, 222, 0.96), rgba(38, 67, 157, 0.98)) !important;
+}
+
 .wallet-clerk-social-button {
   background: rgba(25, 46, 101, 0.52) !important;
   border: 1px solid rgba(131, 169, 250, 0.34) !important;
   color: #e8f1ff !important;
+}
+
+.wallet-clerk-show-password {
+  color: rgba(204, 223, 255, 0.88) !important;
+}
+
+.wallet-clerk-divider-line {
+  background: rgba(123, 160, 239, 0.28) !important;
+}
+
+.wallet-clerk-divider-text,
+.wallet-clerk-help-text,
+.wallet-clerk-footer-text,
+.wallet-clerk-footer-action {
+  color: rgba(184, 205, 241, 0.86) !important;
+}
+
+.wallet-clerk-alert {
+  background: rgba(11, 27, 73, 0.8) !important;
+  border: 1px solid rgba(135, 171, 247, 0.28) !important;
+}
+
+.wallet-clerk-alert-text,
+.wallet-clerk-error-text,
+.wallet-clerk-warning-text {
+  color: #ffb2c3 !important;
+}
+
+.wallet-clerk-success-text {
+  color: #aef2d8 !important;
+}
+
+.wallet-clerk-footer {
+  background: transparent !important;
 }
 
 .wallet-auth-grid .field span {
@@ -1626,7 +1724,7 @@ body.reveal-runtime .reveal-block.reveal-scale-glow:not(.is-visible) {
 .wallet-inline-link {
   border: 0;
   background: transparent;
-  color: #d8eaff;
+  color: #cfe3ff;
   text-decoration: underline;
   cursor: pointer;
   font-weight: 600;
@@ -2070,8 +2168,7 @@ body.reveal-runtime .reveal-block.reveal-scale-glow:not(.is-visible) {
     width: 100%;
   }
 
-  .wallet-auth-switch .primary-button,
-  .wallet-auth-switch .secondary-button,
+  .wallet-auth-switch .wallet-auth-tab,
   .wallet-success-actions .primary-button,
   .wallet-success-actions .secondary-button {
     width: 100%;
@@ -2100,6 +2197,46 @@ body.reveal-runtime .reveal-block.reveal-scale-glow:not(.is-visible) {
 
   .control-grid {
     grid-template-columns: 1fr;
+  }
+
+  .wallet-modal-overlay {
+    padding: 0.5rem;
+    align-items: flex-start;
+  }
+
+  .wallet-modal-shell {
+    width: 100%;
+    max-height: calc(100dvh - 1rem);
+    border-radius: 18px;
+    padding: 0.8rem;
+  }
+
+  .wallet-modal-close {
+    top: 0.4rem;
+    right: 0.52rem;
+  }
+
+  .wallet-modal-step {
+    gap: 0.72rem;
+  }
+
+  .wallet-modal-step h2 {
+    font-size: 1.2rem;
+  }
+
+  .wallet-auth-switch {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .wallet-auth-tab {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .wallet-clerk-shell {
+    max-height: min(56dvh, 560px);
+    padding: 0.58rem;
   }
 
   .how-layout {
@@ -2191,6 +2328,27 @@ body.reveal-runtime .reveal-block.reveal-scale-glow:not(.is-visible) {
   .final-cta-meta {
     margin-top: 0;
     align-self: end;
+  }
+}
+
+@media (max-width: 480px) {
+  .wallet-modal-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.52rem;
+  }
+
+  .wallet-logo-button {
+    min-height: 74px;
+    max-width: 120px;
+  }
+
+  .wallet-logo-button img {
+    width: clamp(48px, 18vw, 64px);
+    height: clamp(48px, 18vw, 64px);
+  }
+
+  .wallet-clerk-shell {
+    max-height: min(52dvh, 500px);
   }
 }
 

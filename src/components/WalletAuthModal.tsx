@@ -57,17 +57,39 @@ async function readJson<T>(input: RequestInfo | URL, init?: RequestInit): Promis
 }
 
 const clerkAppearance = {
+  variables: {
+    colorPrimary: "#7fb2ff",
+    colorText: "#eaf2ff",
+    colorTextSecondary: "rgba(201, 220, 250, 0.9)",
+    colorBackground: "rgba(7, 20, 55, 0.62)",
+    colorInputBackground: "rgba(7, 20, 55, 0.82)",
+    colorInputText: "#f7fbff",
+    colorDanger: "#ff6b8f",
+    borderRadius: "12px",
+  },
   elements: {
+    rootBox: "wallet-clerk-root",
     card: "wallet-clerk-card",
     cardBox: "wallet-clerk-cardbox",
     headerTitle: "wallet-clerk-title",
     headerSubtitle: "wallet-clerk-subtitle",
     socialButtonsBlockButton: "wallet-clerk-social-button",
-    formButtonPrimary: "primary-button",
+    formButtonPrimary: "wallet-clerk-primary",
     formFieldInput: "wallet-clerk-input",
     formFieldLabel: "wallet-clerk-label",
+    formFieldInputShowPasswordButton: "wallet-clerk-show-password",
     footerActionLink: "wallet-inline-link",
     footerActionText: "wallet-clerk-footer-text",
+    footer: "wallet-clerk-footer",
+    footerAction: "wallet-clerk-footer-action",
+    dividerLine: "wallet-clerk-divider-line",
+    dividerText: "wallet-clerk-divider-text",
+    formFieldHintText: "wallet-clerk-help-text",
+    formFieldErrorText: "wallet-clerk-error-text",
+    formFieldSuccessText: "wallet-clerk-success-text",
+    formFieldWarningText: "wallet-clerk-warning-text",
+    alertText: "wallet-clerk-alert-text",
+    alert: "wallet-clerk-alert",
     identityPreviewText: "wallet-clerk-identity",
     formResendCodeLink: "wallet-inline-link",
   },
@@ -239,14 +261,14 @@ export default function WalletAuthModal({
             <div className="wallet-auth-switch">
               <button
                 type="button"
-                className={authMode === "signup" ? "primary-button" : "secondary-button"}
+                className={authMode === "signup" ? "wallet-auth-tab wallet-auth-tab-active" : "wallet-auth-tab"}
                 onClick={() => setAuthMode("signup")}
               >
                 Sign Up
               </button>
               <button
                 type="button"
-                className={authMode === "signin" ? "primary-button" : "secondary-button"}
+                className={authMode === "signin" ? "wallet-auth-tab wallet-auth-tab-active" : "wallet-auth-tab"}
                 onClick={() => setAuthMode("signin")}
               >
                 Sign In
